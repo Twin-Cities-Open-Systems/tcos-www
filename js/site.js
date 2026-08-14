@@ -5,7 +5,7 @@
   var SIZES = ["s", "m", "l", "xl"];
 
   function apply(size) {
-    document.documentElement.setAttribute("data-fontsize", size);
+    document.body.setAttribute("data-fontsize", size);
     document.querySelectorAll(".fontsize-btn").forEach(function (btn) {
       btn.classList.toggle("active", btn.dataset.size === size);
     });

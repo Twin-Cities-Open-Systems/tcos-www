@@ -271,11 +271,16 @@
 .cta-block h3 { margin: 0 0 8px; font-size: 19px; }
 .cta-block p { margin: 0 0 18px; }
 
-/* ---- font-size toggle, S/M/L/XL, same pattern as thesis-engine's own dashboard ---- */
-html[data-fontsize="s"] { font-size: 14px; }
-html[data-fontsize="m"] { font-size: 16px; }
-html[data-fontsize="l"] { font-size: 18px; }
-html[data-fontsize="xl"] { font-size: 20px; }
+/* ---- font-size toggle, S/M/L/XL, same pattern as thesis-engine's own dashboard ----
+   Real bug fixed 2026-08-14: this stylesheet is px-based throughout, not
+   rem-based, so setting html's font-size did nothing -- no rule inherited
+   from it. `zoom` genuinely rescales the whole rendered page (layout
+   included), supported in Chrome/Edge/Safari; Firefox lacks support, a
+   known real gap, not silently ignored. */
+body[data-fontsize="s"] { zoom: 0.875; }
+body[data-fontsize="m"] { zoom: 1; }
+body[data-fontsize="l"] { zoom: 1.125; }
+body[data-fontsize="xl"] { zoom: 1.25; }
 .fontsize-toggle { display: flex; align-items: center; gap: 4px; margin-left: 12px; }
 .fontsize-toggle span { font-family: ui-monospace, monospace; font-size: 10px; color: var(--ink-faint); margin-right: 2px; }
 .fontsize-btn {
