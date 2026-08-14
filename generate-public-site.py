@@ -276,7 +276,7 @@ IR_PAGE_TMPL = """<!doctype html>
       personal-use proof to a real product, and to prove the
       framework generalizes with a second module beyond markets.</p>
       <div class="contact-row">
-        <a class="contact-link" href="mailto:inspector@tcos.us?subject=Investor%20inquiry"><span class="k mono">mail</span> inspector@tcos.us</a>
+        <a class="contact-link" href="/contact?category=investor"><span class="k mono">talk</span> Get in touch</a>
       </div>
     </div>
   </section>
@@ -447,7 +447,7 @@ JOBS = [
 
 JOB_TMPL = """    <div class="job" id="{slug}">
       <div class="job-head"><h3>{title}</h3><a class="apply-btn" href="/contact?apply={slug}&amp;title={title_url}">Apply now &rarr;</a></div>
-      <div class="meta"><span class="report-chip" title="Reports to {reports_to_name}">{reports_to_mono}</span> {meta}</div>
+      <div class="meta"><span class="report-chip" title="Reports to {reports_to_name}">{reports_to_mono}</span> {meta} {interest}</div>
       <p>{desc}</p>
     </div>"""
 
@@ -473,6 +473,18 @@ def fetch_issue_states(issue_numbers):
     return states
 
 
+def fetch_application_counts(slugs):
+    """Real applicant counts per role, from the private inbound repo's
+    issue labels (role:<slug>, applied by the Worker at submission
+    time) -- an aggregate count only, never names/emails, so this is
+    safe to show publicly."""
+    counts = {}
+    for slug in slugs:
+        data = gh(f'search/issues?q=repo:{ORG}/inbound+label:"role:{slug}"')
+        counts[slug] = (data or {}).get("total_count", 0)
+    return counts
+
+
 def find_filler(roster, title):
     """Best-effort match of a filled role back to the real roster
     entry that filled it, by role text -- no hand-typed name mapping
@@ -494,12 +506,22 @@ def render_careers(roster, commit_info):
         else:
             filled.append(j)
 
+    app_counts = fetch_application_counts(j["slug"] for j in open_jobs)
+
+    def interest_pill(slug):
+        n = app_counts.get(slug, 0)
+        if n == 0:
+            return '<span class="interest-pill new">Just opened</span>'
+        word = "applicant" if n == 1 else "applicants"
+        return f'<span class="interest-pill">{n} real {word}</span>'
+
     jobs_html = "\n".join(
         JOB_TMPL.format(
             slug=j["slug"], title=j["title"], meta=j["meta"], desc=j["desc"],
             title_url=urllib.parse.quote(j["title"]),
             reports_to_mono=j["reports_to"]["mono"],
             reports_to_name=j["reports_to"]["name"],
+            interest=interest_pill(j["slug"]),
         )
         for j in open_jobs
     )

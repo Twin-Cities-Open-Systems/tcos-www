@@ -14,10 +14,25 @@
       var title = params.get("title") || applyRole;
       form.action = "/api/apply";
       document.getElementById("c-role").value = title;
+      var roleSlugField = document.createElement("input");
+      roleSlugField.type = "hidden";
+      roleSlugField.name = "roleSlug";
+      roleSlugField.value = applyRole;
+      form.appendChild(roleSlugField);
       document.getElementById("c-category-wrap").style.display = "none";
       var banner = document.getElementById("apply-banner");
       banner.textContent = "Applying for: " + title;
       banner.style.display = "block";
+    } else {
+      // Plain contact mode: /contact?category=investor pre-selects
+      // the dropdown, e.g. from the IR page's "get in touch" link.
+      var presetCategory = params.get("category");
+      if (presetCategory) {
+        var select = document.getElementById("c-category");
+        if (select && [].some.call(select.options, function (o) { return o.value === presetCategory; })) {
+          select.value = presetCategory;
+        }
+      }
     }
 
     form.addEventListener("submit", function (e) {

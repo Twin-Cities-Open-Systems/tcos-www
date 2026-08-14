@@ -59,6 +59,7 @@ async function handleSubmit(request, env, kind) {
 
   const isApply = kind === "apply";
   const role = isApply ? (data.role || "unspecified role").trim().slice(0, 200) : null;
+  const roleSlug = isApply ? (data.roleSlug || "").trim().slice(0, 60) : null;
 
   const title = isApply
     ? `Application: ${role} — ${name || email}`
@@ -74,7 +75,9 @@ async function handleSubmit(request, env, kind) {
     esc(message),
   ].join("\n");
 
-  const labels = isApply ? ["candidate"] : [category];
+  const labels = isApply
+    ? ["candidate"].concat(roleSlug ? [`role:${roleSlug}`] : [])
+    : [category];
 
   try {
     const issue = await createIssue(env, { title, body, labels });
