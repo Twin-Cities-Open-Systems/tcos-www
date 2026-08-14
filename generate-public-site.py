@@ -27,7 +27,11 @@ ROSTER_BRANCH = "add-full-automation-bootstrap"
 # commit history (real business/trading logic) must never appear on
 # the public site. Caught 2026-08-14: the copy used to say "public
 # and private repos," which was a real bug, not just bad wording.
-ACTIVITY_REPOS = ["fleet-ops", "human-execution-engine", "tcos-www"]
+# fleet-ops joined the private list 2026-08-14 (real incident -- it
+# had been left public since a much earlier rename and was showing up
+# here; caught by spencer, not by any automated check -- there isn't
+# one yet, see the follow-up issue).
+ACTIVITY_REPOS = ["human-execution-engine", "tcos-www"]
 MONOGRAM_COLORS_NOTE = "reuses the same badge component as index.html's teaser"
 
 
