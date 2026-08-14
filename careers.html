@@ -6,9 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/site.css">
 <style>
-  .job { margin-bottom: 14px; }
+  .job { margin-bottom: 14px; padding: 10px 14px; border-radius: 8px; border-left: 3px solid transparent; scroll-margin-top: 24px; transition: background 0.2s, border-color 0.2s; }
   .job h3 { margin: 0 0 4px; font-size: 18px; }
   .job .meta { font-family: ui-monospace, monospace; font-size: 11.5px; color: var(--ink-faint); margin-bottom: 10px; }
+  .job:target { background: var(--accent-soft); border-left-color: var(--accent); }
+  .job:target h3::after { content: "\2190 you're here"; font-size: 12px; font-weight: 400; color: var(--accent-ink); margin-left: 10px; }
 </style>
 </head>
 <body>
@@ -133,7 +135,7 @@
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2026 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/e8c4596a11bc82c2c5fdab0e4880eec94b188700">e8c4596</a></span>
+    <span class="mono">est. 2026 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/9224f1779dd03c4046731e795234d3d38bfd4e3e">9224f17</a></span>
   </footer>
 </div>
 <script src="js/site.js"></script>
