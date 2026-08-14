@@ -192,7 +192,19 @@
     font-weight: 700;
   }
   .badge .tag.pending { background: var(--accent-soft); color: var(--accent-ink); }
-  .badge-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .tag-expand summary.tag { cursor: pointer; list-style: none; }
+  .tag-expand summary.tag::-webkit-details-marker { display: none; }
+  .expand-caret { display: inline-block; font-size: 9px; margin-left: 2px; transition: transform 0.15s; }
+  .tag-expand[open] .expand-caret { transform: rotate(180deg); }
+  .expand-detail { margin-top: 8px; padding: 8px 10px; background: var(--surface-2); border-radius: 6px; }
+  .detail-row { display: flex; justify-content: space-between; gap: 10px; font-size: 11.5px; padding: 3px 0; }
+  .detail-k { color: var(--ink-faint); flex: none; }
+  .detail-v { color: var(--ink-dim); text-align: right; word-break: break-all; text-decoration: none; }
+  a.detail-v:hover { color: var(--accent-ink); }
+  .detail-kudo .detail-v { text-align: left; color: var(--ink); }
+  .badge-foot { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .badge-foot .tag-expand { flex: 1 1 100%; order: 1; }
+  .badge-foot .tag-expand ~ .badge-gh { order: 2; }
   .badge-gh { font-size: 12px; color: var(--ink-faint); text-decoration: none; }
   .badge-gh:not(.badge-gh-pending):hover { color: var(--accent-ink); }
   .badge-gh-pending { font-style: italic; }

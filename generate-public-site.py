@@ -19,10 +19,12 @@ import urllib.parse
 import urllib.request
 
 ORG = "Twin-Cities-Open-Systems"
-# roster.json isn't on fleet-ops' main yet (still on an open PR branch,
-# fleet-ops#9) -- read via gh api from that branch until it merges,
-# not raw.githubusercontent.com which only serves merged branches.
-ROSTER_BRANCH = "add-full-automation-bootstrap"
+# roster.json merged to fleet-ops' main 2026-08-14 (fleet-ops#9, had
+# been sitting unmerged all session). Read via gh api, not
+# raw.githubusercontent.com -- fleet-ops is a private repo (real
+# incident, fixed the same day: it had been public and shouldn't have
+# been), so an unauthenticated raw link would 404 anyway.
+ROSTER_BRANCH = "main"
 # Public repos only. thesis-engine and glass-ops are PRIVATE -- their
 # commit history (real business/trading logic) must never appear on
 # the public site. Caught 2026-08-14: the copy used to say "public
@@ -109,10 +111,36 @@ CARD_TMPL = """      <div class="badge">
         </div>
         <div class="what">{what}</div>
         <div class="badge-foot">
-          <span class="tag{pending_class}">{status_label}</span>
+          {tag}
           {github_link}
         </div>
       </div>"""
+
+TAG_PLAIN_TMPL = '<span class="tag{pending_class}">{status_label}</span>'
+
+TAG_EXPAND_TMPL = """<details class="tag-expand">
+            <summary class="tag{pending_class}">{status_label} <span class="expand-caret">&#9662;</span></summary>
+            <div class="expand-detail">{detail_rows}</div>
+          </details>"""
+
+
+def build_detail_rows(p):
+    """Real, verifiable detail for the expanding pill -- GPG
+    fingerprint and contract link, the actual receipts behind the
+    hero copy's 'real cryptographic key' / 'real contract' claims.
+    Never renders roster.json's generic `facts` array here -- that
+    field carries genuinely internal notes (e.g. spencer's own PVE
+    login detail) not meant for the public page."""
+    rows = []
+    if p.get("gpg_fpr"):
+        rows.append(f'<div class="detail-row"><span class="detail-k">GPG fingerprint</span><span class="detail-v mono">{html.escape(p["gpg_fpr"])}</span></div>')
+    if p.get("contract"):
+        contract_file = f'{html.escape(p["contract"])}.contract.v1.yaml'
+        contract_url = f'https://github.com/{ORG}/human-execution-engine/blob/main/hee/contracts/{contract_file}'
+        rows.append(f'<div class="detail-row"><span class="detail-k">Contract</span><a class="detail-v mono" href="{contract_url}">{contract_file}</a></div>')
+    for kudo in p.get("kudos") or []:
+        rows.append(f'<div class="detail-row detail-kudo"><span class="detail-k">&#9733;</span><span class="detail-v">{html.escape(kudo)}</span></div>')
+    return "\n            ".join(rows)
 
 STATUS_LABEL = {
     "verified": "Verified", "ratified": "Ratified",
@@ -139,13 +167,19 @@ def render_people(roster, commit_info):
                 github_link = f'<a class="badge-gh mono" href="https://github.com/{gh_login}">@{gh_login}</a>'
             else:
                 github_link = '<span class="badge-gh mono badge-gh-pending">no GitHub yet</span>'
+
+            detail_rows = build_detail_rows(p)
+            if detail_rows:
+                tag = TAG_EXPAND_TMPL.format(pending_class=pending_class, status_label=label, detail_rows=detail_rows)
+            else:
+                tag = TAG_PLAIN_TMPL.format(pending_class=pending_class, status_label=label)
+
             cards.append(CARD_TMPL.format(
                 mono=monogram(p["name"]),
                 name=html.escape(p["name"]),
                 role=html.escape(p["role"]),
                 what=html.escape(p["what"]),
-                status_label=label,
-                pending_class=pending_class,
+                tag=tag,
                 github_link=github_link,
             ))
     return fill_placeholders(PEOPLE_PAGE_TMPL, commit_info).format(cards="\n".join(cards))
