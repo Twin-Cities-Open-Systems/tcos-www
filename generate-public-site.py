@@ -311,7 +311,11 @@ IR_PAGE_TMPL = """<!doctype html>
 """
 
 
-def render_ir(roster):
+def compute_company_stats(roster):
+    """Single source of truth for every live number used across pages
+    (homepage receipts strip, IR page). Compute once, reuse everywhere
+    -- the whole point is these can't drift out of sync with each
+    other the way the homepage's hardcoded '5 identities' did."""
     import datetime
     team_size = sum(len(t["people"]) for t in roster["tiers"])
 
@@ -336,13 +340,28 @@ def render_ir(roster):
         commits = gh(f"repos/{ORG}/{repo}/commits?since={since}&per_page=100") or []
         commits_7d += len(commits)
 
-    return IR_PAGE_TMPL.format(
-        asof=datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
-        team_size=team_size,
-        ratified=ratified,
-        public_repos=public_repos,
-        commits_7d=commits_7d,
-    )
+    return {
+        "team_size": team_size,
+        "ratified": ratified,
+        "public_repos": public_repos,
+        "commits_7d": commits_7d,
+        "asof": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+    }
+
+
+def render_ir(stats):
+    return IR_PAGE_TMPL.format(**stats)
+
+
+def render_index(stats):
+    # Read from index.template.html, never index.html itself -- index.html
+    # is pure generated output; if we read-and-rewrite the same file, the
+    # {{PLACEHOLDER}} tokens are gone after the first run and every run
+    # after that silently stops updating the numbers.
+    tmpl = open("index.template.html").read()
+    return (tmpl
+            .replace("{{RATIFIED}}", str(stats["ratified"]))
+            .replace("{{TEAM_SIZE}}", str(stats["team_size"])))
 
 
 def main():
@@ -355,9 +374,12 @@ def main():
     open("activity.html", "w").write(render_activity())
     print("wrote activity.html", file=sys.stderr)
 
-    print("computing IR stats...", file=sys.stderr)
-    open("ir.html", "w").write(render_ir(roster))
+    print("computing company stats...", file=sys.stderr)
+    stats = compute_company_stats(roster)
+    open("ir.html", "w").write(render_ir(stats))
     print("wrote ir.html", file=sys.stderr)
+    open("index.html", "w").write(render_index(stats))
+    print("wrote index.html (from index.template.html)", file=sys.stderr)
 
 
 if __name__ == "__main__":

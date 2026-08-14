@@ -28,6 +28,28 @@ pattern: the template itself should make the unbacked-claim state
 impossible to generate, not rely on remembering to add a link every
 time content changes.
 
+## Content provenance ledger
+
+Every page, and whether its numbers/claims are static or generated.
+Update this when a page's status changes — the point is this stays
+visible, not buried in commit history.
+
+| Page | Numbers/claims | Source |
+|---|---|---|
+| index.html | Ratified-contracts count, team size | Generated (`index.template.html` -> `index.html`, live GitHub data) |
+| index.html | Mission/product prose | Static, hand-authored |
+| people.html | Full roster, GitHub links, status | Generated (`fleet-ops/roster.json` + live GitHub) |
+| activity.html | Commit feed | Generated (live, public repos only) |
+| ir.html | All four stats | Generated (live GitHub data) |
+| story.html | Full page | Static, hand-authored |
+| contact.html | Full page | Static, hand-authored |
+
+Found 2026-08-14: index.html's receipts strip was hardcoded (`5
+identities`) and had already drifted from reality (real count: 6) by
+the time it was caught. That's the failure mode this ledger exists to
+catch earlier — a stale static number sitting next to a real
+"verified, not claimed" pitch.
+
 ## Why this matters more than it looks like
 
 Spencer's framing: "those are the types of things investors will
