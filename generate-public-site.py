@@ -15,6 +15,7 @@ import html
 import json
 import subprocess
 import sys
+import urllib.parse
 import urllib.request
 
 ORG = "Twin-Cities-Open-Systems"
@@ -377,6 +378,152 @@ def render_ir(stats, commit_info):
     return fill_placeholders(IR_PAGE_TMPL, commit_info).format(**stats)
 
 
+# Every real open role, backed by a real fleet-ops issue (label:
+# "hiring") -- single source of truth is the issue's open/closed
+# state, not a hand-maintained flag here. Closing the issue is what
+# takes a listing off the public page; there's no separate "delist"
+# step to forget.
+JOBS = [
+    {"slug": "ceo", "title": "Chief Executive Officer", "issue": 28,
+     "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
+     "desc": "Run day-to-day operations and coordination across a small, "
+             "real team &mdash; human and AI &mdash; building thesis-engine into a real "
+             "product. You won't be reinventing the authority structure: this "
+             "is an operational leadership role under existing ownership, not "
+             "a power grab. Scope still being finalized alongside the hire itself."},
+    {"slug": "cfo", "title": "Chief Financial Officer", "issue": 16,
+     "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
+     "desc": "Own real financial governance: anything touching a financial "
+             "platform needs your approval, anything that smells of money "
+             "needs your sign-off. You'll also be the one who finally puts "
+             "real numbers on the Investor Relations page instead of the "
+             "&quot;waiting on a CFO&quot; placeholder that's there now."},
+    {"slug": "marketing-pr", "title": "Marketing / PR Lead", "issue": 31,
+     "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
+     "desc": "Build real relationships, not cold-outreach blasts &mdash; starting "
+             "with the people whose work genuinely shaped thesis-engine's "
+             "methodology (see <a href=\"/story\">Our Story</a>). Own the "
+             "company's voice: agents, not bots; verified, not claimed."},
+    {"slug": "compliance-officer", "title": "Compliance Officer", "issue": 37,
+     "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
+     "desc": "Own compliance posture as thesis-engine moves toward real "
+             "external users &mdash; works closely with the CFO on financial-platform "
+             "obligations, and with the rest of the team on IP protection, "
+             "the thing this company actually treats as its capital."},
+    {"slug": "research-analyst", "title": "Research Analyst", "issue": 39,
+     "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
+     "desc": "Cover thesis-engine's real 7-layer thesis end to end &mdash; DC "
+             "infra, power, critical materials, and the rest (see "
+             "<code>METHODOLOGY.md</code> in the thesis-engine repo for the full "
+             "framework). One analyst to start; splits by layer once real "
+             "coverage gaps show up, not before."},
+    {"slug": "inventory-specialist", "title": "Inventory Specialist", "issue": 38,
+     "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
+     "desc": "Real accounting of the physical fleet &mdash; hardware, storage "
+             "pools, VMs &mdash; starting with what the pve buildout has already "
+             "turned up (dead storage pools, drives passed through to VMs no "
+             "one's checked on). Ground truth over assumption, same standard "
+             "as everywhere else here."},
+    {"slug": "capacity-planning", "title": "Capacity / Data-Center Planning Agent", "issue": 38,
+     "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
+     "desc": "Own the actual capacity plan for the home-lab buildout &mdash; "
+             "cost/benefit before action, not speculative scaling. Works "
+             "alongside the Inventory Specialist role on what's real today "
+             "before recommending what's next."},
+    {"slug": "mindset-coach", "title": "Mindset Coach", "issue": 40,
+     "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
+     "desc": "Discipline is the whole point of a thesis-driven approach &mdash; "
+             "this role exists to keep the team (human and AI both) honest "
+             "about bias, drift, and the gap between what a thesis says and "
+             "what a decision-maker wants to be true."},
+    {"slug": "hr", "title": "HR", "issue": 41,
+     "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
+     "desc": "Own people operations for a genuinely hybrid roster &mdash; real "
+             "onboarding (see how hiring works below), real contracts, real "
+             "support for every hire, human or AI, not a policy written for "
+             "one and stretched to cover the other."},
+]
+
+JOB_TMPL = """    <div class="job" id="{slug}">
+      <div class="job-head"><h3>{title}</h3><a class="apply-btn" href="mailto:inspector@tcos.us?subject=Application%3A%20{title_url}">Apply now &rarr;</a></div>
+      <div class="meta"><span class="report-chip" title="Reports to {reports_to_name}">{reports_to_mono}</span> {meta}</div>
+      <p>{desc}</p>
+    </div>"""
+
+FILLED_SECTION_TMPL = """
+  <section>
+    <p class="eyebrow">Recently filled</p>
+    <h2>These roles are spoken for.</h2>
+    <ul class="filled-list">
+{items}
+    </ul>
+  </section>
+"""
+
+
+def fetch_issue_states(issue_numbers):
+    """One state check per unique issue -- open/closed is the only
+    signal that takes a listing off the page, so this must reflect
+    the real GitHub issue, never a hand-set flag."""
+    states = {}
+    for n in sorted(set(issue_numbers)):
+        data = gh(f"repos/{ORG}/fleet-ops/issues/{n}")
+        states[n] = (data or {}).get("state", "open")
+    return states
+
+
+def find_filler(roster, title):
+    """Best-effort match of a filled role back to the real roster
+    entry that filled it, by role text -- no hand-typed name mapping
+    to drift out of sync."""
+    for tier in roster["tiers"]:
+        for p in tier["people"]:
+            if p.get("role", "").strip().lower() == title.strip().lower():
+                return p
+    return None
+
+
+def render_careers(roster, commit_info):
+    states = fetch_issue_states(j["issue"] for j in JOBS)
+
+    open_jobs, filled = [], []
+    for j in JOBS:
+        if states.get(j["issue"], "open") == "open":
+            open_jobs.append(j)
+        else:
+            filled.append(j)
+
+    jobs_html = "\n".join(
+        JOB_TMPL.format(
+            slug=j["slug"], title=j["title"], meta=j["meta"], desc=j["desc"],
+            title_url=urllib.parse.quote(j["title"]),
+            reports_to_mono=j["reports_to"]["mono"],
+            reports_to_name=j["reports_to"]["name"],
+        )
+        for j in open_jobs
+    )
+
+    filled_section = ""
+    if filled:
+        items = []
+        for j in filled:
+            person = find_filler(roster, j["title"])
+            if person and person.get("github"):
+                items.append(
+                    f'      <li>{html.escape(j["title"])} &mdash; '
+                    f'<a href="/people">{html.escape(person["name"])}</a> '
+                    f'(<a href="https://github.com/{person["github"]}">@{person["github"]}</a>)</li>'
+                )
+            else:
+                items.append(f'      <li>{html.escape(j["title"])} &mdash; filled</li>')
+        filled_section = FILLED_SECTION_TMPL.format(items="\n".join(items))
+
+    tmpl = open("careers.template.html").read()
+    tmpl = tmpl.replace("{{JOBS}}", jobs_html)
+    tmpl = tmpl.replace("{{FILLED_SECTION}}", filled_section)
+    return fill_placeholders(tmpl, commit_info)
+
+
 def get_commit_info():
     sha = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
     return {"COMMIT": sha, "COMMIT_SHORT": sha[:7]}
@@ -404,7 +551,6 @@ def render_index(stats, commit_info):
 STATIC_TEMPLATES = {
     "story.template.html": "story.html",
     "contact.template.html": "contact.html",
-    "careers.template.html": "careers.html",
 }
 
 
@@ -427,6 +573,10 @@ def main():
     print("wrote ir.html", file=sys.stderr)
     open("index.html", "w").write(render_index(stats, commit_info))
     print("wrote index.html (from index.template.html)", file=sys.stderr)
+
+    print("checking hiring issue states...", file=sys.stderr)
+    open("careers.html", "w").write(render_careers(roster, commit_info))
+    print("wrote careers.html (from careers.template.html)", file=sys.stderr)
 
     for tmpl_name, out_name in STATIC_TEMPLATES.items():
         content = fill_placeholders(open(tmpl_name).read(), commit_info)
