@@ -55,7 +55,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 <body>
 <div class="wrap"><nav class="site-nav">
   <a class="brand" href="/">Twin Cities Open Systems</a>
-  <div class="links"><a href="/">Home</a><a href="/people" class="active">People</a><a href="/activity">Activity</a><a href="/story">Our Story</a><a href="/contact">Contact / Sales</a></div>
+  <div class="links"><a href="/">Home</a><a href="/people" class="active">People</a><a href="/activity">Activity</a><a href="/story">Our Story</a><a href="/ir">Investor Relations</a><a href="/contact">Contact / Sales</a></div>
 </nav></div>
 
 <div class="wrap">
@@ -157,7 +157,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 <body>
 <div class="wrap"><nav class="site-nav">
   <a class="brand" href="/">Twin Cities Open Systems</a>
-  <div class="links"><a href="/">Home</a><a href="/people">People</a><a href="/activity" class="active">Activity</a><a href="/story">Our Story</a><a href="/contact">Contact / Sales</a></div>
+  <div class="links"><a href="/">Home</a><a href="/people">People</a><a href="/activity" class="active">Activity</a><a href="/story">Our Story</a><a href="/ir">Investor Relations</a><a href="/contact">Contact / Sales</a></div>
 </nav></div>
 
 <div class="wrap">
@@ -217,6 +217,125 @@ def render_activity():
     return ACTIVITY_PAGE_TMPL.format(items=items)
 
 
+IR_PAGE_TMPL = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Investor Relations — Twin Cities Open Systems</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/site.css">
+<style>
+  .ir-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 28px 0; }}
+  .ir-stat {{ background: var(--surface); padding: 18px 20px; }}
+  .ir-stat .n {{ font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-size: 28px; font-weight: 700; }}
+  .ir-stat .l {{ font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-faint); margin-top: 4px; }}
+  .ir-asof {{ font-family: ui-monospace, monospace; font-size: 12px; color: var(--ink-faint); margin-top: -18px; margin-bottom: 8px; }}
+</style>
+</head>
+<body>
+<div class="wrap"><nav class="site-nav">
+  <a class="brand" href="/">Twin Cities Open Systems</a>
+  <div class="links"><a href="/">Home</a><a href="/people">People</a><a href="/activity">Activity</a><a href="/story">Our Story</a><a href="/ir" class="active">Investor Relations</a><a href="/contact">Contact / Sales</a></div>
+</nav></div>
+
+<div class="wrap">
+  <section class="hero" style="padding-bottom: 0;">
+    <p class="eyebrow">Investor relations</p>
+    <h1 style="font-size: clamp(30px, 5vw, 44px);">Reported in real time, not on a quarterly lag.</h1>
+    <p class="sub">Every number below is regenerated from live sources
+    the moment this page is built — the same "verified, not claimed"
+    standard as everything else on this site. No smoothing, no
+    cherry-picked quarter.</p>
+    <p class="ir-asof">Generated {asof}</p>
+  </section>
+
+  <section style="padding-top: 0;">
+    <div class="ir-grid">
+      <div class="ir-stat"><div class="n">{team_size}</div><div class="l">Team members</div></div>
+      <div class="ir-stat"><div class="n">{ratified}</div><div class="l">Contracts ratified</div></div>
+      <div class="ir-stat"><div class="n">{public_repos}</div><div class="l">Public repos</div></div>
+      <div class="ir-stat"><div class="n">{commits_7d}</div><div class="l">Commits, last 7 days</div></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Flagship product</p>
+    <h2>thesis-engine</h2>
+    <p>In daily production use today — real portfolio analysis, not a
+    demo. Full public rollout in progress; see the <a href="/story">Our
+    Story</a> page for how it fits into the company.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Governance</p>
+    <h2>Standing, not ownership.</h2>
+    <p>Every team member — human or AI — operates under a
+    cryptographically signed contract defining exactly what they're
+    authorized to do. {ratified} of those are ratified today; the rest
+    are in progress, not backfilled after the fact.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Financials</p>
+    <h2>Coming once there's a CFO to own them.</h2>
+    <p>Real financial reporting belongs to a real CFO, not a
+    placeholder number generated alongside commit counts. That role is
+    being onboarded — see the People page for current status. This
+    section fills in with real numbers once it exists, not before.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">What's coming</p>
+    <h2>Live webcasts, real Q&amp;A.</h2>
+    <p>We're for real, and we'll let you know when there's something
+    to actually show up for — not a placeholder countdown for
+    infrastructure that doesn't exist yet.</p>
+  </section>
+
+  <footer>
+    <span>Twin Cities Open Systems</span>
+    <span class="mono">est. 2026 · Minneapolis / St. Paul</span>
+  </footer>
+</div>
+</body>
+</html>
+"""
+
+
+def render_ir(roster):
+    import datetime
+    team_size = sum(len(t["people"]) for t in roster["tiers"])
+
+    contracts = gh(f"repos/{ORG}/human-execution-engine/contents/hee/contracts") or []
+    ratified = 0
+    for c in contracts:
+        if not c["name"].endswith(".contract.v1.yaml"):
+            continue
+        data = gh(f"repos/{ORG}/human-execution-engine/contents/hee/contracts/{c['name']}")
+        if data:
+            import base64 as b64
+            content = b64.b64decode(data["content"]).decode()
+            if "status: ratified" in content:
+                ratified += 1
+
+    repos = gh("orgs/" + ORG + "/repos?per_page=100") or []
+    public_repos = sum(1 for r in repos if not r["private"])
+
+    since = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=7)).isoformat()
+    commits_7d = 0
+    for repo in ACTIVITY_REPOS:
+        commits = gh(f"repos/{ORG}/{repo}/commits?since={since}&per_page=100") or []
+        commits_7d += len(commits)
+
+    return IR_PAGE_TMPL.format(
+        asof=datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+        team_size=team_size,
+        ratified=ratified,
+        public_repos=public_repos,
+        commits_7d=commits_7d,
+    )
+
+
 def main():
     print("fetching roster.json from fleet-ops...", file=sys.stderr)
     roster = fetch_roster()
@@ -226,6 +345,10 @@ def main():
     print("fetching recent commits across repos...", file=sys.stderr)
     open("activity.html", "w").write(render_activity())
     print("wrote activity.html", file=sys.stderr)
+
+    print("computing IR stats...", file=sys.stderr)
+    open("ir.html", "w").write(render_ir(roster))
+    print("wrote ir.html", file=sys.stderr)
 
 
 if __name__ == "__main__":
