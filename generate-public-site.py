@@ -56,7 +56,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 <div class="wrap"><nav class="site-nav">
   <a class="brand" href="/">Twin Cities Open Systems</a>
   <div class="links"><a href="/">Home</a><a href="/people" class="active">People</a><a href="/activity">Activity</a><a href="/story">Our Story</a><a href="/ir">Investor Relations</a><a href="/careers">Careers</a><a href="/contact">Contact / Sales</a></div>
-</nav></div>
+</nav><div class="fontsize-toggle"><span>Aa</span><button class="fontsize-btn" data-size="s">S</button><button class="fontsize-btn" data-size="m">M</button><button class="fontsize-btn" data-size="l">L</button><button class="fontsize-btn" data-size="xl">XL</button></div></div>
 
 <div class="wrap">
 
@@ -92,6 +92,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
   </footer>
 
 </div>
+<script src="js/site.js"></script>
 </body>
 </html>
 """
@@ -167,7 +168,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 <div class="wrap"><nav class="site-nav">
   <a class="brand" href="/">Twin Cities Open Systems</a>
   <div class="links"><a href="/">Home</a><a href="/people">People</a><a href="/activity" class="active">Activity</a><a href="/story">Our Story</a><a href="/ir">Investor Relations</a><a href="/careers">Careers</a><a href="/contact">Contact / Sales</a></div>
-</nav></div>
+</nav><div class="fontsize-toggle"><span>Aa</span><button class="fontsize-btn" data-size="s">S</button><button class="fontsize-btn" data-size="m">M</button><button class="fontsize-btn" data-size="l">L</button><button class="fontsize-btn" data-size="xl">XL</button></div></div>
 
 <div class="wrap">
   <section class="hero" style="padding-bottom: 20px;">
@@ -187,6 +188,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
     <span class="mono">est. 2026 · Minneapolis / St. Paul</span>
   </footer>
 </div>
+<script src="js/site.js"></script>
 </body>
 </html>
 """
@@ -245,7 +247,7 @@ IR_PAGE_TMPL = """<!doctype html>
 <div class="wrap"><nav class="site-nav">
   <a class="brand" href="/">Twin Cities Open Systems</a>
   <div class="links"><a href="/">Home</a><a href="/people">People</a><a href="/activity">Activity</a><a href="/story">Our Story</a><a href="/ir" class="active">Investor Relations</a><a href="/careers">Careers</a><a href="/contact">Contact / Sales</a></div>
-</nav></div>
+</nav><div class="fontsize-toggle"><span>Aa</span><button class="fontsize-btn" data-size="s">S</button><button class="fontsize-btn" data-size="m">M</button><button class="fontsize-btn" data-size="l">L</button><button class="fontsize-btn" data-size="xl">XL</button></div></div>
 
 <div class="wrap">
   <section class="hero" style="padding-bottom: 0;">
@@ -326,6 +328,7 @@ IR_PAGE_TMPL = """<!doctype html>
     <span class="mono">est. 2026 · Minneapolis / St. Paul</span>
   </footer>
 </div>
+<script src="js/site.js"></script>
 </body>
 </html>
 """
