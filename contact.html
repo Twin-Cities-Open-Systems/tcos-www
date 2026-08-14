@@ -5,6 +5,22 @@
 <title>Contact — Twin Cities Open Systems</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/site.css">
+<style>
+  .form-grid { display: grid; gap: 14px; max-width: 480px; }
+  .form-grid label { font-size: 12.5px; color: var(--ink-dim); display: block; margin-bottom: 5px; }
+  .form-grid input, .form-grid select, .form-grid textarea {
+    width: 100%; box-sizing: border-box; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 6px; color: var(--ink); padding: 9px 11px; font-size: 14px; font-family: inherit;
+  }
+  .form-grid textarea { resize: vertical; min-height: 110px; }
+  .form-submit { background: var(--accent); color: var(--surface); border: none; border-radius: 6px; padding: 10px 18px; font-size: 14px; font-weight: 600; cursor: pointer; width: fit-content; }
+  .form-submit:hover { background: var(--accent-ink); }
+  .form-submit:disabled { opacity: 0.6; cursor: default; }
+  .form-status { font-size: 13px; margin-top: 4px; }
+  .form-status.ok { color: var(--ok); }
+  .form-status.err { color: var(--bad, #c0392b); }
+  .hp { position: absolute; left: -9999px; }
+</style>
 </head>
 <body>
 <div class="wrap"><nav class="site-nav">
@@ -19,45 +35,57 @@
     <h1 style="font-size: clamp(30px, 5vw, 44px);">Say hello.</h1>
     <p class="sub">Whether you're curious about thesis-engine, want to
     talk shop about how we run infrastructure, or something else
-    entirely — reach out. A real person reads this inbox.</p>
+    entirely — reach out. A real person reads and responds to every
+    one of these; the form just gets it to us structured instead of
+    however your mail client happens to format it.</p>
   </section>
 
   <section style="padding-top: 0;">
-    <div class="cta-block">
-      <h3>General &amp; press</h3>
-      <p>Questions about who we are, what we're building, or this site.</p>
-      <div class="contact-row">
-        <a class="contact-link" href="mailto:inspector@tcos.us"><span class="k mono">mail</span> inspector@tcos.us</a>
+    <p class="form-status" id="apply-banner" style="display:none; color: var(--accent-ink); font-weight: 600;"></p>
+    <form class="form-grid" id="contact-form" method="POST" action="/api/contact">
+      <input class="hp" type="text" name="_hp" tabindex="-1" autocomplete="off">
+      <input type="hidden" id="c-role" name="role" value="">
+      <div id="c-category-wrap">
+        <label for="c-category">What's this about</label>
+        <select id="c-category" name="category">
+          <option value="general">General / press</option>
+          <option value="sales">thesis-engine — sales &amp; early access</option>
+          <option value="investor">Investor inquiry</option>
+          <option value="partnership">Partnership</option>
+        </select>
       </div>
-    </div>
+      <div>
+        <label for="c-name">Name</label>
+        <input id="c-name" type="text" name="name" autocomplete="name">
+      </div>
+      <div>
+        <label for="c-email">Email <span style="color:var(--ink-faint)">(required)</span></label>
+        <input id="c-email" type="email" name="email" required autocomplete="email">
+      </div>
+      <div>
+        <label for="c-message">Message <span style="color:var(--ink-faint)">(required)</span></label>
+        <textarea id="c-message" name="message" required></textarea>
+      </div>
+      <button class="form-submit" type="submit">Send</button>
+      <p class="form-status" id="c-status"></p>
+    </form>
+  </section>
 
-    <div class="cta-block">
-      <h3>thesis-engine — sales &amp; early access</h3>
-      <p>thesis-engine is an AI-native research tool built to hold and
-      pressure-test investment theses. It's in daily use today and
-      heading toward a public production release. If you want early
-      access or want to talk about subscription access once it opens
-      up, this is the address.</p>
-      <div class="contact-row">
-        <a class="contact-link" href="mailto:inspector@tcos.us?subject=thesis-engine%20early%20access"><span class="k mono">mail</span> inspector@tcos.us</a>
-      </div>
-    </div>
-
-    <div class="cta-block">
-      <h3>Code &amp; technical</h3>
-      <p>Our tooling is developed in the open where it makes sense to be.</p>
-      <div class="contact-row">
-        <a class="contact-link" href="https://github.com/Twin-Cities-Open-Systems"><span class="k mono">code</span> github.com/Twin-Cities-Open-Systems</a>
-      </div>
+  <section>
+    <p class="eyebrow">Code &amp; technical</p>
+    <h2>Our tooling is developed in the open where it makes sense to be.</h2>
+    <div class="contact-row">
+      <a class="contact-link" href="https://github.com/Twin-Cities-Open-Systems"><span class="k mono">code</span> github.com/Twin-Cities-Open-Systems</a>
     </div>
   </section>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2026 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/c45a33a9fc3d9daed3e19fc4aec3b8416bf14b48">c45a33a</a></span>
+    <span class="mono">est. 2026 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/a19a76b4fe3edc17cb759366ef28471dce425cf4">a19a76b</a></span>
   </footer>
 
 </div>
 <script src="js/site.js"></script>
+<script src="js/forms.js"></script>
 </body>
 </html>

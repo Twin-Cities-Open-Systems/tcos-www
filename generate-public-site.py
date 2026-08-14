@@ -445,7 +445,7 @@ JOBS = [
 ]
 
 JOB_TMPL = """    <div class="job" id="{slug}">
-      <div class="job-head"><h3>{title}</h3><a class="apply-btn" href="mailto:inspector@tcos.us?subject=Application%3A%20{title_url}">Apply now &rarr;</a></div>
+      <div class="job-head"><h3>{title}</h3><a class="apply-btn" href="/contact?apply={slug}&amp;title={title_url}">Apply now &rarr;</a></div>
       <div class="meta"><span class="report-chip" title="Reports to {reports_to_name}">{reports_to_mono}</span> {meta}</div>
       <p>{desc}</p>
     </div>"""
