@@ -22,7 +22,11 @@ ORG = "Twin-Cities-Open-Systems"
 # fleet-ops#9) -- read via gh api from that branch until it merges,
 # not raw.githubusercontent.com which only serves merged branches.
 ROSTER_BRANCH = "add-full-automation-bootstrap"
-ACTIVITY_REPOS = ["fleet-ops", "human-execution-engine", "thesis-engine", "tcos-www", "glass-ops"]
+# Public repos only. thesis-engine and glass-ops are PRIVATE -- their
+# commit history (real business/trading logic) must never appear on
+# the public site. Caught 2026-08-14: the copy used to say "public
+# and private repos," which was a real bug, not just bad wording.
+ACTIVITY_REPOS = ["fleet-ops", "human-execution-engine", "tcos-www"]
 MONOGRAM_COLORS_NOTE = "reuses the same badge component as index.html's teaser"
 
 
@@ -160,9 +164,9 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
   <section class="hero" style="padding-bottom: 20px;">
     <p class="eyebrow">What we're shipping</p>
     <h1 style="font-size: clamp(30px, 5vw, 44px);">Real commits, not a highlight reel.</h1>
-    <p class="sub">Every line below is a real commit across our public
-    and private repos, newest first. No curation — this is what
-    "verified, not claimed" looks like applied to our own activity.</p>
+    <p class="sub">Every line below is a real commit from our public
+    repos, newest first. No curation — this is what "verified, not
+    claimed" looks like applied to our own activity.</p>
   </section>
 
   <section style="padding-top: 0;">
