@@ -276,7 +276,7 @@ IR_PAGE_TMPL = """<!doctype html>
       personal-use proof to a real product, and to prove the
       framework generalizes with a second module beyond markets.</p>
       <div class="contact-row">
-        <a class="contact-link" href="mailto:inspector@tcos.us?subject=Investor%20inquiry"><span class="k mono">mail</span> inspector@tcos.us</a>
+        <a class="contact-link" href="/contact?category=investor"><span class="k mono">talk</span> Get in touch</a>
       </div>
     </div>
   </section>
