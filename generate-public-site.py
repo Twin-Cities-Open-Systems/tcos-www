@@ -414,8 +414,9 @@ JOBS = [
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Cover thesis-engine's real 7-layer thesis end to end &mdash; DC "
              "infra, power, critical materials, and the rest (see "
-             "<code>METHODOLOGY.md</code> in the thesis-engine repo for the full "
-             "framework). One analyst to start; splits by layer once real "
+             "<a href=\"https://github.com/Twin-Cities-Open-Systems/thesis-engine/blob/main/METHODOLOGY.md\">METHODOLOGY.md</a> "
+             "for the full framework &mdash; private repo, visible once you're on "
+             "the team). One analyst to start; splits by layer once real "
              "coverage gaps show up, not before."},
     {"slug": "inventory-specialist", "title": "Inventory Specialist", "issue": 38,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
