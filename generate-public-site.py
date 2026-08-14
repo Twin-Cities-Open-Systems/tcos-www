@@ -51,7 +51,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 <body>
 <div class="wrap"><nav class="site-nav">
   <a class="brand" href="/">Twin Cities Open Systems</a>
-  <div class="links"><a href="/">Home</a><a href="/people.html" class="active">People</a><a href="/activity.html">Activity</a><a href="/contact.html">Contact / Sales</a></div>
+  <div class="links"><a href="/">Home</a><a href="/people" class="active">People</a><a href="/activity">Activity</a><a href="/story">Our Story</a><a href="/contact">Contact / Sales</a></div>
 </nav></div>
 
 <div class="wrap">
@@ -153,7 +153,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 <body>
 <div class="wrap"><nav class="site-nav">
   <a class="brand" href="/">Twin Cities Open Systems</a>
-  <div class="links"><a href="/">Home</a><a href="/people.html">People</a><a href="/activity.html" class="active">Activity</a><a href="/contact.html">Contact / Sales</a></div>
+  <div class="links"><a href="/">Home</a><a href="/people">People</a><a href="/activity" class="active">Activity</a><a href="/story">Our Story</a><a href="/contact">Contact / Sales</a></div>
 </nav></div>
 
 <div class="wrap">
