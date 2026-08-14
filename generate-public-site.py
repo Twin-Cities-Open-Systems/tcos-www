@@ -88,7 +88,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2026 · Minneapolis / St. Paul</span>
+    <span class="mono">est. 2026 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
   </footer>
 
 </div>
@@ -122,7 +122,7 @@ def monogram(name):
     return name[:2].upper()
 
 
-def render_people(roster):
+def render_people(roster, commit_info):
     cards = []
     for tier in roster["tiers"]:
         for p in tier["people"]:
@@ -143,7 +143,7 @@ def render_people(roster):
                 pending_class=pending_class,
                 github_link=github_link,
             ))
-    return PEOPLE_PAGE_TMPL.format(cards="\n".join(cards))
+    return fill_placeholders(PEOPLE_PAGE_TMPL, commit_info).format(cards="\n".join(cards))
 
 
 ACTIVITY_PAGE_TMPL = """<!doctype html>
@@ -185,7 +185,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2026 · Minneapolis / St. Paul</span>
+    <span class="mono">est. 2026 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
   </footer>
 </div>
 <script src="js/site.js"></script>
@@ -202,7 +202,7 @@ ITEM_TMPL = """    <div class="activity-item">
     </div>"""
 
 
-def render_activity():
+def render_activity(commit_info):
     rows = []
     for repo in ACTIVITY_REPOS:
         commits = gh(f"repos/{ORG}/{repo}/commits?per_page=8") or []
@@ -225,7 +225,7 @@ def render_activity():
         )
         for r in rows
     )
-    return ACTIVITY_PAGE_TMPL.format(items=items)
+    return fill_placeholders(ACTIVITY_PAGE_TMPL, commit_info).format(items=items)
 
 
 IR_PAGE_TMPL = """<!doctype html>
@@ -325,7 +325,7 @@ IR_PAGE_TMPL = """<!doctype html>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2026 · Minneapolis / St. Paul</span>
+    <span class="mono">est. 2026 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
   </footer>
 </div>
 <script src="js/site.js"></script>
@@ -372,37 +372,65 @@ def compute_company_stats(roster):
     }
 
 
-def render_ir(stats):
-    return IR_PAGE_TMPL.format(**stats)
+def render_ir(stats, commit_info):
+    return fill_placeholders(IR_PAGE_TMPL, commit_info).format(**stats)
 
 
-def render_index(stats):
+def get_commit_info():
+    sha = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+    return {"COMMIT": sha, "COMMIT_SHORT": sha[:7]}
+
+
+def fill_placeholders(text, values):
+    for k, v in values.items():
+        text = text.replace("{{" + k + "}}", str(v))
+    return text
+
+
+def render_index(stats, commit_info):
     # Read from index.template.html, never index.html itself -- index.html
     # is pure generated output; if we read-and-rewrite the same file, the
     # {{PLACEHOLDER}} tokens are gone after the first run and every run
     # after that silently stops updating the numbers.
     tmpl = open("index.template.html").read()
-    return (tmpl
-            .replace("{{RATIFIED}}", str(stats["ratified"]))
-            .replace("{{TEAM_SIZE}}", str(stats["team_size"])))
+    tmpl = tmpl.replace("{{RATIFIED}}", str(stats["ratified"]))
+    tmpl = tmpl.replace("{{TEAM_SIZE}}", str(stats["team_size"]))
+    return fill_placeholders(tmpl, commit_info)
+
+
+# Static pages that only need commit-info placeholders filled, no other
+# live data -- template filename -> output filename.
+STATIC_TEMPLATES = {
+    "story.template.html": "story.html",
+    "contact.template.html": "contact.html",
+    "careers.template.html": "careers.html",
+}
 
 
 def main():
+    commit_info = get_commit_info()
+    print(f"current commit: {commit_info['COMMIT_SHORT']}", file=sys.stderr)
+
     print("fetching roster.json from fleet-ops...", file=sys.stderr)
     roster = fetch_roster()
-    open("people.html", "w").write(render_people(roster))
+    open("people.html", "w").write(render_people(roster, commit_info))
     print("wrote people.html", file=sys.stderr)
 
     print("fetching recent commits across repos...", file=sys.stderr)
-    open("activity.html", "w").write(render_activity())
+    open("activity.html", "w").write(render_activity(commit_info))
     print("wrote activity.html", file=sys.stderr)
 
     print("computing company stats...", file=sys.stderr)
     stats = compute_company_stats(roster)
-    open("ir.html", "w").write(render_ir(stats))
+    open("ir.html", "w").write(render_ir(stats, commit_info))
     print("wrote ir.html", file=sys.stderr)
-    open("index.html", "w").write(render_index(stats))
+    open("index.html", "w").write(render_index(stats, commit_info))
     print("wrote index.html (from index.template.html)", file=sys.stderr)
+
+    for tmpl_name, out_name in STATIC_TEMPLATES.items():
+        content = fill_placeholders(open(tmpl_name).read(), commit_info)
+        open(out_name, "w").write(content)
+        print(f"wrote {out_name} (from {tmpl_name})", file=sys.stderr)
 
 
 if __name__ == "__main__":
