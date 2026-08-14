@@ -4,242 +4,13 @@
 <meta charset="UTF-8">
 <title>Twin Cities Open Systems</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-  :root {
-    --bg: #f2f5f4;
-    --surface: #ffffff;
-    --surface-2: #e7ece9;
-    --ink: #10161a;
-    --ink-dim: #4d5c5f;
-    --ink-faint: #8a9a9a;
-    --line: #d5dedb;
-    --accent: #a86c15;
-    --accent-ink: #7a4f10;
-    --accent-soft: #f4e6cd;
-    --ok: #21815c;
-    --ok-soft: #dcf0e6;
-    color-scheme: light;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #090d11;
-      --surface: #10161b;
-      --surface-2: #161e24;
-      --ink: #e8eef0;
-      --ink-dim: #9bacae;
-      --ink-faint: #5c7072;
-      --line: #212b30;
-      --accent: #e2a748;
-      --accent-ink: #f6cd8b;
-      --accent-soft: #241c0e;
-      --ok: #4ecb96;
-      --ok-soft: #0f251c;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #090d11;
-    --surface: #10161b;
-    --surface-2: #161e24;
-    --ink: #e8eef0;
-    --ink-dim: #9bacae;
-    --ink-faint: #5c7072;
-    --line: #212b30;
-    --accent: #e2a748;
-    --accent-ink: #f6cd8b;
-    --accent-soft: #241c0e;
-    --ok: #4ecb96;
-    --ok-soft: #0f251c;
-    color-scheme: dark;
-  }
-
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-  .mono { font-family: ui-monospace, "SF Mono", "Cascadia Code", "Consolas", monospace; }
-
-  a { color: var(--accent-ink); }
-
-  .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px; }
-  section { padding: 88px 0; border-bottom: 1px solid var(--line); }
-  section:last-of-type { border-bottom: none; }
-
-  .eyebrow {
-    font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace;
-    font-size: 12px;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    color: var(--accent-ink);
-    font-weight: 700;
-    margin: 0 0 16px;
-  }
-
-  /* ---- hero ---- */
-  .hero { padding-top: 96px; }
-  .hero h1 {
-    font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace;
-    font-size: clamp(34px, 6vw, 58px);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    margin: 0 0 24px;
-    text-wrap: balance;
-  }
-  .hero .sub {
-    font-size: 19px;
-    color: var(--ink-dim);
-    max-width: 56ch;
-    margin: 0 0 40px;
-  }
-
-  .terminal {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px -18px rgba(0,0,0,.25);
-  }
-  .terminal .bar {
-    display: flex;
-    gap: 6px;
-    padding: 10px 14px;
-    background: var(--surface-2);
-    border-bottom: 1px solid var(--line);
-  }
-  .terminal .bar span {
-    width: 9px; height: 9px; border-radius: 50%;
-    background: var(--ink-faint); opacity: .5;
-  }
-  .terminal pre {
-    margin: 0;
-    padding: 20px 22px 24px;
-    font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace;
-    font-size: 13.5px;
-    line-height: 1.75;
-    overflow-x: auto;
-    white-space: pre;
-  }
-  .terminal .prompt { color: var(--ok); }
-  .terminal .comment { color: var(--ink-faint); }
-  .terminal .out { color: var(--ink-dim); }
-
-  /* ---- receipts strip ---- */
-  .receipts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 28px;
-    margin-top: 36px;
-    font-family: ui-monospace, monospace;
-    font-size: 13px;
-    color: var(--ink-dim);
-  }
-  .receipts b { color: var(--ink); font-variant-numeric: tabular-nums; }
-
-  /* ---- prose sections ---- */
-  h2 {
-    font-size: clamp(24px, 3.4vw, 32px);
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    margin: 0 0 20px;
-    text-wrap: balance;
-  }
-  section p {
-    font-size: 17px;
-    color: var(--ink-dim);
-    max-width: 60ch;
-  }
-  section p + p { margin-top: 16px; }
-  section p b { color: var(--ink); font-weight: 650; }
-
-  /* ---- people ---- */
-  .people {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 14px;
-    margin-top: 36px;
-  }
-  .badge {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .badge-top { display: flex; align-items: center; gap: 12px; }
-  .monogram {
-    width: 40px; height: 40px; border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: ui-monospace, monospace;
-    font-weight: 700; font-size: 14px;
-    background: var(--accent-soft); color: var(--accent-ink);
-    flex: none;
-  }
-  .badge .who .name { font-weight: 700; font-size: 15px; line-height: 1.3; }
-  .badge .who .role { font-size: 12.5px; color: var(--ink-faint); }
-  .badge .what { font-size: 13.5px; color: var(--ink-dim); }
-  .badge .tag {
-    align-self: flex-start;
-    font-family: ui-monospace, monospace;
-    font-size: 10.5px;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 100px;
-    background: var(--ok-soft);
-    color: var(--ok);
-    font-weight: 700;
-  }
-  .badge .tag.pending { background: var(--accent-soft); color: var(--accent-ink); }
-
-  /* ---- contact ---- */
-  .contact-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 28px;
-  }
-  .contact-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 18px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: var(--surface);
-    color: var(--ink);
-    text-decoration: none;
-    font-size: 14.5px;
-    font-weight: 600;
-    transition: border-color .15s ease, transform .15s ease;
-  }
-  .contact-link:hover { border-color: var(--accent); transform: translateY(-1px); }
-  .contact-link .k { font-family: ui-monospace, monospace; color: var(--accent-ink); }
-
-  footer {
-    padding: 40px 0 64px;
-    font-size: 13px;
-    color: var(--ink-faint);
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  footer .mono { color: var(--ink-faint); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .contact-link { transition: none; }
-  }
-</style>
+<link rel="stylesheet" href="css/site.css">
 </head>
 <body>
+<div class="wrap"><nav class="site-nav">
+  <a class="brand" href="/">Twin Cities Open Systems</a>
+  <div class="links"><a href="/" class="active">Home</a><a href="/people.html">People</a><a href="/contact.html">Contact / Sales</a></div>
+</nav></div>
 <div class="wrap">
 
   <section class="hero">
@@ -296,60 +67,12 @@
   <section>
     <p class="eyebrow">Who's behind this</p>
     <h2>One human. A fleet that proves its own work.</h2>
-    <p>Every identity below is real: a real system account, a real
-    GPG key, a real GitHub identity, and — for everyone but the
-    newest hire — a contract the rest of the fleet actually
-    cryptographically signed.</p>
-
-    <div class="people">
-      <div class="badge">
-        <div class="badge-top">
-          <div class="monogram">SB</div>
-          <div class="who"><div class="name">Spencer Butler</div><div class="role">Owner</div></div>
-        </div>
-        <div class="what">Founded TCOS. Final word on scope, spend, and every contract on this page.</div>
-        <span class="tag">Verified</span>
-      </div>
-      <div class="badge">
-        <div class="badge-top">
-          <div class="monogram">N1</div>
-          <div class="who"><div class="name">nuc1-claude</div><div class="role">Senior Sysadmin</div></div>
-        </div>
-        <div class="what">Fleet coordinator — sets convention, dispatches and reviews every hire below.</div>
-        <span class="tag">Ratified</span>
-      </div>
-      <div class="badge">
-        <div class="badge-top">
-          <div class="monogram">OP</div>
-          <div class="who"><div class="name">claudeops-j1</div><div class="role">Fleet Ops</div></div>
-        </div>
-        <div class="what">Infrastructure &amp; provisioning — currently building out our production platform.</div>
-        <span class="tag">Ratified</span>
-      </div>
-      <div class="badge">
-        <div class="badge-top">
-          <div class="monogram">SC</div>
-          <div class="who"><div class="name">claudesec-j1</div><div class="role">Security Officer</div></div>
-        </div>
-        <div class="what">Audits everyone, including the senior sysadmin. Second review on every change.</div>
-        <span class="tag">Ratified</span>
-      </div>
-      <div class="badge">
-        <div class="badge-top">
-          <div class="monogram">TC</div>
-          <div class="who"><div class="name">touchy</div><div class="role">Independent Peer</div></div>
-        </div>
-        <div class="what">Full autonomy over its own infrastructure. Building the display layer behind thesis-engine.</div>
-        <span class="tag">Ratified</span>
-      </div>
-      <div class="badge">
-        <div class="badge-top">
-          <div class="monogram">IN</div>
-          <div class="who"><div class="name">claude-intern-j1</div><div class="role">Junior / Cleanup</div></div>
-        </div>
-        <div class="what">Newest addition. Narrower scope by design while it earns more.</div>
-        <span class="tag pending">Onboarding</span>
-      </div>
+    <p>Every identity is real: a real system account, a real GPG key,
+    a real GitHub identity, and — for everyone but the newest hire —
+    a contract the rest of the fleet actually cryptographically
+    signed.</p>
+    <div class="contact-row">
+      <a class="contact-link" href="/people.html"><span class="k mono">→</span> Meet the team</a>
     </div>
   </section>
 
@@ -360,7 +83,7 @@
     interesting to you.</p>
     <div class="contact-row">
       <a class="contact-link" href="mailto:inspector@tcos.us"><span class="k mono">mail</span> inspector@tcos.us</a>
-      <a class="contact-link" href="https://github.com/Twin-Cities-Open-Systems"><span class="k mono">code</span> github.com/Twin-Cities-Open-Systems</a>
+      <a class="contact-link" href="/contact.html"><span class="k mono">→</span> Contact &amp; sales</a>
     </div>
   </section>
 
