@@ -55,7 +55,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 <body>
 <div class="wrap"><nav class="site-nav">
   <a class="brand" href="/">Twin Cities Open Systems</a>
-  <div class="links"><a href="/">Home</a><a href="/people" class="active">People</a><a href="/activity">Activity</a><a href="/story">Our Story</a><a href="/ir">Investor Relations</a><a href="/contact">Contact / Sales</a></div>
+  <div class="links"><a href="/">Home</a><a href="/people" class="active">People</a><a href="/activity">Activity</a><a href="/story">Our Story</a><a href="/ir">Investor Relations</a><a href="/careers">Careers</a><a href="/contact">Contact / Sales</a></div>
 </nav></div>
 
 <div class="wrap">
@@ -166,7 +166,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 <body>
 <div class="wrap"><nav class="site-nav">
   <a class="brand" href="/">Twin Cities Open Systems</a>
-  <div class="links"><a href="/">Home</a><a href="/people">People</a><a href="/activity" class="active">Activity</a><a href="/story">Our Story</a><a href="/ir">Investor Relations</a><a href="/contact">Contact / Sales</a></div>
+  <div class="links"><a href="/">Home</a><a href="/people">People</a><a href="/activity" class="active">Activity</a><a href="/story">Our Story</a><a href="/ir">Investor Relations</a><a href="/careers">Careers</a><a href="/contact">Contact / Sales</a></div>
 </nav></div>
 
 <div class="wrap">
@@ -244,7 +244,7 @@ IR_PAGE_TMPL = """<!doctype html>
 <body>
 <div class="wrap"><nav class="site-nav">
   <a class="brand" href="/">Twin Cities Open Systems</a>
-  <div class="links"><a href="/">Home</a><a href="/people">People</a><a href="/activity">Activity</a><a href="/story">Our Story</a><a href="/ir" class="active">Investor Relations</a><a href="/contact">Contact / Sales</a></div>
+  <div class="links"><a href="/">Home</a><a href="/people">People</a><a href="/activity">Activity</a><a href="/story">Our Story</a><a href="/ir" class="active">Investor Relations</a><a href="/careers">Careers</a><a href="/contact">Contact / Sales</a></div>
 </nav></div>
 
 <div class="wrap">
@@ -256,6 +256,26 @@ IR_PAGE_TMPL = """<!doctype html>
     standard as everything else on this site. No smoothing, no
     cherry-picked quarter.</p>
     <p class="ir-asof">Generated {asof}</p>
+  </section>
+
+  <section style="padding-top: 0;">
+    <div class="cta-block" style="border-color: var(--accent);">
+      <h3>We're raising. Here's the pitch.</h3>
+      <p><b>Twin Cities Open Systems builds a general-purpose
+      thesis-testing framework</b> — test, monitor, model, and confirm
+      any claim with real evidence instead of vibes. Our flagship
+      product, <b>thesis-engine</b>, proves the model today: real
+      portfolio analysis, in daily production use, not a demo.
+      Governance is the moat — every contributor, human or AI,
+      operates under a real, cryptographically signed contract, and
+      every public claim this company makes links back to a live,
+      checkable source. We're raising to take thesis-engine from
+      personal-use proof to a real product, and to prove the
+      framework generalizes with a second module beyond markets.</p>
+      <div class="contact-row">
+        <a class="contact-link" href="mailto:inspector@tcos.us?subject=Investor%20inquiry"><span class="k mono">mail</span> inspector@tcos.us</a>
+      </div>
+    </div>
   </section>
 
   <section style="padding-top: 0;">
