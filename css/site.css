@@ -192,6 +192,10 @@
     font-weight: 700;
   }
   .badge .tag.pending { background: var(--accent-soft); color: var(--accent-ink); }
+  .badge-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .badge-gh { font-size: 12px; color: var(--ink-faint); text-decoration: none; }
+  .badge-gh:not(.badge-gh-pending):hover { color: var(--accent-ink); }
+  .badge-gh-pending { font-style: italic; }
 
   /* ---- contact ---- */
   .contact-row {

@@ -102,7 +102,10 @@ CARD_TMPL = """      <div class="badge">
           <div class="who"><div class="name">{name}</div><div class="role">{role}</div></div>
         </div>
         <div class="what">{what}</div>
-        <span class="tag{pending_class}">{status_label}</span>
+        <div class="badge-foot">
+          <span class="tag{pending_class}">{status_label}</span>
+          {github_link}
+        </div>
       </div>"""
 
 STATUS_LABEL = {
@@ -125,6 +128,11 @@ def render_people(roster):
             status = p["status"]
             label = STATUS_LABEL.get(status, status)
             pending_class = " pending" if status == "proposed" else ""
+            if p.get("github"):
+                gh_login = html.escape(p["github"])
+                github_link = f'<a class="badge-gh mono" href="https://github.com/{gh_login}">@{gh_login}</a>'
+            else:
+                github_link = '<span class="badge-gh mono badge-gh-pending">no GitHub yet</span>'
             cards.append(CARD_TMPL.format(
                 mono=monogram(p["name"]),
                 name=html.escape(p["name"]),
@@ -132,6 +140,7 @@ def render_people(roster):
                 what=html.escape(p["what"]),
                 status_label=label,
                 pending_class=pending_class,
+                github_link=github_link,
             ))
     return PEOPLE_PAGE_TMPL.format(cards="\n".join(cards))
 
