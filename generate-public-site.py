@@ -311,8 +311,9 @@ IR_PAGE_TMPL = """<!doctype html>
     <h2>Coming once there's a CFO to own them.</h2>
     <p>Real financial reporting belongs to a real CFO, not a
     placeholder number generated alongside commit counts. That role is
-    being onboarded — see the People page for current status. This
-    section fills in with real numbers once it exists, not before.</p>
+    open — see the <a href="/careers#cfo">CFO listing on Careers</a>.
+    This section fills in with real numbers once it's filled, not
+    before.</p>
   </section>
 
   <section>
