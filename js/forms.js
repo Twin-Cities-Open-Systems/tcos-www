@@ -14,10 +14,47 @@
       var title = params.get("title") || applyRole;
       form.action = "/api/apply";
       document.getElementById("c-role").value = title;
+      var roleSlugField = document.createElement("input");
+      roleSlugField.type = "hidden";
+      roleSlugField.name = "roleSlug";
+      roleSlugField.value = applyRole;
+      form.appendChild(roleSlugField);
       document.getElementById("c-category-wrap").style.display = "none";
       var banner = document.getElementById("apply-banner");
       banner.textContent = "Applying for: " + title;
       banner.style.display = "block";
+      document.getElementById("resume-wrap").style.display = "block";
+    }
+
+    var resumeInput = document.getElementById("c-resume");
+    if (resumeInput) {
+      resumeInput.addEventListener("change", function () {
+        var file = resumeInput.files[0];
+        var status = document.getElementById("resume-status");
+        if (!file) return;
+        status.textContent = "Reading resume…";
+        status.className = "form-status";
+        var data = new FormData();
+        data.append("resume", file);
+        fetch("/api/parse-resume", { method: "POST", body: data })
+          .then(function (res) { return res.json(); })
+          .then(function (r) {
+            if (r.ok) {
+              if (r.name) document.getElementById("c-name").value = r.name;
+              if (r.email) document.getElementById("c-email").value = r.email;
+              if (r.summary) document.getElementById("c-message").value = r.summary;
+              status.textContent = "Filled in from your resume — check it over before sending.";
+              status.className = "form-status ok";
+            } else {
+              status.textContent = "Couldn't read that file automatically — no problem, just fill in the fields below.";
+              status.className = "form-status err";
+            }
+          })
+          .catch(function () {
+            status.textContent = "Couldn't read that file automatically — no problem, just fill in the fields below.";
+            status.className = "form-status err";
+          });
+      });
     }
 
     form.addEventListener("submit", function (e) {
