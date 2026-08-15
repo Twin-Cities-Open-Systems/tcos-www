@@ -136,7 +136,9 @@ def build_detail_rows(p):
         rows.append(f'<div class="detail-row"><span class="detail-k">GPG fingerprint</span><span class="detail-v mono">{html.escape(p["gpg_fpr"])}</span></div>')
     if p.get("contract"):
         contract_file = f'{html.escape(p["contract"])}.contract.v1.yaml'
-        contract_url = f'https://github.com/{ORG}/human-execution-engine/blob/main/hee/contracts/{contract_file}'
+        # Live contract instances moved to fleet-ops 2026-08-15 -- HEE
+        # keeps the schema/shape, fleet-ops holds TCOS's real signed data.
+        contract_url = f'https://github.com/{ORG}/fleet-ops/blob/main/hee/contracts/{contract_file}'
         rows.append(f'<div class="detail-row"><span class="detail-k">Contract</span><a class="detail-v mono" href="{contract_url}">{contract_file}</a></div>')
     for kudo in p.get("kudos") or []:
         rows.append(f'<div class="detail-row detail-kudo"><span class="detail-k">&#9733;</span><span class="detail-v">{html.escape(kudo)}</span></div>')
@@ -382,12 +384,13 @@ def compute_company_stats(roster):
     import datetime
     team_size = sum(len(t["people"]) for t in roster["tiers"])
 
-    contracts = gh(f"repos/{ORG}/human-execution-engine/contents/hee/contracts") or []
+    # Live contract instances moved to fleet-ops 2026-08-15 -- see contract_url above.
+    contracts = gh(f"repos/{ORG}/fleet-ops/contents/hee/contracts") or []
     ratified = 0
     for c in contracts:
         if not c["name"].endswith(".contract.v1.yaml"):
             continue
-        data = gh(f"repos/{ORG}/human-execution-engine/contents/hee/contracts/{c['name']}")
+        data = gh(f"repos/{ORG}/fleet-ops/contents/hee/contracts/{c['name']}")
         if data:
             import base64 as b64
             content = b64.b64decode(data["content"]).decode()
