@@ -7,6 +7,12 @@
     var form = document.getElementById("contact-form");
     if (!form) return;
 
+    // Bot-timing check (2026-08-16, see worker.js's _ts handling) --
+    // stamped on load, not on first interaction, so it measures real
+    // time-on-page rather than typing speed.
+    var tsField = document.getElementById("c-ts");
+    if (tsField) tsField.value = String(Date.now());
+
     // Apply-mode: /contact?apply=<role-slug>&title=<Role+Title>
     var params = new URLSearchParams(window.location.search);
     var applyRole = params.get("apply");
