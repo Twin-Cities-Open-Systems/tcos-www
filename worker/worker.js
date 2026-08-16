@@ -50,6 +50,23 @@ async function handleSubmit(request, env, kind) {
   // hidden on the page. Silently "succeed" to not tip off a bot.
   if (data._hp) return json({ ok: true });
 
+  // Timing check (2026-08-16, added after the first real spam hit --
+  // inbound#6, a generic "what's your price" submission that cleared
+  // the honeypot fine, because that spam was almost certainly a raw
+  // scripted POST that never rendered the page's JS at all -- which
+  // means it also never sent _hp *or* any other field only JS would
+  // add, so honeypot alone can't catch this shape of bot). `_ts` is a
+  // hidden field forms.js stamps with Date.now() on page load; requiring
+  // it (rather than just checking it when present) is a deliberate
+  // tradeoff -- it also silently drops forms.js's documented no-JS
+  // fallback path, which used to submit fine with no _ts at all. A
+  // scripted POST and a no-JS human are indistinguishable at this layer,
+  // so catching the former means dropping the latter too. Flagged to
+  // Spencer as a known tradeoff, not a silent regression.
+  const MIN_FILL_MS = 3000;
+  const loadedAt = Number(data._ts);
+  if (!loadedAt || Date.now() - loadedAt < MIN_FILL_MS) return json({ ok: true });
+
   const name = (data.name || "").trim().slice(0, 200);
   const email = (data.email || "").trim().slice(0, 200);
   const message = (data.message || "").trim().slice(0, 5000);

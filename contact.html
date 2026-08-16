@@ -44,6 +44,7 @@
     <p class="form-status" id="apply-banner" style="display:none; color: var(--accent-ink); font-weight: 600;"></p>
     <form class="form-grid" id="contact-form" method="POST" action="/api/contact">
       <input class="hp" type="text" name="_hp" tabindex="-1" autocomplete="off">
+      <input type="hidden" id="c-ts" name="_ts" value="">
       <input type="hidden" id="c-role" name="role" value="">
       <div id="c-category-wrap">
         <label for="c-category">What's this about</label>
