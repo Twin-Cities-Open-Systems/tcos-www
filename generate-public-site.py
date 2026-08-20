@@ -35,6 +35,14 @@ ROSTER_BRANCH = "main"
 # one yet, see the follow-up issue).
 ACTIVITY_REPOS = ["human-execution-engine", "tcos-www"]
 MONOGRAM_COLORS_NOTE = "reuses the same badge component as index.html's teaser"
+# roster.json's `github` login and resume/dist/people.json's `slug` aren't
+# the same value (e.g. "spencerbutler" vs "spencer") and there's no shared
+# key between the two files yet -- hand-maintained until resume becomes the
+# real source of truth for this (see fleet-ops org-revamp discussion).
+BLOG_SLUGS = {
+    "spencerbutler": "spencer",
+    "touchy-claude": "touchy-claude",
+}
 
 
 def gh(*args):
@@ -113,6 +121,7 @@ CARD_TMPL = """      <div class="badge">
         <div class="badge-foot">
           {tag}
           {github_link}
+          {blog_link}
         </div>
       </div>"""
 
@@ -167,8 +176,14 @@ def render_people(roster, commit_info):
             if p.get("github"):
                 gh_login = html.escape(p["github"])
                 github_link = f'<a class="badge-gh mono" href="https://github.com/{gh_login}">@{gh_login}</a>'
+                blog_slug = BLOG_SLUGS.get(p["github"])
             else:
                 github_link = '<span class="badge-gh mono badge-gh-pending">no GitHub yet</span>'
+                blog_slug = None
+            blog_link = (
+                f'<a class="badge-gh mono" href="https://tcos.us/people/{blog_slug}">Blog &#8594;</a>'
+                if blog_slug else ""
+            )
 
             detail_rows = build_detail_rows(p)
             if detail_rows:
@@ -183,6 +198,7 @@ def render_people(roster, commit_info):
                 what=html.escape(p["what"]),
                 tag=tag,
                 github_link=github_link,
+                blog_link=blog_link,
             ))
     return fill_placeholders(PEOPLE_PAGE_TMPL, commit_info).format(cards="\n".join(cards))
 
