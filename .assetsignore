@@ -1,0 +1,5 @@
+*.template.html
+*.md
+LICENSE
+generate-public-site.py
+worker/
