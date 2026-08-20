@@ -173,10 +173,16 @@ def render_people(roster, commit_info):
             status = p["status"]
             label = STATUS_LABEL.get(status, status)
             pending_class = " pending" if status == "proposed" else ""
-            if p.get("github"):
+            gh_account = p.get("github_account") or {}
+            suspended = gh_account.get("state") in ("suspended", "suspected_suspended")
+            if p.get("github") and not suspended:
                 gh_login = html.escape(p["github"])
                 github_link = f'<a class="badge-gh mono" href="https://github.com/{gh_login}">@{gh_login}</a>'
                 blog_slug = BLOG_SLUGS.get(p["github"])
+            elif p.get("github"):
+                gh_login = html.escape(p["github"])
+                github_link = f'<span class="badge-gh mono badge-gh-pending" title="{html.escape(gh_account.get("note", ""))}">@{gh_login} (suspended)</span>'
+                blog_slug = None
             else:
                 github_link = '<span class="badge-gh mono badge-gh-pending">no GitHub yet</span>'
                 blog_slug = None
