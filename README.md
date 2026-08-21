@@ -1,23 +1,11 @@
 # tcos-www
 
-This repository is a verified component of the **Twin-Cities-Open-Systems (TCOS)** architecture.
+Public marketing site for [tcos.us](https://tcos.us) — mission,
+flagship product, real people, contact info. Static, single-page,
+no build step required.
 
-* **Ecosystem Role:** [Insert the precise Purpose we defined in the master index]
-* **Visibility Standard:** [Public | Private -> Public | Very Private]
+Preview: `open index.html`, or serve `.` with any static file server.
 
----
-
-## 🛠️ Global Alignment & Invariants
-
-This codebase strictly adheres to the core engineering principles, scripting standards, and structural invariants mandated by the organization. 
-
-* **Scripting Guardrails:** All userland scripts (`.sh`, `.py`, `.awk`) inside this repository enforce the portable shebang syntax and a mandatory 4-line metadata header block.
-* **Terminology & Definitions:** Operational concepts, naming matrices, and architectural definitions match our centralized single source of truth.
-
-For complete compliance blueprints, operational roadmaps, and the global architecture manifest, refer back directly to the primary [TCOS Command Center Config](../.github).
-
----
-
-## 📜 Governance & Guidelines
-Contributions, architectural proposals, and documentation changes inside this node must follow our organizational frameworks. Review our global guidelines in the centralized [TCOS Glossary](../.github/blob/main/profile/GLOSSARY.md).
-
+Deployment target: not yet wired up — candidate for Cloudflare Pages
+or the same `lab.tcos.us`/pve hosting path used for the fleet roster
+(see `fleet-ops#11`), whichever lands first.
