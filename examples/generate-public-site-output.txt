@@ -1,0 +1,19 @@
+current commit: b16f312
+fetching roster.json from fleet-ops...
+wrote people.html
+fetching recent commits across repos...
+wrote activity.html
+computing company stats...
+wrote ir.html
+wrote index.html (from index.template.html)
+checking hiring issue states...
+  WARN: gh api repos/Twin-Cities-Open-Systems/fleet-ops/issues/28 failed: gh: Not Found (HTTP 404)
+  WARN: gh api repos/Twin-Cities-Open-Systems/fleet-ops/issues/31 failed: gh: Not Found (HTTP 404)
+  WARN: gh api repos/Twin-Cities-Open-Systems/fleet-ops/issues/37 failed: gh: Not Found (HTTP 404)
+  WARN: gh api repos/Twin-Cities-Open-Systems/fleet-ops/issues/38 failed: gh: Not Found (HTTP 404)
+  WARN: gh api repos/Twin-Cities-Open-Systems/fleet-ops/issues/39 failed: gh: Not Found (HTTP 404)
+  WARN: gh api repos/Twin-Cities-Open-Systems/fleet-ops/issues/40 failed: gh: Not Found (HTTP 404)
+  WARN: gh api repos/Twin-Cities-Open-Systems/fleet-ops/issues/41 failed: gh: Not Found (HTTP 404)
+wrote careers.html (from careers.template.html)
+wrote story.html (from story.template.html)
+wrote contact.html (from contact.template.html)
