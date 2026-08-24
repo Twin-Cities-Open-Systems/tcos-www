@@ -481,19 +481,21 @@ JOBS = [
              "for the full framework &mdash; private repo, visible once you're on "
              "the team). One analyst to start; splits by layer once real "
              "coverage gaps show up, not before."},
-    {"slug": "inventory-specialist", "title": "Inventory Specialist", "issue": 38,
+    {"slug": "inventory-specialist", "title": "Inventory Specialist", "issue": 286,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Real accounting of the physical fleet &mdash; hardware, storage "
              "pools, VMs &mdash; starting with what the pve buildout has already "
              "turned up (dead storage pools, drives passed through to VMs no "
              "one's checked on). Ground truth over assumption, same standard "
              "as everywhere else here."},
-    {"slug": "capacity-planning", "title": "Capacity / Data-Center Planning Agent", "issue": 38,
+    {"slug": "capacity-planning", "title": "Capacity / Data-Center Planning Agent", "issue": 285,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Own the actual capacity plan for the home-lab buildout &mdash; "
-             "cost/benefit before action, not speculative scaling. Works "
-             "alongside the Inventory Specialist role on what's real today "
-             "before recommending what's next."},
+             "cost/benefit before action, not speculative scaling. Real first "
+             "pass already done (see the linked issue): pve's true hardware "
+             "vs. the roadmap, a prod-mirror proposal, and a geo-redundant "
+             "DNS/MX plan. Works alongside the Inventory Specialist role on "
+             "what's real today before recommending what's next."},
     {"slug": "mindset-coach", "title": "Mindset Coach", "issue": 40,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Discipline is the whole point of a thesis-driven approach &mdash; "
