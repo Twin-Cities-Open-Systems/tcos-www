@@ -1,2 +1,10 @@
 __pycache__/
 *.pyc
+
+# Security -- never commit secrets. Real gap found live, 2026-08-24:
+# hee-cred -seal writes real GPG-encrypted credentials to .hee/secrets/
+# (this repo just got a real one, cloudflare-tcos-www.gpg), and this
+# repo had zero gitignore coverage for it -- a bare `git add -A` would
+# have staged it. Same bare `secrets/` pattern human-execution-engine's
+# own .gitignore already uses.
+secrets/

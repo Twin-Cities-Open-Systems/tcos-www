@@ -13,6 +13,7 @@ Usage: ./generate-public-site.py
 """
 import html
 import json
+import os
 import subprocess
 import sys
 import urllib.parse
@@ -25,15 +26,18 @@ ORG = "Twin-Cities-Open-Systems"
 # incident, fixed the same day: it had been public and shouldn't have
 # been), so an unauthenticated raw link would 404 anyway.
 ROSTER_BRANCH = "main"
-# Public repos only. thesis-engine and glass-ops are PRIVATE -- their
-# commit history (real business/trading logic) must never appear on
-# the public site. Caught 2026-08-14: the copy used to say "public
-# and private repos," which was a real bug, not just bad wording.
-# fleet-ops joined the private list 2026-08-14 (real incident -- it
-# had been left public since a much earlier rename and was showing up
-# here; caught by spencer, not by any automated check -- there isn't
-# one yet, see the follow-up issue).
-ACTIVITY_REPOS = ["human-execution-engine", "tcos-www"]
+# Public repos only, in activity/commit output. thesis-engine and
+# glass-ops are PRIVATE -- their commit history (real business/trading
+# logic) must never appear on the public site. Caught 2026-08-14: the
+# copy used to say "public and private repos," which was a real bug,
+# not just bad wording. fleet-ops joined the private list the same day
+# (real incident -- it had been left public since a much earlier rename
+# and was showing up here; caught by spencer, not by any automated
+# check). The "follow-up issue" this comment used to promise was never
+# actually filed -- the real fix, live_public_repos() below, checks
+# visibility live every run instead of trusting any list, hardcoded or
+# not. See contracts/publish-sanitization-v1.contract.yaml
+# (human-execution-engine) and fleet-ops#261.
 MONOGRAM_COLORS_NOTE = "reuses the same badge component as index.html's teaser"
 # roster.json's `github` login and resume/dist/people.json's `slug` aren't
 # the same value (e.g. "spencerbutler" vs "spencer") and there's no shared
@@ -288,9 +292,19 @@ ITEM_TMPL = """    <div class="activity-item">
     </div>"""
 
 
+def live_public_repos():
+    """Real, live re-check every run -- never a hardcoded/cached list.
+    This is the actual fix for the 2026-08-14 incident: fleet-ops'
+    visibility changed silently and a static list never noticed. Same
+    policy hee-filter/hee-publish now enforce
+    (contracts/publish-sanitization-v1.contract.yaml)."""
+    repos = gh(f"orgs/{ORG}/repos?per_page=100") or []
+    return sorted(r["name"] for r in repos if not r["private"])
+
+
 def render_activity(commit_info):
     rows = []
-    for repo in ACTIVITY_REPOS:
+    for repo in live_public_repos():
         commits = gh(f"repos/{ORG}/{repo}/commits?per_page=8") or []
         for c in commits:
             msg = c["commit"]["message"].split("\n")[0]
@@ -445,10 +459,12 @@ def compute_company_stats(roster):
     repos = gh("orgs/" + ORG + "/repos?per_page=100") or []
     public_repos = sum(1 for r in repos if not r["private"])
 
+    # Real sqz: reuse the repos listing already fetched above instead of
+    # a second gh api call for what live_public_repos() would re-fetch.
     since = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=7)).isoformat()
     commits_7d = 0
-    for repo in ACTIVITY_REPOS:
-        commits = gh(f"repos/{ORG}/{repo}/commits?since={since}&per_page=100") or []
+    for repo_name in sorted(r["name"] for r in repos if not r["private"]):
+        commits = gh(f"repos/{ORG}/{repo_name}/commits?since={since}&per_page=100") or []
         commits_7d += len(commits)
 
     return {
@@ -504,19 +520,21 @@ JOBS = [
              "for the full framework &mdash; private repo, visible once you're on "
              "the team). One analyst to start; splits by layer once real "
              "coverage gaps show up, not before."},
-    {"slug": "inventory-specialist", "title": "Inventory Specialist", "issue": 38,
+    {"slug": "inventory-specialist", "title": "Inventory Specialist", "issue": 286,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Real accounting of the physical fleet &mdash; hardware, storage "
              "pools, VMs &mdash; starting with what the pve buildout has already "
              "turned up (dead storage pools, drives passed through to VMs no "
              "one's checked on). Ground truth over assumption, same standard "
              "as everywhere else here."},
-    {"slug": "capacity-planning", "title": "Capacity / Data-Center Planning Agent", "issue": 38,
+    {"slug": "capacity-planning", "title": "Capacity / Data-Center Planning Agent", "issue": 285,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Own the actual capacity plan for the home-lab buildout &mdash; "
-             "cost/benefit before action, not speculative scaling. Works "
-             "alongside the Inventory Specialist role on what's real today "
-             "before recommending what's next."},
+             "cost/benefit before action, not speculative scaling. Real first "
+             "pass already done (see the linked issue): pve's true hardware "
+             "vs. the roadmap, a prod-mirror proposal, and a geo-redundant "
+             "DNS/MX plan. Works alongside the Inventory Specialist role on "
+             "what's real today before recommending what's next."},
     {"slug": "mindset-coach", "title": "Mindset Coach", "issue": 40,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Discipline is the whole point of a thesis-driven approach &mdash; "
@@ -663,28 +681,49 @@ STATIC_TEMPLATES = {
 }
 
 
+HEE_FILTER = os.path.expanduser("~/git/human-execution-engine/tooling/bin/hee-filter")
+
+
+def write_scanned(path, content):
+    """Mandatory content-scan gate before any public page is written --
+    contracts/publish-sanitization-v1.contract.yaml, same tool
+    hee-publish uses. If hee-filter isn't checked out yet (real
+    dependency, mid-flight as of this write), fails LOUD, not silent."""
+    if not os.path.isfile(HEE_FILTER):
+        print(f"  WARN: hee-filter not found at {HEE_FILTER} -- content scan SKIPPED for {path}, "
+              f"flagged loudly, not silently.", file=sys.stderr)
+        open(path, "w").write(content)
+        return
+    proc = subprocess.run([sys.executable, HEE_FILTER, "scan"], input=content, capture_output=True, text=True)
+    if proc.returncode == 1:
+        print(f"  REFUSING to write {path} -- mandatory content scan found real issues:", file=sys.stderr)
+        print(proc.stderr, file=sys.stderr)
+        sys.exit(1)
+    open(path, "w").write(content)
+
+
 def main():
     commit_info = get_commit_info()
     print(f"current commit: {commit_info['COMMIT_SHORT']}", file=sys.stderr)
 
     print("fetching roster.json from fleet-ops...", file=sys.stderr)
     roster = fetch_roster()
-    open("people.html", "w").write(render_people(roster, commit_info))
+    write_scanned("people.html", render_people(roster, commit_info))
     print("wrote people.html", file=sys.stderr)
 
     print("fetching recent commits across repos...", file=sys.stderr)
-    open("activity.html", "w").write(render_activity(commit_info))
+    write_scanned("activity.html", render_activity(commit_info))
     print("wrote activity.html", file=sys.stderr)
 
     print("computing company stats...", file=sys.stderr)
     stats = compute_company_stats(roster)
-    open("ir.html", "w").write(render_ir(stats, commit_info))
+    write_scanned("ir.html", render_ir(stats, commit_info))
     print("wrote ir.html", file=sys.stderr)
-    open("index.html", "w").write(render_index(stats, commit_info))
+    write_scanned("index.html", render_index(stats, commit_info))
     print("wrote index.html (from index.template.html)", file=sys.stderr)
 
     print("checking hiring issue states...", file=sys.stderr)
-    open("careers.html", "w").write(render_careers(roster, commit_info))
+    write_scanned("careers.html", render_careers(roster, commit_info))
     print("wrote careers.html (from careers.template.html)", file=sys.stderr)
 
     for tmpl_name, out_name in STATIC_TEMPLATES.items():

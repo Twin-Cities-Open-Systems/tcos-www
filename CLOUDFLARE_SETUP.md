@@ -34,6 +34,42 @@ curl -X PUT "https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/workers/d
 Response includes a `cert_id` -- Cloudflare provisions the cert
 automatically, no separate step needed.
 
+## One consolidated token, real config (2026-08-22)
+
+Real problem found live in the dashboard: three separate tokens
+existed (`tcos-www-worker-edit`, `tcos-www build token`,
+`fleet-ops build token`), two of them with **+23 permissions**
+including things like `Account.AI Search` -- real scope creep, not a
+hypothetical (see fleet-ops#232). Since touchy is the only real
+operator using this, one deliberately-scoped token replaces all three.
+
+**Dashboard: My Profile -> API Tokens -> Create Token -> Custom Token**
+
+Tiny-click config, nothing else:
+
+| Field | Value |
+|---|---|
+| Token name | `touchy-cf-consolidated` |
+| Permissions (row 1) | Account — Cloudflare Pages — Edit |
+| Permissions (row 2) | Account — Workers Scripts — Edit |
+| Permissions (row 3) | Zone — DNS — Edit |
+| Account Resources | Include — the real TCOS account |
+| Zone Resources | Include — Specific zone — `tcos.us` |
+| TTL | leave open for now (real hygiene follow-up, not tonight) |
+| IP filtering | skip |
+
+Same three permissions already documented above (custom-domain attach
+is the Workers API, not classic Pages), scoped to exactly one zone
+instead of "All zones."
+
+**Transition, in order** (real cutover, not simultaneous):
+1. Create the token above.
+2. Seal it (`hee cred -seal ...`), verify it works on something
+   low-risk (list DNS records) before anything destructive.
+3. Only then revoke the two broad ones -- confirmed 2026-08-22 that no
+   CI workflow in `resume`, `tcos-www`, or `fleet-ops` references a
+   Cloudflare token secret, so nothing automated should break.
+
 ## Account details
 
 - Account ID: (see Cloudflare dashboard, Workers & Pages overview page, "Account Details" panel)
