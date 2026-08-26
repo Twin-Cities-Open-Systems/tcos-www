@@ -51,6 +51,15 @@ MEDIA_HOSTS = {
     "spencerbutler": "spencer.media.tcos.us",
 }
 
+# Real founding year (Spencer, direct, 2026-08-26: "important 2001 est
+# tcos spencer butler"). The 2001 Inc. is the real, original entity;
+# the 2026 LLC reorg (Twin Cities Open Systems - Operations LLC) is a
+# later re-formation of the same real pedigree, not a new founding --
+# "est." always means 2001, never the reorg year. One constant, used
+# everywhere the footer needs it, instead of the literal "2026" that
+# was independently wrong in 3 places in this file alone.
+TCOS_EST_YEAR = 2001
+
 
 def gh(*args):
     out = subprocess.run(["gh", "api", *args], capture_output=True, text=True)
@@ -110,7 +119,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2026 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
   </footer>
 
 </div>
@@ -262,7 +271,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2026 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
   </footer>
 </div>
 <script src="js/site.js"></script>
@@ -403,7 +412,7 @@ IR_PAGE_TMPL = """<!doctype html>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2026 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
   </footer>
 </div>
 <script src="js/site.js"></script>
@@ -626,7 +635,7 @@ def render_careers(roster, commit_info):
 
 def get_commit_info():
     sha = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
-    return {"COMMIT": sha, "COMMIT_SHORT": sha[:7]}
+    return {"COMMIT": sha, "COMMIT_SHORT": sha[:7], "EST_YEAR": TCOS_EST_YEAR}
 
 
 def fill_placeholders(text, values):
