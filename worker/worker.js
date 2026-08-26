@@ -34,6 +34,72 @@ function esc(s) {
   return String(s || "").replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c]));
 }
 
+// Same quote format + parsing rule as tooling/bin/hee-qdb (Python, in
+// human-execution-engine) -- one real regex kept in sync by hand across
+// the two runtimes, same as hee_finger.pl's relationship to hee-net.
+// Source bullet shape: - **speaker** (date), context: "the actual quote"
+const QUOTE_RE = /-\s+\*\*([^*]+)\*\*\s*\(?([^),]*)\)?[^:]*:\s*"([^"]+)"/g;
+
+async function fetchQuoteSource(env) {
+  // WHO-WE-ARE.md lives in fleet-ops, which is private -- needs its own
+  // scoped token, distinct from INBOUND_GH_TOKEN (that one's scoped for
+  // creating issues in `inbound`, not reading fleet-ops content).
+  const res = await fetch(
+    "https://api.github.com/repos/Twin-Cities-Open-Systems/fleet-ops/contents/WHO-WE-ARE.md",
+    {
+      headers: {
+        "Authorization": `Bearer ${env.FLEETOPS_GH_TOKEN}`,
+        "Accept": "application/vnd.github.raw+json",
+        "User-Agent": "tcos-www-api-worker",
+      },
+    }
+  );
+  if (!res.ok) {
+    throw new Error(`fetching WHO-WE-ARE.md failed: ${res.status} ${await res.text()}`);
+  }
+  return res.text();
+}
+
+function extractQuotes(text) {
+  const quotes = [];
+  let m;
+  QUOTE_RE.lastIndex = 0;
+  while ((m = QUOTE_RE.exec(text)) !== null) {
+    quotes.push({
+      speaker: m[1].trim(),
+      date: m[2].trim(),
+      quote: m[3].replace(/\s+/g, " ").trim(),
+    });
+  }
+  return quotes;
+}
+
+async function handleQuotes(request, env) {
+  if (request.method !== "GET") return json({ ok: false, error: "GET only" }, 405);
+
+  const url = new URL(request.url);
+  const term = (url.searchParams.get("search") || "").toLowerCase().trim();
+
+  let text;
+  try {
+    text = await fetchQuoteSource(env);
+  } catch (e) {
+    return json({ ok: false, error: "could not fetch quote source" }, 502);
+  }
+
+  const quotes = extractQuotes(text);
+  const matches = term
+    ? quotes.filter((q) => q.quote.toLowerCase().includes(term) || q.speaker.toLowerCase().includes(term))
+    : quotes;
+
+  if (matches.length === 0) {
+    return json({ ok: false, error: `no match${term ? ` for '${term}'` : ""}` }, 404);
+  }
+
+  const pick = matches[Math.floor(Math.random() * matches.length)];
+  return json({ ok: true, ...pick });
+}
+
 async function handleSubmit(request, env, kind) {
   if (request.method !== "POST") return json({ ok: false, error: "POST only" }, 405);
 
@@ -118,6 +184,7 @@ export default {
     }
     if (url.pathname === "/api/contact") return handleSubmit(request, env, "contact");
     if (url.pathname === "/api/apply") return handleSubmit(request, env, "apply");
+    if (url.pathname === "/api/quotes") return handleQuotes(request, env);
     return json({ ok: false, error: "not found" }, 404);
   },
 };
