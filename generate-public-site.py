@@ -44,6 +44,13 @@ BLOG_SLUGS = {
     "touchy-claude": "touchy-claude",
 }
 
+# Real <oper>.media.tcos.us instances -- linked to directly (not via the
+# /people/<slug> ingress-proxy redirect, which is blog-specific today).
+# Only spencer has one as of 2026-08-26 (the Tux Tattoo gallery).
+MEDIA_HOSTS = {
+    "spencerbutler": "spencer.media.tcos.us",
+}
+
 
 def gh(*args):
     out = subprocess.run(["gh", "api", *args], capture_output=True, text=True)
@@ -122,6 +129,7 @@ CARD_TMPL = """      <div class="badge">
           {tag}
           {github_link}
           {blog_link}
+          {media_link}
         </div>
       </div>"""
 
@@ -190,6 +198,11 @@ def render_people(roster, commit_info):
                 f'<a class="badge-gh mono" href="https://tcos.us/people/{blog_slug}">Blog &#8594;</a>'
                 if blog_slug else ""
             )
+            media_host = MEDIA_HOSTS.get(p.get("github"))
+            media_link = (
+                f'<a class="badge-gh mono" href="https://{media_host}">Media &#8594;</a>'
+                if media_host else ""
+            )
 
             detail_rows = build_detail_rows(p)
             if detail_rows:
@@ -205,6 +218,7 @@ def render_people(roster, commit_info):
                 tag=tag,
                 github_link=github_link,
                 blog_link=blog_link,
+                media_link=media_link,
             ))
     return fill_placeholders(PEOPLE_PAGE_TMPL, commit_info).format(cards="\n".join(cards))
 
