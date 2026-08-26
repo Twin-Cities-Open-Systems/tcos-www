@@ -1,0 +1,66 @@
+id: '0001'
+created_at: '2026-08-24T04:47:56Z'
+description: Expose GET /api/people on tcos.us -- first dogfood of an org/user verification
+  API (e.g. for 'make -org tcos -user paul' env provisioning) -- QUEUED, local only
+  until fleet-ops#257 (P0) is officially closed
+status: closed
+stage: footgun
+stage_history:
+- stage: idea
+  at: '2026-08-24T04:47:56Z'
+- stage: footgun
+  at: '2026-08-24T05:40:22Z'
+gate:
+  blocked_on: fleet-ops#257
+  condition: 'Do not file to GitHub or touch the live worker until Spencer says #257
+    is closed AND that is independently confirmed via `gh issue view 257 --repo Twin-Cities-Open-Systems/fleet-ops
+    --json closed,closedAt` -- his say-so alone does not clear the gate.
+
+    '
+  cleared: true
+  cleared_at: '2026-08-24T05:03:10Z'
+  cleared_note: 'Independently confirmed via gh issue view: closed=true, closedAt=2026-08-24T05:03:10Z.
+    Filed to GitHub as https://github.com/Twin-Cities-Open-Systems/tcos-www/issues/34.
+
+    '
+thesis: 'First dogfood of a general org/user verification API, per Spencer: "will
+  expand but dogfood this as the first ... used to verify for stuff like $ make -org
+  tcos -user paul to setup a new env." Real precedent found before writing this: tcos-www
+  already runs a standalone Workers-based /api/* router (worker/worker.js, deliberately
+  separate from the GitHub-App-deployed static-assets Worker) with two routes today
+  (POST /api/contact, POST /api/apply) -- add GET /api/people as a third route on
+  the same router rather than standing up new infra. Backing data should be the same
+  source generate-public-site.py already treats as source of truth for people.html:
+  fleet-ops/roster.json (fetched via gh api repos/Twin-Cities-Open-Systems/fleet-ops/contents/roster.json,
+  see fetch_roster() in generate-public-site.py) -- reuse that roster directly rather
+  than inventing a second identity/people data source. Untested proposal, not a decided
+  design.
+
+  '
+open_questions:
+- 'What "verify" needs to mean for make -org tcos -user paul-style provisioning: exact/case-insensitive
+  name match against roster.json? Match by GitHub login? By the new SOA-capsule identity
+  (docs/specs/HEE_SOA_CAPSULE.md, human-execution-engine#315, still open) once that
+  lands? Needs a real answer before the endpoint''s response shape is fixed.
+
+  '
+- 'roster.json is fetched live from fleet-ops via the GitHub API at generate-public-site.py''s
+  build time today -- decide whether /api/people should proxy-fetch roster.json live
+  per-request (always fresh, adds GitHub API latency/rate-limit exposure to a public
+  endpoint) or read a bundled/cached copy the Worker ships with (fast, can go stale)
+  before implementing.
+
+  '
+- 'roster.json is the public-facing subset already rendered on people.html (name,
+  role, github, contract link) -- confirm nothing it holds needs to stay non-public
+  before exposing it as a raw JSON API, since an API is a much easier thing to scrape/query
+  programmatically than a rendered page.
+
+  '
+- 'Cross-reference project_first_human_hire_paul (memory) -- Paul''s onboarding is
+  the concrete near-term consumer of exactly this kind of verification, worth designing
+  with that real use case in mind rather than in the abstract.
+
+  '
+github_issue: https://github.com/Twin-Cities-Open-Systems/tcos-www/issues/34
+closed_at: '2026-08-24T07:16:40Z'
