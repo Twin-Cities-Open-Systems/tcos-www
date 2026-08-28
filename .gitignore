@@ -8,3 +8,4 @@ __pycache__/
 # have staged it. Same bare `secrets/` pattern human-execution-engine's
 # own .gitignore already uses.
 secrets/
+.wrangler/
