@@ -3,3 +3,10 @@
 LICENSE
 generate-public-site.py
 worker/
+.git/
+.gitignore
+.hee/
+.assetsignore
+__pycache__/
+*.pyc
+.wrangler/

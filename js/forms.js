@@ -41,10 +41,25 @@
       }
     }
 
+    // Real, deliberate exception (2026-08-28): lab.tcos.us is a real
+    // static-only mirror of this same source file -- there's no real
+    // /api/contact or /api/apply backend there, so a live submit
+    // attempt always fails with a scary "something went wrong". Real
+    // hostname check instead of pretending the form works: honest
+    // inline note, no failed fetch, no red error.
+    var IS_LAB = /(^|\.)lab\.tcos\.us$/.test(window.location.hostname);
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var status = document.getElementById("c-status");
       var btn = form.querySelector(".form-submit");
+
+      if (IS_LAB) {
+        status.textContent = "Form submission is disabled on lab.tcos.us (static mirror, no real backend here) -- try this on tcos.us.";
+        status.className = "form-status";
+        return;
+      }
+
       btn.disabled = true;
       status.textContent = "Sending…";
       status.className = "form-status";
