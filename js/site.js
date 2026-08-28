@@ -23,3 +23,23 @@
     });
   });
 })();
+
+// Real gap found 2026-08-28 sweeping the site for "lab goes to lab, prod
+// goes to prod" (Spencer's own standing rule, already applied in resume's
+// shell-toggles.js): tcos-www never had this at all -- people.html's
+// Blog/Media badges were hardcoded straight to *.tcos.us with no
+// lab-awareness, so viewing people.html on lab.tcos.us would bounce a
+// reviewer out to prod. Same real fix, same data-cross-site convention.
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    var onLab = /\.lab\.tcos\.us$/.test(window.location.hostname);
+    if (!onLab) return;
+    document.querySelectorAll("a[data-cross-site]").forEach(function (a) {
+      var url;
+      try { url = new URL(a.href); } catch (e) { return; }
+      if (/\.lab\.tcos\.us$/.test(url.hostname)) return; // already lab
+      url.hostname = url.hostname.replace(/\.tcos\.us$/, ".lab.tcos.us");
+      a.href = url.href;
+    });
+  });
+})();
