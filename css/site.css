@@ -1,49 +1,53 @@
 
+  /* SYNCED-FROM: view.lab.tcos.us's Gold token palette (profile/GLOSSARY.md
+     -- "Gold" entry). Real decision, 2026-08-28: tcos-www adopts Gold,
+     replacing the original amber palette -- Phase 1 of the Web Presence
+     Plan (view.lab.tcos.us/plan.html), done directly rather than deferred. */
   :root {
-    --bg: #f2f5f4;
+    --bg: #fbfbfa;
     --surface: #ffffff;
-    --surface-2: #e7ece9;
-    --ink: #10161a;
-    --ink-dim: #4d5c5f;
-    --ink-faint: #8a9a9a;
-    --line: #d5dedb;
-    --accent: #a86c15;
-    --accent-ink: #7a4f10;
-    --accent-soft: #f4e6cd;
-    --ok: #21815c;
-    --ok-soft: #dcf0e6;
+    --surface-2: #f1f2f0;
+    --ink: #12181a;
+    --ink-dim: #4c5658;
+    --ink-faint: #7c8688;
+    --line: #e2e4e0;
+    --accent: #0d7d78;
+    --accent-ink: #085e5a;
+    --accent-soft: #e3f3f1;
+    --ok: #0ca30c;
+    --ok-soft: #e4f5e0;
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #090d11;
-      --surface: #10161b;
-      --surface-2: #161e24;
-      --ink: #e8eef0;
-      --ink-dim: #9bacae;
-      --ink-faint: #5c7072;
-      --line: #212b30;
-      --accent: #e2a748;
-      --accent-ink: #f6cd8b;
-      --accent-soft: #241c0e;
-      --ok: #4ecb96;
-      --ok-soft: #0f251c;
+      --bg: #0b0f0f;
+      --surface: #12181a;
+      --surface-2: #18201f;
+      --ink: #eef2f1;
+      --ink-dim: #a9b6b6;
+      --ink-faint: #6f7d7d;
+      --line: #263030;
+      --accent: #3fd4c8;
+      --accent-ink: #7fe6dc;
+      --accent-soft: #12302e;
+      --ok: #4ade4a;
+      --ok-soft: #163019;
       color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #090d11;
-    --surface: #10161b;
-    --surface-2: #161e24;
-    --ink: #e8eef0;
-    --ink-dim: #9bacae;
-    --ink-faint: #5c7072;
-    --line: #212b30;
-    --accent: #e2a748;
-    --accent-ink: #f6cd8b;
-    --accent-soft: #241c0e;
-    --ok: #4ecb96;
-    --ok-soft: #0f251c;
+    --bg: #0b0f0f;
+    --surface: #12181a;
+    --surface-2: #18201f;
+    --ink: #eef2f1;
+    --ink-dim: #a9b6b6;
+    --ink-faint: #6f7d7d;
+    --line: #263030;
+    --accent: #3fd4c8;
+    --accent-ink: #7fe6dc;
+    --accent-soft: #12302e;
+    --ok: #4ade4a;
+    --ok-soft: #163019;
     color-scheme: dark;
   }
 
@@ -52,11 +56,13 @@
   body {
     background: var(--bg);
     color: var(--ink);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
-  .mono { font-family: ui-monospace, "SF Mono", "Cascadia Code", "Consolas", monospace; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", "Consolas", monospace; }
+  .lu-row { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11.5px; color: var(--ink-faint); margin: 10px 0 0; }
+  .lu-row b { color: var(--ink-dim); font-weight: 600; }
 
   a { color: var(--accent-ink); }
 
@@ -65,7 +71,7 @@
   section:last-of-type { border-bottom: none; }
 
   .eyebrow {
-    font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace;
+    font-family: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", monospace;
     font-size: 12px;
     letter-spacing: .16em;
     text-transform: uppercase;
@@ -77,7 +83,7 @@
   /* ---- hero ---- */
   .hero { padding-top: 96px; }
   .hero h1 {
-    font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace;
+    font-family: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", monospace;
     font-size: clamp(34px, 6vw, 58px);
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -113,7 +119,7 @@
   .terminal pre {
     margin: 0;
     padding: 20px 22px 24px;
-    font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace;
+    font-family: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", monospace;
     font-size: 13.5px;
     line-height: 1.75;
     overflow-x: auto;
@@ -129,7 +135,7 @@
     flex-wrap: wrap;
     gap: 10px 28px;
     margin-top: 36px;
-    font-family: ui-monospace, monospace;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
     font-size: 13px;
     color: var(--ink-dim);
   }
@@ -171,7 +177,7 @@
   .monogram {
     width: 40px; height: 40px; border-radius: 6px;
     display: flex; align-items: center; justify-content: center;
-    font-family: ui-monospace, monospace;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
     font-weight: 700; font-size: 14px;
     background: var(--accent-soft); color: var(--accent-ink);
     flex: none;
@@ -181,7 +187,7 @@
   .badge .what { font-size: 13.5px; color: var(--ink-dim); }
   .badge .tag {
     align-self: flex-start;
-    font-family: ui-monospace, monospace;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
     font-size: 10.5px;
     letter-spacing: .04em;
     text-transform: uppercase;
@@ -231,7 +237,7 @@
     transition: border-color .15s ease, transform .15s ease;
   }
   .contact-link:hover { border-color: var(--accent); transform: translateY(-1px); }
-  .contact-link .k { font-family: ui-monospace, monospace; color: var(--accent-ink); }
+  .contact-link .k { font-family: "JetBrains Mono", ui-monospace, monospace; color: var(--accent-ink); }
 
   footer {
     padding: 40px 0 64px;
@@ -256,7 +262,7 @@
   padding: 22px 0;
 }
 .site-nav .brand {
-  font-family: ui-monospace, "SF Mono", "Cascadia Code", monospace;
+  font-family: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", monospace;
   font-weight: 700;
   font-size: 14px;
   letter-spacing: -.01em;
@@ -293,11 +299,12 @@ body[data-fontsize="s"] { zoom: 0.875; }
 body[data-fontsize="m"] { zoom: 1; }
 body[data-fontsize="l"] { zoom: 1.125; }
 body[data-fontsize="xl"] { zoom: 1.25; }
+body[data-fontsize="xxl"] { zoom: 1.375; }
 .fontsize-toggle { display: flex; align-items: center; gap: 4px; margin-left: 12px; }
-.fontsize-toggle span { font-family: ui-monospace, monospace; font-size: 10px; color: var(--ink-faint); margin-right: 2px; }
+.fontsize-toggle span { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; color: var(--ink-faint); margin-right: 2px; }
 .fontsize-btn {
   background: var(--surface-2); border: 1px solid var(--line); color: var(--ink-faint);
-  font-family: ui-monospace, monospace; font-size: 10.5px; font-weight: 700;
+  font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10.5px; font-weight: 700;
   width: 22px; height: 22px; border-radius: 5px; cursor: pointer; line-height: 1;
 }
 .fontsize-btn.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }
@@ -308,7 +315,7 @@ body[data-fontsize="xl"] { zoom: 1.25; }
 .theme-toggle { display: flex; align-items: center; gap: 4px; margin-left: 12px; }
 .theme-btn {
   background: var(--surface-2); border: 1px solid var(--line); color: var(--ink-faint);
-  font-family: ui-monospace, monospace; font-size: 10.5px; font-weight: 600;
+  font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10.5px; font-weight: 600;
   padding: 0 8px; height: 22px; border-radius: 5px; cursor: pointer; line-height: 1;
 }
 .theme-btn.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }

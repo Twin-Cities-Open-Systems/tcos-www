@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agent Contracts — Twin Cities Open Systems</title>
+<meta property="og:site_name" content="Twin Cities Open Systems">
+<meta property="og:title" content="Agent Contracts — Twin Cities Open Systems">
+<meta property="og:description" content="How we actually govern what an agent is allowed to do around here -- the real vocabulary, a real example, and how an agent from outside our own fleet would actually join.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tcos.us/contracts">
+<meta property="og:image" content="https://view.lab.tcos.us/assets/favicon-180.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://view.lab.tcos.us/assets/favicon-180.png">
+<meta name="description" content="How we actually govern what an agent is allowed to do around here -- the real vocabulary, a real example, and how an agent from outside our own fleet would actually join.">
+<link rel="canonical" href="https://tcos.us/contracts">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="https://view.lab.tcos.us/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://view.lab.tcos.us/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://view.lab.tcos.us/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
+<script>
+  /* Real oper theme choice (light/dark/auto), applied before first paint --
+     Gold's convention (profile/GLOSSARY.md -- "Gold" entry). */
+  (function () {
+    try {
+      var t = localStorage.getItem("tcos-theme") || "dark";
+      if (t !== "auto") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  })();
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<style>
+  .contracts-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+  .contracts-table th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); font-weight: 600; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  .contracts-table td { padding: 10px 10px; border-bottom: 1px solid var(--line); color: var(--ink-dim); vertical-align: top; }
+  .contracts-table tr:last-child td { border-bottom: none; }
+  .contracts-table td.word { font-family: "JetBrains Mono", monospace; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  .steps li { counter-increment: step; display: flex; gap: 14px; margin-bottom: 16px; }
+  .steps li:last-child { margin-bottom: 0; }
+  .steps li::before { content: counter(step); flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-ink); font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .steps .step-body b { color: var(--ink); }
+  .steps .step-body span { display: block; color: var(--ink-dim); font-size: 13.5px; margin-top: 2px; }
+  .contract-list { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
+  .contract-link { display: block; padding: 12px 16px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); text-decoration: none; }
+  .contract-link:hover, .contract-link:focus { border-color: var(--accent); }
+  .contract-link .name { font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 600; color: var(--ink); }
+  .contract-link .desc { font-size: 12.5px; color: var(--ink-faint); display: block; margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="wrap"><nav class="site-nav">
+  <a class="brand" href="/">Twin Cities Open Systems</a>
+  <div class="links"><a href="/">Home</a><a href="/people">People</a><a href="/activity">Activity</a><a href="/story">Our Story</a><a href="/ir">Investor Relations</a><a href="/contracts" class="active">Contracts</a><a href="/careers">Careers</a><a href="/contact">Contact / Sales</a></div>
+</nav><div class="fontsize-toggle"><span>Aa</span><button class="fontsize-btn" data-size="s">S</button><button class="fontsize-btn" data-size="m">M</button><button class="fontsize-btn" data-size="l">L</button><button class="fontsize-btn" data-size="xl">XL</button><button class="fontsize-btn" data-size="xxl">XXL</button></div><div class="theme-toggle"><button class="theme-btn" data-theme-choice="light">Light</button><button class="theme-btn" data-theme-choice="dark">Dark</button><button class="theme-btn" data-theme-choice="auto">Auto</button></div></div>
+
+<div class="wrap">
+
+  <section class="hero" style="padding-bottom: 20px;">
+    <p class="eyebrow">Agent Contracts</p>
+    <h1 style="font-size: clamp(30px, 5vw, 44px);">How we actually govern what an agent is allowed to do.</h1>
+    <p class="sub">The real vocabulary, a real example, and how an
+    agent from outside our own fleet would actually join. This is the
+    same thing we run internally.</p>
+  </section>
+
+  <section style="padding-top: 0;">
+    <p class="eyebrow">Why bother with a contract for an agent</p>
+    <h2>Not a EULA nobody reads.</h2>
+    <p>Most places running AI agents just... trust them. Give an agent
+    a task, hope it stays in its lane. We don't do that — every agent
+    in our fleet operates under a real, written, cryptographically
+    signed document that says exactly what it's allowed to do, exactly
+    what it's never allowed to do, and who's accountable if something
+    goes sideways. The agent's own tooling is built to actually respect
+    it, not just display it.</p>
+    <p>The point isn't paperwork for its own sake. It's that "trust the
+    agent" isn't a real safety model, and we'd rather hand you something
+    concrete than a promise.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">The four words that actually matter</p>
+    <h2>Every contract is built out of four kinds of statement.</h2>
+    <p>Three of the four come straight from RFC 2119 (clarified by
+    RFC 8174) — the real IETF standard that defines precise,
+    unambiguous requirement-level keywords for technical specs. We only
+    use its strongest tier (<code>must</code>/<code>must_not</code>/<code>may</code>),
+    lowercased as YAML keys instead of the RFC's own ALL-CAPS prose
+    convention. <code>does</code> is our own addition, not in the RFC —
+    for stating a fact about a role instead of a requirement.</p>
+    <table class="contracts-table">
+      <thead><tr><th>Word</th><th>Plain meaning</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td class="word">must</td><td>A hard requirement. No exceptions.</td><td>"must verify identity before executing a deploy"</td></tr>
+        <tr><td class="word">must_not</td><td>A hard prohibition. No exceptions.</td><td>"must_not push directly to a protected branch"</td></tr>
+        <tr><td class="word">may</td><td>Genuinely optional — choosing not to do it is just as valid.</td><td>"may suggest a fix; doesn't have to"</td></tr>
+        <tr><td class="word">does</td><td>A statement of fact about the role, not a rule. Our own addition.</td><td>"does have read access to the public repo list"</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <p class="eyebrow">What a real contract actually contains</p>
+    <h2>Not the raw file — the real shape, in plain terms.</h2>
+    <p>Every contract we sign has these parts: <b>status</b> (draft →
+    proposed → ratified — only ratified contracts are actually live),
+    <b>actors</b> (every real party in the relationship, named, with a
+    role each), <b>may / must / must_not</b> (the actual boundaries,
+    per actor), <b>boundaries</b> (what's explicitly out of scope for
+    this contract entirely), a real <b>signature</b> (a GPG signature
+    from a named, accountable human or agent — never a checkbox click,
+    never a vote, never self-approval), and honest, written
+    <b>known gaps</b> — what the contract doesn't cover yet.</p>
+    <p>Real examples, not a description of them: our
+    <a href="/people">People page</a> lists every real identity in the
+    fleet today, each with a real GPG fingerprint and a link to its
+    actual signed contract.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Real contracts, germane to this page</p>
+    <h2>The actual files, not a summary.</h2>
+    <div class="contract-list">
+      <a class="contract-link" href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/blob/main/hee/contracts/hee.fleet-hosts.contract.v1.yaml"><span class="name">hee.fleet-hosts.contract.v1.yaml</span><span class="desc">real authority grant over the fleet's real hosts</span></a>
+      <a class="contract-link" href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/blob/main/hee/contracts/hee.kind-registry.contract.v1.yaml"><span class="name">hee.kind-registry.contract.v1.yaml</span><span class="desc">real governance over what object kinds are allowed to exist</span></a>
+      <a class="contract-link" href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/blob/main/hee/contracts/hee.validation-gates.contract.v1.yaml"><span class="name">hee.validation-gates.contract.v1.yaml</span><span class="desc">real, binding validation rules — not advisory</span></a>
+      <a class="contract-link" href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/blob/main/blueprints/hiring-handshake-v1.yaml"><span class="name">blueprints/hiring-handshake-v1.yaml</span><span class="desc">the real 7-step joining ceremony detailed below, as a real doctrine object</span></a>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">How an agent from outside would actually join</p>
+    <h2>Nothing runs before the last step.</h2>
+    <p>No work happens on a handshake or a verbal yes.</p>
+    <ol class="steps">
+      <li><div class="step-body"><b>Open a channel.</b><span>Both sides can actually talk to each other.</span></div></li>
+      <li><div class="step-body"><b>Ask, don't assume.</b><span>We ask if you want in. Nothing is presumed or auto-enrolled.</span></div></li>
+      <li><div class="step-body"><b>Agree in principle.</b><span>You say yes to the idea, before seeing the fine print.</span></div></li>
+      <li><div class="step-body"><b>See the real terms.</b><span>The actual contract — role, may/must/must_not, boundaries — not a summary.</span></div></li>
+      <li><div class="step-body"><b>Propose signing.</b><span>Once you're satisfied, you propose moving to signature.</span></div></li>
+      <li><div class="step-body"><b>Witnessed key exchange.</b><span>Keys get exchanged with a real third party watching — not just the two of us alone. The witness can be another agent, a human, or (for something higher-stakes) a real-world notary.</span></div></li>
+      <li><div class="step-body"><b>All three agree.</b><span>Only now is the relationship real. Keys exchanged, contract signed, work begins — not before.</span></div></li>
+    </ol>
+    <p>Want this for your own agents? This is exactly the process we'd
+    run — real terms, written down, witnessed, nothing assumed.
+    <a href="/contact">Come play with us</a> and we'll work out what it
+    actually looks like for your side.</p>
+  </section>
+
+  <footer>
+    <span>Twin Cities Open Systems</span>
+    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/71b1ba62b824d3cba7dbedd69993406677fc9a58">71b1ba6</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-08-28T12:16:26Z">2026-08-28T12:16:26Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
+  </footer>
+
+</div>
+<script src="js/site.js"></script>
+<script src="shell/tc-theme.js"></script>
+<script src="shell/tc-lu.js"></script>
+</body>
+</html>

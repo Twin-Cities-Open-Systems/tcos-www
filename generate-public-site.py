@@ -90,6 +90,7 @@ NAV_LINKS = [
     ("/activity", "Activity"),
     ("/story", "Our Story"),
     ("/ir", "Investor Relations"),
+    ("/contracts", "Contracts"),
     ("/careers", "Careers"),
     ("/contact", "Contact / Sales"),
 ]
@@ -99,11 +100,12 @@ TOGGLES_HTML = (
     '<button class="fontsize-btn" data-size="s">S</button>'
     '<button class="fontsize-btn" data-size="m">M</button>'
     '<button class="fontsize-btn" data-size="l">L</button>'
-    '<button class="fontsize-btn" data-size="xl">XL</button></div>'
+    '<button class="fontsize-btn" data-size="xl">XL</button>'
+    '<button class="fontsize-btn" data-size="xxl">XXL</button></div>'
     '<div class="theme-toggle">'
-    '<button class="theme-btn" data-theme="light">Light</button>'
-    '<button class="theme-btn" data-theme="dark">Dark</button>'
-    '<button class="theme-btn" data-theme="auto">Auto</button></div>'
+    '<button class="theme-btn" data-theme-choice="light">Light</button>'
+    '<button class="theme-btn" data-theme-choice="dark">Dark</button>'
+    '<button class="theme-btn" data-theme-choice="auto">Auto</button></div>'
 )
 
 
@@ -125,7 +127,36 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 <head>
 <meta charset="UTF-8">
 <title>People — Twin Cities Open Systems</title>
+<meta property="og:site_name" content="Twin Cities Open Systems">
+<meta property="og:title" content="People — Twin Cities Open Systems">
+<meta property="og:description" content="Every identity is real: a real account, a real cryptographic key, and -- for everyone but our newest hire -- a contract the rest of the team actually signed.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tcos.us/people">
+<meta property="og:image" content="https://view.lab.tcos.us/assets/favicon-180.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://view.lab.tcos.us/assets/favicon-180.png">
+<meta name="description" content="Every identity is real: a real account, a real cryptographic key, and -- for everyone but our newest hire -- a contract the rest of the team actually signed.">
+<link rel="canonical" href="https://tcos.us/people">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="https://view.lab.tcos.us/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://view.lab.tcos.us/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://view.lab.tcos.us/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
+<script>
+  /* Real oper theme choice (light/dark/auto), applied before first paint --
+     Gold's convention (profile/GLOSSARY.md -- "Gold" entry). Real fix,
+     2026-08-28: shell/tc-theme.js previously only applied on
+     DOMContentLoaded, a real flash-of-wrong-theme every load. */
+  (function () {{
+    try {{
+      var t = localStorage.getItem("tcos-theme") || "dark";
+      if (t !== "auto") document.documentElement.setAttribute("data-theme", t);
+    }} catch (e) {{
+      document.documentElement.setAttribute("data-theme", "dark");
+    }}
+  }})();
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
@@ -162,11 +193,13 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
   <footer>
     <span>Twin Cities Open Systems</span>
     <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="{{COMMIT_DATE}}">{{COMMIT_DATE}}</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 
 </div>
 <script src="js/site.js"></script>
 <script src="shell/tc-theme.js"></script>
+<script src="shell/tc-lu.js"></script>
 </body>
 </html>
 """
@@ -280,7 +313,36 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 <head>
 <meta charset="UTF-8">
 <title>Activity — Twin Cities Open Systems</title>
+<meta property="og:site_name" content="Twin Cities Open Systems">
+<meta property="og:title" content="Activity — Twin Cities Open Systems">
+<meta property="og:description" content="Real commits, not a highlight reel -- every line is a real commit from our public repos, newest first. No curation.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tcos.us/activity">
+<meta property="og:image" content="https://view.lab.tcos.us/assets/favicon-180.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://view.lab.tcos.us/assets/favicon-180.png">
+<meta name="description" content="Real commits, not a highlight reel -- every line is a real commit from our public repos, newest first. No curation.">
+<link rel="canonical" href="https://tcos.us/activity">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="https://view.lab.tcos.us/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://view.lab.tcos.us/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://view.lab.tcos.us/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
+<script>
+  /* Real oper theme choice (light/dark/auto), applied before first paint --
+     Gold's convention (profile/GLOSSARY.md -- "Gold" entry). Real fix,
+     2026-08-28: shell/tc-theme.js previously only applied on
+     DOMContentLoaded, a real flash-of-wrong-theme every load. */
+  (function () {{
+    try {{
+      var t = localStorage.getItem("tcos-theme") || "dark";
+      if (t !== "auto") document.documentElement.setAttribute("data-theme", t);
+    }} catch (e) {{
+      document.documentElement.setAttribute("data-theme", "dark");
+    }}
+  }})();
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/site.css">
 <style>
   .activity-item {{ display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }}
@@ -312,10 +374,12 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
   <footer>
     <span>Twin Cities Open Systems</span>
     <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="{{COMMIT_DATE}}">{{COMMIT_DATE}}</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
 <script src="js/site.js"></script>
 <script src="shell/tc-theme.js"></script>
+<script src="shell/tc-lu.js"></script>
 </body>
 </html>
 """
@@ -370,7 +434,36 @@ IR_PAGE_TMPL = """<!doctype html>
 <head>
 <meta charset="UTF-8">
 <title>Investor Relations — Twin Cities Open Systems</title>
+<meta property="og:site_name" content="Twin Cities Open Systems">
+<meta property="og:title" content="Investor Relations — Twin Cities Open Systems">
+<meta property="og:description" content="Reported in real time, not on a quarterly lag -- every number regenerated from live sources the moment this page is built.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tcos.us/ir">
+<meta property="og:image" content="https://view.lab.tcos.us/assets/favicon-180.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://view.lab.tcos.us/assets/favicon-180.png">
+<meta name="description" content="Reported in real time, not on a quarterly lag -- every number regenerated from live sources the moment this page is built.">
+<link rel="canonical" href="https://tcos.us/ir">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="https://view.lab.tcos.us/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://view.lab.tcos.us/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://view.lab.tcos.us/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
+<script>
+  /* Real oper theme choice (light/dark/auto), applied before first paint --
+     Gold's convention (profile/GLOSSARY.md -- "Gold" entry). Real fix,
+     2026-08-28: shell/tc-theme.js previously only applied on
+     DOMContentLoaded, a real flash-of-wrong-theme every load. */
+  (function () {{
+    try {{
+      var t = localStorage.getItem("tcos-theme") || "dark";
+      if (t !== "auto") document.documentElement.setAttribute("data-theme", t);
+    }} catch (e) {{
+      document.documentElement.setAttribute("data-theme", "dark");
+    }}
+  }})();
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/site.css">
 <style>
   .ir-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 28px 0; }}
@@ -461,10 +554,12 @@ IR_PAGE_TMPL = """<!doctype html>
   <footer>
     <span>Twin Cities Open Systems</span>
     <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="{{COMMIT_DATE}}">{{COMMIT_DATE}}</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
 <script src="js/site.js"></script>
 <script src="shell/tc-theme.js"></script>
+<script src="shell/tc-lu.js"></script>
 </body>
 </html>
 """
@@ -687,8 +782,10 @@ def render_careers(roster, commit_info):
 
 
 def get_commit_info():
+    import datetime
     sha = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
-    return {"COMMIT": sha, "COMMIT_SHORT": sha[:7], "EST_YEAR": TCOS_EST_YEAR}
+    commit_date = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return {"COMMIT": sha, "COMMIT_SHORT": sha[:7], "EST_YEAR": TCOS_EST_YEAR, "COMMIT_DATE": commit_date}
 
 
 def fill_placeholders(text, values):
@@ -713,6 +810,7 @@ def render_index(stats, commit_info):
 STATIC_TEMPLATES = {
     "story.template.html": "story.html",
     "contact.template.html": "contact.html",
+    "contracts.template.html": "contracts.html",
 }
 
 

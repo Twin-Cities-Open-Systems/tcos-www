@@ -3,7 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Contact — Twin Cities Open Systems</title>
+<meta property="og:site_name" content="Twin Cities Open Systems">
+<meta property="og:title" content="Contact — Twin Cities Open Systems">
+<meta property="og:description" content="A real person reads and responds to every message -- the form just gets it to us structured.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tcos.us/contact">
+<meta property="og:image" content="https://view.lab.tcos.us/assets/favicon-180.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://view.lab.tcos.us/assets/favicon-180.png">
+<meta name="description" content="A real person reads and responds to every message -- the form just gets it to us structured.">
+<link rel="canonical" href="https://tcos.us/contact">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="https://view.lab.tcos.us/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://view.lab.tcos.us/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://view.lab.tcos.us/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
+<script>
+  /* Real oper theme choice (light/dark/auto), applied before first paint --
+     Gold's convention (profile/GLOSSARY.md -- "Gold" entry). Real fix,
+     2026-08-28: shell/tc-theme.js previously only applied on
+     DOMContentLoaded, a real flash-of-wrong-theme every load. */
+  (function () {
+    try {
+      var t = localStorage.getItem("tcos-theme") || "dark";
+      if (t !== "auto") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  })();
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/site.css">
 <style>
   .form-grid { display: grid; gap: 14px; max-width: 480px; }
@@ -80,11 +109,13 @@
   <footer>
     <span>Twin Cities Open Systems</span>
     <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="{{COMMIT_DATE}}">{{COMMIT_DATE}}</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 
 </div>
 <script src="js/site.js"></script>
 <script src="shell/tc-theme.js"></script>
+<script src="shell/tc-lu.js"></script>
 <script src="js/forms.js"></script>
 </body>
 </html>
