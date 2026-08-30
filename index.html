@@ -19,10 +19,6 @@
 <link rel="icon" type="image/png" sizes="16x16" href="https://view.lab.tcos.us/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
 <script>
-  /* Real oper theme choice (light/dark/auto), applied before first paint --
-     Gold's convention (profile/GLOSSARY.md -- "Gold" entry). Real fix,
-     2026-08-28: shell/tc-theme.js previously only applied on
-     DOMContentLoaded, a real flash-of-wrong-theme every load. */
   (function () {
     try {
       var t = localStorage.getItem("tcos-theme") || "dark";
@@ -118,13 +114,61 @@
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/2391c555340cdd608577eeaeb1746d6d76546e56">2391c55</a></span>
-    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-08-28T12:28:29Z">2026-08-28T12:28:29Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
+    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/ea7c9ebfcd0e3cedbbaf2cb89bd4768e3c6257ab">ea7c9eb</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-08-30T02:41:28Z">2026-08-30T02:41:28Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 
 </div>
 <script src="js/site.js"></script>
-<script src="shell/tc-theme.js"></script>
-<script src="shell/tc-lu.js"></script>
+<script>
+  var TH_KEY = "tcos-theme";
+  (function () {
+    function markActive(choice) {
+      document.querySelectorAll(".theme-btn").forEach(function (b) {
+        b.classList.toggle("active", b.dataset.themeChoice === choice);
+      });
+    }
+    var saved = "dark";
+    try { saved = localStorage.getItem(TH_KEY) || "dark"; } catch (e) {}
+    markActive(saved);
+    document.querySelectorAll(".theme-btn").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var choice = b.dataset.themeChoice;
+        try { localStorage.setItem(TH_KEY, choice); } catch (e) {}
+        if (choice === "auto") {
+          document.documentElement.removeAttribute("data-theme");
+        } else {
+          document.documentElement.setAttribute("data-theme", choice);
+        }
+        markActive(choice);
+      });
+    });
+  })();
+  (function () {
+    document.addEventListener("DOMContentLoaded", function () {
+      var isoEl = document.querySelector(".lu-iso");
+      if (!isoEl) return;
+      var generated = new Date(isoEl.getAttribute("datetime"));
+      var humanEl = document.querySelector(".lu-human");
+      var deltaEl = document.querySelector(".lu-delta");
+      if (humanEl) {
+        humanEl.textContent = generated.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+      }
+      function renderDelta() {
+        if (!deltaEl) return;
+        var ms = Date.now() - generated.getTime();
+        var mins = Math.floor(ms / 60000);
+        var label;
+        if (mins < 1) label = "just now";
+        else if (mins < 60) label = mins + "m ago";
+        else if (mins < 60 * 24) label = Math.floor(mins / 60) + "h" + (mins % 60) + "m ago";
+        else label = Math.floor(mins / (60 * 24)) + "d ago";
+        deltaEl.textContent = label;
+      }
+      renderDelta();
+      setInterval(renderDelta, 30000);
+    });
+  })();
+</script>
 </body>
 </html>

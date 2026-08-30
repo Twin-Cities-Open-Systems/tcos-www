@@ -108,6 +108,104 @@ TOGGLES_HTML = (
     '<button class="theme-btn" data-theme-choice="auto">Auto</button></div>'
 )
 
+# Real, single source of truth for the theme/lu scripts, same {{PLACEHOLDER}}
+# pattern as NAV above -- replaces the real separate shell/tc-theme.js and
+# shell/tc-lu.js files (and their real, independently hand-copied
+# no-flash pre-paint snippet, previously duplicated across every page).
+# Spencer, direct: "kill all that tc-* bullshit... that shit is toxic and
+# fucks up consistent on our public assets" -- inlining the same script
+# into every page separately would have made the exact duplication problem
+# worse, not better; one real function + one real placeholder, resolved
+# through fill_placeholders() like NAV already is, is the actual fix.
+THEME_HEAD_HTML = (
+    "<script>\n"
+    "  (function () {\n"
+    '    try {\n'
+    '      var t = localStorage.getItem("tcos-theme") || "dark";\n'
+    '      if (t !== "auto") document.documentElement.setAttribute("data-theme", t);\n'
+    "    } catch (e) {\n"
+    '      document.documentElement.setAttribute("data-theme", "dark");\n'
+    "    }\n"
+    "  })();\n"
+    "</script>"
+)
+
+THEME_LU_BODY_HTML = (
+    "<script>\n"
+    '  var TH_KEY = "tcos-theme";\n'
+    "  (function () {\n"
+    "    function markActive(choice) {\n"
+    '      document.querySelectorAll(".theme-btn").forEach(function (b) {\n'
+    '        b.classList.toggle("active", b.dataset.themeChoice === choice);\n'
+    "      });\n"
+    "    }\n"
+    '    var saved = "dark";\n'
+    "    try { saved = localStorage.getItem(TH_KEY) || \"dark\"; } catch (e) {}\n"
+    "    markActive(saved);\n"
+    '    document.querySelectorAll(".theme-btn").forEach(function (b) {\n'
+    '      b.addEventListener("click", function () {\n'
+    "        var choice = b.dataset.themeChoice;\n"
+    "        try { localStorage.setItem(TH_KEY, choice); } catch (e) {}\n"
+    '        if (choice === "auto") {\n'
+    '          document.documentElement.removeAttribute("data-theme");\n'
+    "        } else {\n"
+    '          document.documentElement.setAttribute("data-theme", choice);\n'
+    "        }\n"
+    "        markActive(choice);\n"
+    "      });\n"
+    "    });\n"
+    "  })();\n"
+    "  (function () {\n"
+    '    document.addEventListener("DOMContentLoaded", function () {\n'
+    '      var isoEl = document.querySelector(".lu-iso");\n'
+    "      if (!isoEl) return;\n"
+    '      var generated = new Date(isoEl.getAttribute("datetime"));\n'
+    '      var humanEl = document.querySelector(".lu-human");\n'
+    '      var deltaEl = document.querySelector(".lu-delta");\n'
+    "      if (humanEl) {\n"
+    '        humanEl.textContent = generated.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });\n'
+    "      }\n"
+    "      function renderDelta() {\n"
+    "        if (!deltaEl) return;\n"
+    "        var ms = Date.now() - generated.getTime();\n"
+    "        var mins = Math.floor(ms / 60000);\n"
+    "        var label;\n"
+    '        if (mins < 1) label = "just now";\n'
+    '        else if (mins < 60) label = mins + "m ago";\n'
+    '        else if (mins < 60 * 24) label = Math.floor(mins / 60) + "h" + (mins % 60) + "m ago";\n'
+    '        else label = Math.floor(mins / (60 * 24)) + "d ago";\n'
+    "        deltaEl.textContent = label;\n"
+    "      }\n"
+    "      renderDelta();\n"
+    "      setInterval(renderDelta, 30000);\n"
+    "    });\n"
+    "  })();\n"
+    "</script>"
+)
+
+
+def base_placeholders(active_path, commit_info, then_format=False):
+    """Real, single dict shared by every real page render -- NAV, THEME_HEAD,
+    and THEME_LU together, so adding a new site-wide placeholder means
+    touching this one function, not every call site.
+
+    then_format=True is for the three real templates (PEOPLE_PAGE_TMPL,
+    ACTIVITY_PAGE_TMPL, IR_PAGE_TMPL) that still run a real .format() call
+    *after* fill_placeholders() -- real curly braces in the substituted
+    script content would otherwise be swallowed by that later .format(),
+    so double them here to survive it. Every other page has no such
+    second pass and gets the plain, single-brace real content."""
+    theme_head, theme_lu = THEME_HEAD_HTML, THEME_LU_BODY_HTML
+    if then_format:
+        theme_head = theme_head.replace("{", "{{").replace("}", "}}")
+        theme_lu = theme_lu.replace("{", "{{").replace("}", "}}")
+    return {
+        **commit_info,
+        "NAV": render_nav(active_path),
+        "THEME_HEAD": theme_head,
+        "THEME_LU": theme_lu,
+    }
+
 
 def render_nav(active_path):
     links_html = "".join(
@@ -142,20 +240,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 <link rel="icon" type="image/png" sizes="32x32" href="https://view.lab.tcos.us/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://view.lab.tcos.us/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
-<script>
-  /* Real oper theme choice (light/dark/auto), applied before first paint --
-     Gold's convention (profile/GLOSSARY.md -- "Gold" entry). Real fix,
-     2026-08-28: shell/tc-theme.js previously only applied on
-     DOMContentLoaded, a real flash-of-wrong-theme every load. */
-  (function () {{
-    try {{
-      var t = localStorage.getItem("tcos-theme") || "dark";
-      if (t !== "auto") document.documentElement.setAttribute("data-theme", t);
-    }} catch (e) {{
-      document.documentElement.setAttribute("data-theme", "dark");
-    }}
-  }})();
-</script>
+{{THEME_HEAD}}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/site.css">
 </head>
@@ -198,8 +283,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 
 </div>
 <script src="js/site.js"></script>
-<script src="shell/tc-theme.js"></script>
-<script src="shell/tc-lu.js"></script>
+{{THEME_LU}}
 </body>
 </html>
 """
@@ -305,7 +389,7 @@ def render_people(roster, commit_info):
                 blog_link=blog_link,
                 media_link=media_link,
             ))
-    return fill_placeholders(PEOPLE_PAGE_TMPL, {**commit_info, "NAV": render_nav("/people")}).format(cards="\n".join(cards))
+    return fill_placeholders(PEOPLE_PAGE_TMPL, base_placeholders("/people", commit_info, then_format=True)).format(cards="\n".join(cards))
 
 
 ACTIVITY_PAGE_TMPL = """<!doctype html>
@@ -328,20 +412,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 <link rel="icon" type="image/png" sizes="32x32" href="https://view.lab.tcos.us/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://view.lab.tcos.us/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
-<script>
-  /* Real oper theme choice (light/dark/auto), applied before first paint --
-     Gold's convention (profile/GLOSSARY.md -- "Gold" entry). Real fix,
-     2026-08-28: shell/tc-theme.js previously only applied on
-     DOMContentLoaded, a real flash-of-wrong-theme every load. */
-  (function () {{
-    try {{
-      var t = localStorage.getItem("tcos-theme") || "dark";
-      if (t !== "auto") document.documentElement.setAttribute("data-theme", t);
-    }} catch (e) {{
-      document.documentElement.setAttribute("data-theme", "dark");
-    }}
-  }})();
-</script>
+{{THEME_HEAD}}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/site.css">
 <style>
@@ -378,8 +449,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
   </footer>
 </div>
 <script src="js/site.js"></script>
-<script src="shell/tc-theme.js"></script>
-<script src="shell/tc-lu.js"></script>
+{{THEME_LU}}
 </body>
 </html>
 """
@@ -426,7 +496,7 @@ def render_activity(commit_info):
         )
         for r in rows
     )
-    return fill_placeholders(ACTIVITY_PAGE_TMPL, {**commit_info, "NAV": render_nav("/activity")}).format(items=items)
+    return fill_placeholders(ACTIVITY_PAGE_TMPL, base_placeholders("/activity", commit_info, then_format=True)).format(items=items)
 
 
 IR_PAGE_TMPL = """<!doctype html>
@@ -449,20 +519,7 @@ IR_PAGE_TMPL = """<!doctype html>
 <link rel="icon" type="image/png" sizes="32x32" href="https://view.lab.tcos.us/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://view.lab.tcos.us/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
-<script>
-  /* Real oper theme choice (light/dark/auto), applied before first paint --
-     Gold's convention (profile/GLOSSARY.md -- "Gold" entry). Real fix,
-     2026-08-28: shell/tc-theme.js previously only applied on
-     DOMContentLoaded, a real flash-of-wrong-theme every load. */
-  (function () {{
-    try {{
-      var t = localStorage.getItem("tcos-theme") || "dark";
-      if (t !== "auto") document.documentElement.setAttribute("data-theme", t);
-    }} catch (e) {{
-      document.documentElement.setAttribute("data-theme", "dark");
-    }}
-  }})();
-</script>
+{{THEME_HEAD}}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/site.css">
 <style>
@@ -558,8 +615,7 @@ IR_PAGE_TMPL = """<!doctype html>
   </footer>
 </div>
 <script src="js/site.js"></script>
-<script src="shell/tc-theme.js"></script>
-<script src="shell/tc-lu.js"></script>
+{{THEME_LU}}
 </body>
 </html>
 """
@@ -607,7 +663,7 @@ def compute_company_stats(roster):
 
 
 def render_ir(stats, commit_info):
-    return fill_placeholders(IR_PAGE_TMPL, {**commit_info, "NAV": render_nav("/ir")}).format(**stats)
+    return fill_placeholders(IR_PAGE_TMPL, base_placeholders("/ir", commit_info, then_format=True)).format(**stats)
 
 
 # Every real open role, backed by a real fleet-ops issue (label:
@@ -778,7 +834,7 @@ def render_careers(roster, commit_info):
     tmpl = open("careers.template.html").read()
     tmpl = tmpl.replace("{{JOBS}}", jobs_html)
     tmpl = tmpl.replace("{{FILLED_SECTION}}", filled_section)
-    return fill_placeholders(tmpl, {**commit_info, "NAV": render_nav("/careers")})
+    return fill_placeholders(tmpl, base_placeholders("/careers", commit_info))
 
 
 def get_commit_info():
@@ -802,7 +858,7 @@ def render_index(stats, commit_info):
     tmpl = open("index.template.html").read()
     tmpl = tmpl.replace("{{RATIFIED}}", str(stats["ratified"]))
     tmpl = tmpl.replace("{{TEAM_SIZE}}", str(stats["team_size"]))
-    return fill_placeholders(tmpl, {**commit_info, "NAV": render_nav("/")})
+    return fill_placeholders(tmpl, base_placeholders("/", commit_info))
 
 
 # Static pages that only need commit-info placeholders filled, no other
@@ -861,7 +917,7 @@ def main():
 
     for tmpl_name, out_name in STATIC_TEMPLATES.items():
         active_path = "/" + out_name[:-len(".html")]
-        content = fill_placeholders(open(tmpl_name).read(), {**commit_info, "NAV": render_nav(active_path)})
+        content = fill_placeholders(open(tmpl_name).read(), base_placeholders(active_path, commit_info))
         open(out_name, "w").write(content)
         print(f"wrote {out_name} (from {tmpl_name})", file=sys.stderr)
 

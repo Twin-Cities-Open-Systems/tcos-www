@@ -18,20 +18,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://view.lab.tcos.us/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://view.lab.tcos.us/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
-<script>
-  /* Real oper theme choice (light/dark/auto), applied before first paint --
-     Gold's convention (profile/GLOSSARY.md -- "Gold" entry). Real fix,
-     2026-08-28: shell/tc-theme.js previously only applied on
-     DOMContentLoaded, a real flash-of-wrong-theme every load. */
-  (function () {
-    try {
-      var t = localStorage.getItem("tcos-theme") || "dark";
-      if (t !== "auto") document.documentElement.setAttribute("data-theme", t);
-    } catch (e) {
-      document.documentElement.setAttribute("data-theme", "dark");
-    }
-  })();
-</script>
+{{THEME_HEAD}}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/site.css">
 <style>
@@ -95,7 +82,6 @@
   </footer>
 </div>
 <script src="js/site.js"></script>
-<script src="shell/tc-theme.js"></script>
-<script src="shell/tc-lu.js"></script>
+{{THEME_LU}}
 </body>
 </html>
