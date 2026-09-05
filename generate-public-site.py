@@ -117,6 +117,24 @@ TOGGLES_HTML = (
 # into every page separately would have made the exact duplication problem
 # worse, not better; one real function + one real placeholder, resolved
 # through fill_placeholders() like NAV already is, is the actual fix.
+# Google tag (GA4), consumed via {{GTAG}} placed immediately after <head>
+# on every page -- Google's own instruction, and where its detector
+# looks. The snippet comes from human-execution-engine's hee_gtag (one
+# source for every generator that publishes live -- Spencer, 2026-09-05:
+# "make sure we have this tag on everything we publish live"); the
+# measurement ID comes from the org's branding card via $HEE_BRANDING.
+# No card: a WARNING and a page without analytics, never a stale copy of
+# the ID here. Reporting is guarded to production hostnames inside the
+# snippet, so lab.tcos.us and local builds never report. tcos-www#52.
+import sys as _sys
+_sys.path.insert(0, os.path.join(os.environ.get("HEE_REPO_DIR", os.path.expanduser("~/git/human-execution-engine")), "library", "py"))
+try:
+    import hee_gtag
+    GTAG_HTML = hee_gtag.snippet_or_empty()
+except ImportError:
+    print("⚠️  WARNING hee_gtag not importable -- check out human-execution-engine under ~/git or set HEE_REPO_DIR; pages ship without the Google tag", file=_sys.stderr)
+    GTAG_HTML = ""
+
 THEME_HEAD_HTML = (
     "<script>\n"
     "  (function () {\n"
@@ -195,14 +213,16 @@ def base_placeholders(active_path, commit_info, then_format=False):
     script content would otherwise be swallowed by that later .format(),
     so double them here to survive it. Every other page has no such
     second pass and gets the plain, single-brace real content."""
-    theme_head, theme_lu = THEME_HEAD_HTML, THEME_LU_BODY_HTML
+    theme_head, theme_lu, gtag = THEME_HEAD_HTML, THEME_LU_BODY_HTML, GTAG_HTML
     if then_format:
         theme_head = theme_head.replace("{", "{{").replace("}", "}}")
         theme_lu = theme_lu.replace("{", "{{").replace("}", "}}")
+        gtag = gtag.replace("{", "{{").replace("}", "}}")
     return {
         **commit_info,
         "NAV": render_nav(active_path),
         "THEME_HEAD": theme_head,
+        "GTAG": gtag,
         "THEME_LU": theme_lu,
     }
 
@@ -223,6 +243,7 @@ def render_nav(active_path):
 PEOPLE_PAGE_TMPL = """<!doctype html>
 <html lang="en">
 <head>
+{{GTAG}}
 <meta charset="UTF-8">
 <title>People — Twin Cities Open Systems</title>
 <meta property="og:site_name" content="Twin Cities Open Systems">
@@ -395,6 +416,7 @@ def render_people(roster, commit_info):
 ACTIVITY_PAGE_TMPL = """<!doctype html>
 <html lang="en">
 <head>
+{{GTAG}}
 <meta charset="UTF-8">
 <title>Activity — Twin Cities Open Systems</title>
 <meta property="og:site_name" content="Twin Cities Open Systems">
@@ -502,6 +524,7 @@ def render_activity(commit_info):
 IR_PAGE_TMPL = """<!doctype html>
 <html lang="en">
 <head>
+{{GTAG}}
 <meta charset="UTF-8">
 <title>Investor Relations — Twin Cities Open Systems</title>
 <meta property="og:site_name" content="Twin Cities Open Systems">

@@ -1,6 +1,17 @@
 <!doctype html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BQK0DFRRZ7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  // production only: *.lab.tcos.us, localhost and file:// load this but never report
+  if (/\.tcos\.us$/.test(location.hostname) && !/\.lab\.tcos\.us$/.test(location.hostname)) {
+    gtag('config', 'G-BQK0DFRRZ7');
+  }
+</script>
 <meta charset="UTF-8">
 <title>Activity — Twin Cities Open Systems</title>
 <meta property="og:site_name" content="Twin Cities Open Systems">
@@ -8,16 +19,16 @@
 <meta property="og:description" content="Real commits, not a highlight reel -- every line is a real commit from our public repos, newest first. No curation.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tcos.us/activity">
-<meta property="og:image" content="https://tcos.us/assets/tcos-logo.png">
+<meta property="og:image" content="https://view.lab.tcos.us/assets/favicon-180.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://tcos.us/assets/tcos-logo.png">
+<meta name="twitter:image" content="https://view.lab.tcos.us/assets/favicon-180.png">
 <meta name="description" content="Real commits, not a highlight reel -- every line is a real commit from our public repos, newest first. No curation.">
 <link rel="canonical" href="https://tcos.us/activity">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png">
+<link rel="icon" type="image/x-icon" href="https://view.lab.tcos.us/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://view.lab.tcos.us/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://view.lab.tcos.us/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
 <script>
   (function () {
     try {
@@ -60,184 +71,184 @@
     <div class="activity-item">
       <div class="activity-repo">human-execution-engine</div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/60036fcbe3e5332324bdebdf0a4888dee5379294">docs(policy): add Key and Secrets Management SOP (SS24) (#437)</a></div>
-        <div class="activity-meta">2026-08-30T02:13:52Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/b259e2b8f8aa48ae19763f6c8c3bacdc34fbc12d">docs(policy): canonize the shfn-&gt;sh-&gt;bash-&gt;py-&gt;go tool-maturity ladder [model: claude-sonnet-5] (#424)</a></div>
-        <div class="activity-meta">2026-08-30T01:10:12Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/18a5fa32172d83253e599c23d3e8d96c7a25ff0d">test(examples): real fixtures for hee-scrob, hee-repo-refresh, hee-fields; refresh hee-cred (#436)</a></div>
-        <div class="activity-meta">2026-08-30T01:10:09Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">tcos-www</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/95ff725784162d79a967c785baf622dc0ff44842">feat(gold): kill shell/tc-theme.js and shell/tc-lu.js, single source of truth (#46)</a></div>
-        <div class="activity-meta">2026-08-30T01:06:50Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">.github</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/56b8e971d63b9045f92a8809dede088a0440f06a">docs(glossary): canonize Promote Human and HEE ACL as distinct terms (#69)</a></div>
-        <div class="activity-meta">2026-08-30T00:34:54Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/c69b635af6380b73c4aeaa7e26e068a8840e0941">docs(policy): add Sidecar File Convention (§23) (#433)</a></div>
-        <div class="activity-meta">2026-08-30T00:06:26Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/67d71d7a9a2b12a8bc318605c147808610f8c1e2">fix(hee-cred): drop decrypt-notice debug line from -pass -exec (#431)</a></div>
-        <div class="activity-meta">2026-08-30T00:06:20Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/19d5e59e99a16596c0a08aa8ae907642b321ab18">docs(policy): add DNS Configuration Policy (§22) (#432)</a></div>
-        <div class="activity-meta">2026-08-30T00:02:17Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">.github</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/03e24b2b0b6815732b5d85aea59bce7257687144">docs(glossary): canonize RUC (Read, Update, or Create) (#68)</a></div>
-        <div class="activity-meta">2026-08-29T22:31:45Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/9c57c139815f5e20d5970bb60afef486f6f7a23a">feat(hee-repo-refresh): add -all/-repo switches and a refresh mode [model: claude-sonnet-5] (#427)</a></div>
-        <div class="activity-meta">2026-08-29T22:12:11Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/b7ec590250ea35184c6fbae63665cb4082be66ee">fix(hee-scrob): fall back to $HEE_CRED_PASS for token lookup (#428)</a></div>
-        <div class="activity-meta">2026-08-29T22:08:34Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">.github</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/8e8577b566f4934ddf8da91c1a96ea08fcf67d01">docs(glossary): canonize Fifth Project (#67)</a></div>
-        <div class="activity-meta">2026-08-29T20:19:45Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">tcos-www</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/b39d0d871264cb413a8043e15a83f99fceee3b83">fix(links): make people.html cross-site links lab-aware (#44)</a></div>
-        <div class="activity-meta">2026-08-29T19:00:48Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/f79c49ea100f960eabf58f257af2451705eab726">feat(hee-exif): provenance -- how a generated image was made, signed with the rc_tag (#553)</a></div>
+        <div class="activity-meta">2026-09-05T17:59:05Z</div>
       </div>
     </div>
     <div class="activity-item">
       <div class="activity-repo">resume</div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/d7cbff17a7549c653e9ec65e5a71e23e984d0040">fix: two real bugs that made the automated build pipeline never actually work (#35)</a></div>
-        <div class="activity-meta">2026-08-29T19:00:44Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/5440bb1753eb74c5336fdddb1a3250a5ee92466b">fix(blog): render every post to a Gold HTML page -- no more raw markdown (#45)</a></div>
+        <div class="activity-meta">2026-09-05T17:54:07Z</div>
       </div>
     </div>
     <div class="activity-item">
       <div class="activity-repo">.github</div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/5a9b179c4a7df66d610dc7068fd336d281b52022">docs(glossary): canonize the real regex library convention (#66)</a></div>
-        <div class="activity-meta">2026-08-29T19:00:30Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/54a422ce5e9aa75cd59989e180e59e01e3413ca3">feat(render-review): render_file_page() -- one Gold page assembler downstream sites import (#80)</a></div>
+        <div class="activity-meta">2026-09-05T17:52:55Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/8832289709838f325a73c71b0586d98405ce77fa">feat(trust): hee-trust -- and the SOA anchor generator that never existed (#549)</a></div>
+        <div class="activity-meta">2026-09-03T09:33:03Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/cd538520083a000f9de9f51e1649ed4a4de2559c">feat(pve-users): roles, groups, privsep repair -- and stop leaking secrets (#548)</a></div>
+        <div class="activity-meta">2026-09-03T08:16:07Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/ea459edaa99c32626ce4e60a99a03e2ca17f3283">docs(man): rebuild the gopher tree for hee-name&#x27;s durable tier (#547)</a></div>
+        <div class="activity-meta">2026-09-03T08:16:00Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/65d1d0a7b84760df0942319568b67fff10b7ba6f">fix(view,repo-refresh): stop reporting a failed check as a known result (#546)</a></div>
+        <div class="activity-meta">2026-09-03T07:46:25Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/f1e8a99ae406a9fc320d86db94078da8c5d532f0">feat(name): allocate the durable bastion tier, which was never implemented (#545)</a></div>
+        <div class="activity-meta">2026-09-03T07:46:18Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/68293494ba45e6fb881cb0f606a70c90b8b5dab5">docs(man): regenerate both trees -- hee-check, and pre-existing gopher drift (#543)</a></div>
+        <div class="activity-meta">2026-09-03T07:46:10Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/95a3cd6fcb5b14912667c46d53d59b9c17dec0e4">fix(signatures): re-sign all four drifted signatures (#542)</a></div>
+        <div class="activity-meta">2026-09-03T06:42:07Z</div>
       </div>
     </div>
     <div class="activity-item">
       <div class="activity-repo">.github</div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/5ac0c115d79f0906da5aedd145efe89e8ed140ff">feat(bin): fan merge-strategy.sh and audit-branch-states.sh out via GNU parallel (#65)</a></div>
-        <div class="activity-meta">2026-08-29T19:00:26Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/22e1098c9c7065c969b82bc1d01d9a40850c05b4">glossary: restore Thesis / Duople, which my own edit deleted (#78)</a></div>
+        <div class="activity-meta">2026-09-03T03:34:47Z</div>
       </div>
     </div>
     <div class="activity-item">
       <div class="activity-repo">.github</div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/c0580c5ea9d957161c519340848d35057099d1e3">fix(gold-check): follow root-relative stylesheet links, not just relative ones (#64)</a></div>
-        <div class="activity-meta">2026-08-29T13:56:15Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/30ffb1754a2208ba835a93bddeba872e7afd91f0">glossary: be the SSoT, do not point at other docs for definitions</a></div>
+        <div class="activity-meta">2026-09-03T01:20:37Z</div>
       </div>
     </div>
     <div class="activity-item">
       <div class="activity-repo">.github</div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/32564ea68059b603bcb4edd66aaca968376c5803">feat(gold-check): catch theme-JS attribute drift, not just markup presence (#63)</a></div>
-        <div class="activity-meta">2026-08-28T14:57:53Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">resume</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/a81507f01a9000cfe608a1d5a0ce21f709e6f74f">feat(gold): port individual profile-page template to Gold (#34)</a></div>
-        <div class="activity-meta">2026-08-28T14:57:48Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/c4cc02cacda65cd3463976b30d164982ffce1da3">glossary: add the core object vocabulary, which the SSoT did not contain</a></div>
+        <div class="activity-meta">2026-09-03T01:01:08Z</div>
       </div>
     </div>
     <div class="activity-item">
       <div class="activity-repo">.github</div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/5da9fdc6003066f37baaa6ad9e7698d444f8dbf9">docs(glossary): canonize render-review.py as Gold&#x27;s reference implementation (#62)</a></div>
-        <div class="activity-meta">2026-08-28T14:33:48Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/6207dc7ba05df962bb157f9d9eae8b5a77adeb23">glossary: name where Graduation Signal evidence comes from</a></div>
+        <div class="activity-meta">2026-09-02T23:55:50Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">resume</div>
+      <div class="activity-repo">MT-logo-render</div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/5e3e1cf3328d8c12592c31a5df4fd46967277e45">design: reskin blog-hub/media-hub off view.lab&#x27;s token system (#33)</a></div>
-        <div class="activity-meta">2026-08-28T14:31:35Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/MT-logo-render/commit/1bbfc12dfb4444d25b1900b263685ef8eb327436">chore: retire the vendored HEE tree and all Cursor state (#21)</a></div>
+        <div class="activity-meta">2026-09-01T18:48:43Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">tcos-www</div>
+      <div class="activity-repo">tick-task</div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/baf5a2dfcd6c89046bb861370cc63714f965e638">fix(shell): replace tc-theme.js with Gold&#x27;s real reference implementation (#43)</a></div>
-        <div class="activity-meta">2026-08-28T14:11:47Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/286bbbb9c9472092e3819ee78e7ab9e92a8ecd50">chore: retire the vendored HEE tree -- governance already arrives another way (#47)</a></div>
+        <div class="activity-meta">2026-09-01T18:48:39Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">resume</div>
+      <div class="activity-repo">tick-task</div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/2aa0815dc8e25f33b647ab05bf361350975c7e7e">fix(blog): real lab-aware links, category hubs, set-and-forget media_dns, README (#31)</a></div>
-        <div class="activity-meta">2026-08-28T13:41:32Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/13002c26b90c80336f3f240b1cb341a51a132be8">chore(deps-dev): bump minimatch from 3.1.2 to 3.1.5 in /frontend (#37)</a></div>
+        <div class="activity-meta">2026-09-01T06:43:39Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">tcos-www</div>
+      <div class="activity-repo">tick-task</div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/57cdc2beef0ecc4a3a79346abc86cbf2c9eb33af">feat(gold): tcos-www adopts Gold + new contracts.html page (#42)</a></div>
-        <div class="activity-meta">2026-08-28T13:41:29Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/70b9a9855119b370bbba4e8c3c54ad337b84b362">feat(docker): real LAN-mode image, and restore the docker_build job (#46)</a></div>
+        <div class="activity-meta">2026-09-01T06:36:07Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">resume</div>
+      <div class="activity-repo">tick-task</div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/41d538d70872dfda498e3e40b7e6fc3096f28264">docs(blog): real, living draft -- soup-to-nuts vanity call sign hunt (#30)</a></div>
-        <div class="activity-meta">2026-08-28T07:54:12Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/875d0e508d617c848cd412709d230c5210bb8028">fix(ci): unbreak main -- mypy continue-on-error per rule 16, plus two config defects (#45)</a></div>
+        <div class="activity-meta">2026-09-01T06:23:13Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">tick-task</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/e313a5b7e18a7a29a8c5448ea1164ffe79af800f">feat(auth): make lan_mode/lan_token real, before anything binds 0.0.0.0 (#43)</a></div>
+        <div class="activity-meta">2026-09-01T05:54:40Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">tick-task</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/78d4a61f6022bea103bbd57142eca4a4cc85ee3b">fix(ci): unbreak quality-check and security-scan (#42)</a></div>
+        <div class="activity-meta">2026-09-01T05:54:23Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">tick-task</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/9315b8d9435e1941a485d70ac956da926a3c1806">fix(build): manualChunks must be a function under vite 8 / rolldown (#41)</a></div>
+        <div class="activity-meta">2026-09-01T02:54:25Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">tick-task</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/521ac1dc46fd5c302344c9d116fc6b78073a8a28">docs(governance): import org PROMPTING_RULES via CLAUDE.md (#39)</a></div>
+        <div class="activity-meta">2026-09-01T02:54:20Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">MT-logo-render</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/MT-logo-render/commit/68a1c7001c7776629c6de8c1c87251c831bac51b">fix(ci): drop unused image codecs and format the one file mdformat rejects (#20)</a></div>
+        <div class="activity-meta">2026-09-01T02:50:35Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">MT-logo-render</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/MT-logo-render/commit/93c6bca8442c59d175c844c689ece3aba8305c31">ci: honest job names, and one job that actually runs org tooling (#19)</a></div>
+        <div class="activity-meta">2026-09-01T02:50:29Z</div>
       </div>
     </div>
   </section>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/ea7c9ebfcd0e3cedbbaf2cb89bd4768e3c6257ab">ea7c9eb</a></span>
-    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-08-30T02:41:28Z">2026-08-30T02:41:28Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
+    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/9cc4cb4b647bb10837715d5e2978710f6a2d8113">9cc4cb4</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-05T20:02:04Z">2026-09-05T20:02:04Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
 <script src="js/site.js"></script>
