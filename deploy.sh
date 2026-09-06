@@ -63,6 +63,10 @@ SIG="$(hee ver session --tag 2>/dev/null || hee ver session 2>/dev/null | awk '/
 SRC_SHA="$(git rev-parse --short HEAD)"; STAMP="$(date -u +%Y%m%dT%H%MZ)"
 STAGE="$(mktemp -d)"; trap 'rm -rf "$STAGE"' EXIT
 cp "${PAGES[@]}" "$STAGE/" && cp -r "${ASSET_DIRS[@]}" "$STAGE/"
+# hee cred -exec injects the secret as HEE_CRED_PASS (hee-cred ENV_VAR); the
+# script asked for CLOUDFLARE_API_TOKEN and nobody mapped one to the other,
+# so the sanctioned invocation on the header failed (2026-09-06).
+CLOUDFLARE_API_TOKEN="${CLOUDFLARE_API_TOKEN:-${HEE_CRED_PASS:-}}"; export CLOUDFLARE_API_TOKEN
 : "${CLOUDFLARE_API_TOKEN:?Set CLOUDFLARE_API_TOKEN (run via hee cred -pass cloudflare-tcos-www -dir .hee/secrets -exec)}"
 CLOUDFLARE_ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID:-$(curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts | python3 -c 'import sys,json; print(json.load(sys.stdin)["result"][0]["id"])')}"
 export CLOUDFLARE_ACCOUNT_ID
