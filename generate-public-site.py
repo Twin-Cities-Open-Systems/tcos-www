@@ -233,8 +233,13 @@ def base_placeholders(active_path, commit_info, then_format=False):
         theme_head = theme_head.replace("{", "{{").replace("}", "}}")
         theme_lu = theme_lu.replace("{", "{{").replace("}", "}}")
         gtag = gtag.replace("{", "{{").replace("}", "}}")
+    # release beside the commit: describe at build time (v1.0.0, or
+    # v1.0.0-3-gabc when ahead); deploy.sh promote restamps the stage with
+    # RELEASE_VERSION so prod says exactly the tag. No v* tag: "unreleased".
+    rel = subprocess.run(["git", "describe", "--tags", "--match", "v*"], capture_output=True, text=True).stdout.strip() or "unreleased"
     return {
         **commit_info,
+        "RELEASE": rel, "RELEASE_TAG": rel.split("-")[0] if rel.startswith("v") else "",
         "NAV": render_nav(active_path),
         "THEME_HEAD": theme_head,
         "GTAG": gtag,
@@ -317,7 +322,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a> · release <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/releases/tag/{{RELEASE_TAG}}">{{RELEASE}}</a></span>
     <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="{{COMMIT_DATE}}">{{COMMIT_DATE}}</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 
@@ -478,7 +483,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a> · release <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/releases/tag/{{RELEASE_TAG}}">{{RELEASE}}</a></span>
     <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="{{COMMIT_DATE}}">{{COMMIT_DATE}}</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
@@ -645,7 +650,7 @@ IR_PAGE_TMPL = """<!doctype html>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a> · release <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/releases/tag/{{RELEASE_TAG}}">{{RELEASE}}</a></span>
     <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="{{COMMIT_DATE}}">{{COMMIT_DATE}}</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>

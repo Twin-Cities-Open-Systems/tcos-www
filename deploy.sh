@@ -74,6 +74,12 @@ SRC_SHA="$(git rev-parse --short HEAD)"
 STAMP="${RELEASE_VERSION:-$(date -u +%Y%m%dT%H%MZ)}"
 STAGE="$(mktemp -d)"; trap 'rm -rf "$STAGE"' EXIT
 cp "${PAGES[@]}" "$STAGE/" && cp -r "${ASSET_DIRS[@]}" "$STAGE/"
+# Prod says exactly the release: the committed pages carry whatever git
+# describe said at build time (v1.0.0-2-gabc once the release commit
+# exists); under hee release promote the stage is restamped with the tag.
+if [ -n "${RELEASE_VERSION:-}" ]; then
+  sed -i "s|releases/tag/[^\"]*\">[^<]*</a>|releases/tag/${RELEASE_VERSION}\">${RELEASE_VERSION}</a>|g" "$STAGE"/*.html
+fi
 # wrangler needs Node >= 20; with system Node 18 it prints one line and exits
 # 1, and the Success|rror grep below swallowed it (2026-09-06).
 node_major="$(node -v 2>/dev/null | sed 's/^v//; s/\..*//')"
