@@ -217,6 +217,13 @@
     font-weight: 700;
   }
   .badge .tag.pending { background: var(--accent-soft); color: var(--accent-ink); }
+  /* Former: outlined rather than filled, so it differs by shape and not by
+     hue alone -- the same rule the status vocabulary follows elsewhere. */
+  .badge .tag.former {
+    background: transparent;
+    color: var(--ink-faint);
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
   .tag-expand summary.tag { cursor: pointer; list-style: none; }
   .tag-expand summary.tag::-webkit-details-marker { display: none; }
   .expand-caret { display: inline-block; font-size: 0.5625rem; margin-left: 2px; transition: transform 0.15s; }
