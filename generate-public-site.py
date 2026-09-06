@@ -12,7 +12,7 @@ commits directly -- accurate regardless of merge state.
 Usage: ./generate-public-site.py
 """
 import html
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import json
 import os
 import subprocess
@@ -457,6 +457,10 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/site.css?v={{COMMIT_SHORT}}">
 <style>
+  .activity-group {{ margin: 0 0 28px; }}
+  .activity-group-head {{ display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding: 0 0 6px; border-bottom: 2px solid var(--accent); }}
+  .activity-group-head .activity-repo {{ font-size: 1rem; }}
+  .activity-since:empty {{ display: none; }}
   .activity-item {{ display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }}
   .activity-item:last-child {{ border-bottom: none; }}
   .activity-repo {{ font-family: ui-monospace, monospace; font-size: 11px; color: var(--accent-ink); font-weight: 700; white-space: nowrap; padding-top: 2px; min-width: 130px; }}
@@ -474,9 +478,11 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
   <section class="hero" style="padding-bottom: 20px;">
     <p class="eyebrow">What we're shipping</p>
     <h1 style="font-size: clamp(30px, 5vw, 44px);">Real commits, not a highlight reel.</h1>
-    <p class="sub">Every line below is a real commit from our public
-    repos, newest first. No curation — this is what "verified, not
-    claimed" looks like applied to our own activity.</p>
+    <p class="sub">A sample, not an archive: the busiest public repos of
+    the last two weeks, each with its latest release and its last few
+    commits, as built. What moved since is fetched from GitHub when you
+    open the page. No curation — this is what "verified, not claimed"
+    looks like applied to our own activity.</p>
   </section>
 
   <section style="padding-top: 0;" id="activity-live">
@@ -516,30 +522,52 @@ def live_public_repos():
     return sorted(r["name"] for r in repos if not r["private"])
 
 
+GROUP_TMPL = """    <div class="activity-group" data-repo="{repo}">
+      <div class="activity-group-head">
+        <a class="activity-repo" href="https://github.com/{org}/{repo}">{repo}</a>
+        <span class="activity-meta">{release}</span>
+        <span class="activity-meta activity-since" data-since=""></span>
+      </div>
+{items}
+    </div>"""
+
+
 def render_activity(commit_info):
-    rows = []
+    """A sample of the work, not an archive: the busiest public repos of the
+    last 14 days, each with its latest release and its last few commits.
+    Operator, 2026-09-06: "group by repos, just keep the last N in the N
+    most busy repos. it is not an archive but a sample of our work".
+    js/activity.js overlays what moved since this was built."""
+    n_repos, n_commits = 6, 5
+    since = (datetime.now(timezone.utc) - timedelta(days=14)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    groups = []
     for repo in live_public_repos():
-        commits = gh(f"repos/{ORG}/{repo}/commits?per_page=8") or []
-        for c in commits:
-            msg = c["commit"]["message"].split("\n")[0]
-            rows.append({
-                "repo": repo,
-                "date": c["commit"]["author"]["date"],
-                "msg": msg,
-                "url": c["html_url"],
-            })
-    rows.sort(key=lambda r: r["date"], reverse=True)
-    rows = rows[:25]
-    items = "\n".join(
-        ITEM_TMPL.format(
-            repo=html.escape(r["repo"]),
-            url=r["url"],
-            msg=html.escape(r["msg"]),
-            date=r["date"],
-        )
-        for r in rows
-    )
-    return fill_placeholders(ACTIVITY_PAGE_TMPL, base_placeholders("/activity", commit_info, then_format=True)).format(items=items)
+        commits = gh(f"repos/{ORG}/{repo}/commits?per_page=100&since={since}") or []
+        if not commits:
+            continue
+        rel = gh(f"repos/{ORG}/{repo}/releases/latest") or {}
+        groups.append({"repo": repo, "busy": len(commits), "commits": commits[:n_commits],
+                       "release": rel.get("tag_name"), "release_url": rel.get("html_url"), "release_date": (rel.get("published_at") or "")[:10]})
+    groups.sort(key=lambda g: (-g["busy"], g["repo"]))
+    # the general thing, above the repo things: what the whole org did in
+    # the window (operator: "group by (general thing (repo thing (busy
+    # repo thing)))")
+    total = sum(g["busy"] for g in groups)
+    released = [g for g in groups if g["release"] and g["release_date"] >= since[:10]]
+    general = (f'<div class="activity-group activity-general"><div class="activity-group-head">'
+               f'<span class="activity-repo">all public repos · last 14 days</span>'
+               f'<span class="activity-meta">{total} commit(s) across {len(groups)} repo(s) · '
+               f'{len(released)} release(s): ' + (", ".join(f'<a href="{g["release_url"]}">{html.escape(g["repo"])} {html.escape(g["release"])}</a>' for g in released) or "none")
+               + f' · busiest: {html.escape(groups[0]["repo"]) if groups else "-"}</span></div></div>')
+    blocks = [general]
+    for g in groups[:n_repos]:
+        items = "\n".join(
+            ITEM_TMPL.format(repo="", url=c["html_url"], msg=html.escape(c["commit"]["message"].split("\n")[0]), date=c["commit"]["author"]["date"])
+            for c in g["commits"])
+        release = (f'release <a href="{g["release_url"]}">{html.escape(g["release"])}</a> · {g["release_date"]}' if g["release"]
+                   else "no release yet")
+        blocks.append(GROUP_TMPL.format(org=ORG, repo=html.escape(g["repo"]), release=release + f' · {g["busy"]} commit(s) in 14 days', items=items))
+    return fill_placeholders(ACTIVITY_PAGE_TMPL, base_placeholders("/activity", commit_info, then_format=True)).format(items="\n".join(blocks))
 
 
 IR_PAGE_TMPL = """<!doctype html>
