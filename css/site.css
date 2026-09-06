@@ -304,6 +304,9 @@
 img, video, svg { max-width: 100%; height: auto; }
 pre, table { max-width: 100%; overflow-x: auto; display: block; }
 .wrap { overflow-wrap: anywhere; }
+/* ...but never inside the nav: at 1100px the link labels were breaking
+   mid-word ("Ho me", "Peop le") under that rule. */
+.site-nav, .site-nav a, .fontsize-toggle, .theme-toggle { overflow-wrap: normal; white-space: nowrap; }
 @media (max-width: 700px) {
   .wrap { padding: 0 16px; }
   .site-nav { flex-wrap: wrap; padding: 14px 0; }
