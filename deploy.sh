@@ -68,7 +68,10 @@ fi
 
 SIG="$(hee ver session --tag 2>/dev/null || hee ver session 2>/dev/null | awk '/sig_tag|rc_tag/{print $2; exit}')"
 [ -n "$SIG" ] || { echo "❌ CRITICAL promote: no session signature from hee ver session" >&2; exit 2; }
-SRC_SHA="$(git rev-parse --short HEAD)"; STAMP="$(date -u +%Y%m%dT%H%MZ)"
+SRC_SHA="$(git rev-parse --short HEAD)"
+# The prod tag is prod/tcos-www/<version> under hee release (RELEASE_VERSION
+# from the release commit); a bare promote still gets a timestamp.
+STAMP="${RELEASE_VERSION:-$(date -u +%Y%m%dT%H%MZ)}"
 STAGE="$(mktemp -d)"; trap 'rm -rf "$STAGE"' EXIT
 cp "${PAGES[@]}" "$STAGE/" && cp -r "${ASSET_DIRS[@]}" "$STAGE/"
 # wrangler needs Node >= 20; with system Node 18 it prints one line and exits

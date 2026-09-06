@@ -1,0 +1,16 @@
+apiVersion: hee/v1
+kind: Card
+metadata:
+  name: tcos-www-release
+  labels: { domain: release, scope: tcos-www, artifact: card }
+  annotations:
+    inuid: null
+    inuid_null_reason: bootstrap
+    created_utc: "2026-09-06T00:00:00Z"
+spec:
+  # hee release lab | cut | promote (human-execution-engine hee-release).
+  # promote runs each surface under the sealed token; the tag name comes
+  # from RELEASE_VERSION, which the tool sets from the release commit.
+  credential: { account: cloudflare-tcos-www, dir: .hee/secrets }
+  surfaces:
+    - { name: tcos-www, lab: "./deploy.sh lab", promote: "./deploy.sh promote" }
