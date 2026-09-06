@@ -1,7 +1,17 @@
 <!doctype html>
 <html lang="en">
 <head>
-
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BQK0DFRRZ7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  // production only: *.lab.tcos.us, localhost and file:// load this but never report
+  if (/\.tcos\.us$/.test(location.hostname) && !/\.lab\.tcos\.us$/.test(location.hostname)) {
+    gtag('config', 'G-BQK0DFRRZ7');
+  }
+</script>
 <meta charset="UTF-8">
 <title>Investor Relations — Twin Cities Open Systems</title>
 <meta property="og:site_name" content="Twin Cities Open Systems">
@@ -30,7 +40,7 @@
   })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/site.css?v=2e14378">
+<link rel="stylesheet" href="css/site.css?v=0326f97">
 <style>
   .ir-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 28px 0; }
   .ir-stat { background: var(--surface); padding: 18px 20px; }
@@ -54,7 +64,7 @@
     the moment this page is built — the same "verified, not claimed"
     standard as everything else on this site. No smoothing, no
     cherry-picked quarter.</p>
-    <p class="ir-asof">Generated 2026-09-06 01:44 UTC</p>
+    <p class="ir-asof">Generated 2026-09-06 03:38 UTC</p>
   </section>
 
   <section style="padding-top: 0;">
@@ -82,7 +92,7 @@
       <div class="ir-stat"><div class="n">7</div><div class="l">Team members</div></div>
       <div class="ir-stat"><div class="n">5</div><div class="l">Contracts ratified</div></div>
       <div class="ir-stat"><div class="n">8</div><div class="l">Public repos</div></div>
-      <div class="ir-stat"><div class="n">132</div><div class="l">Commits, last 7 days</div></div>
+      <div class="ir-stat"><div class="n">141</div><div class="l">Commits, last 7 days</div></div>
     </div>
   </section>
 
@@ -123,11 +133,11 @@
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/2e143789690ae8c5322666a6267d1cebd8ca2646">2e14378</a></span>
-    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-06T01:44:34Z">2026-09-06T01:44:34Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
+    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/0326f97e077967afa8fd8ebe66b434f5e1c7ec0b">0326f97</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-06T03:37:48Z">2026-09-06T03:37:48Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
-<script src="js/site.js?v=2e14378"></script>
+<script src="js/site.js?v=0326f97"></script>
 <script>
   var TH_KEY = "tcos-theme";
   (function () {
