@@ -381,6 +381,10 @@ STATUS_LABEL = {
     # the links that assert presence do not. blueprints/offboarding-v1.yaml
     # step 6 -- a departure is not a deletion.
     "departed": "Former",
+    # Inactive is the reversible one: parked, no access, may return. It keeps
+    # every link that is still true -- both inactive parties' media hosts are
+    # live, so retiring their links here would misreport the fleet.
+    "inactive": "Inactive",
 }
 
 
@@ -398,7 +402,14 @@ def render_people(roster, commit_info):
             status = p["status"]
             label = STATUS_LABEL.get(status, status)
             departed = status == "departed"
-            pending_class = " pending" if status == "proposed" else (" former" if departed else "")
+            if status == "proposed":
+                pending_class = " pending"
+            elif departed:
+                pending_class = " former"
+            elif status == "inactive":
+                pending_class = " inactive"
+            else:
+                pending_class = ""
             gh_account = p.get("github_account") or {}
             suspended = gh_account.get("state") in ("suspended", "suspected_suspended")
             if p.get("github") and departed:
