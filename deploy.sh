@@ -63,6 +63,10 @@ SIG="$(hee ver session --tag 2>/dev/null || hee ver session 2>/dev/null | awk '/
 SRC_SHA="$(git rev-parse --short HEAD)"; STAMP="$(date -u +%Y%m%dT%H%MZ)"
 STAGE="$(mktemp -d)"; trap 'rm -rf "$STAGE"' EXIT
 cp "${PAGES[@]}" "$STAGE/" && cp -r "${ASSET_DIRS[@]}" "$STAGE/"
+# wrangler needs Node >= 20; with system Node 18 it prints one line and exits
+# 1, and the Success|rror grep below swallowed it (2026-09-06).
+node_major="$(node -v 2>/dev/null | sed 's/^v//; s/\..*//')"
+[ "${node_major:-0}" -ge 20 ] || { echo "❌ CRITICAL promote: Node >= 20 required, found $(node -v 2>/dev/null || echo none) -- nvm install 20 (dotfiles' bashrc sources nvm)" >&2; exit 2; }
 # hee cred -exec injects the secret as HEE_CRED_PASS (hee-cred ENV_VAR); the
 # script asked for CLOUDFLARE_API_TOKEN and nobody mapped one to the other,
 # so the sanctioned invocation on the header failed (2026-09-06).
@@ -72,7 +76,8 @@ CLOUDFLARE_ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID:-$(curl -s -H "Authorization: Bea
 export CLOUDFLARE_ACCOUNT_ID
 echo "=== promote: tcos-www worker, src=$SRC_SHA session=$SIG ==="
 ( cd "$STAGE" && npx --yes wrangler@4.86.0 deploy --name tcos-www --assets . --compatibility-date=2026-08-15 \
-    --message "hee:$SIG tcos-www src=$SRC_SHA" --tag "${SIG%%_*}" 2>&1 | grep -E 'Success|rror' )
+    --message "hee:$SIG tcos-www src=$SRC_SHA" --tag "${SIG%%_*}" 2>&1 | grep -E 'Success|rror|requires'; exit "${PIPESTATUS[0]}" ) \
+  || { echo "❌ CRITICAL promote: wrangler deploy failed -- nothing verified, nothing tagged" >&2; exit 2; }
 echo "=== verify prod ==="
 bad=0
 for f in "${PAGES[@]}"; do
