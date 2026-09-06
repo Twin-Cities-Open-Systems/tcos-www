@@ -702,7 +702,7 @@ def render_ir(stats, commit_info):
 # takes a listing off the public page; there's no separate "delist"
 # step to forget.
 JOBS = [
-    {"slug": "ceo", "title": "Chief Executive Officer", "issue": 28,
+    {"slug": "ceo", "title": "Chief Executive Officer", "issue": 393,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Run day-to-day operations and coordination across a small, "
              "real team &mdash; human and AI &mdash; building thesis-engine into a real "
@@ -716,19 +716,19 @@ JOBS = [
              "needs your sign-off. You'll also be the one who finally puts "
              "real numbers on the Investor Relations page instead of the "
              "&quot;waiting on a CFO&quot; placeholder that's there now."},
-    {"slug": "marketing-pr", "title": "Marketing / PR Lead", "issue": 31,
+    {"slug": "marketing-pr", "title": "Marketing / PR Lead", "issue": 394,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Build real relationships, not cold-outreach blasts &mdash; starting "
              "with the people whose work genuinely shaped thesis-engine's "
              "methodology (see <a href=\"/story\">Our Story</a>). Own the "
              "company's voice: agents, not bots; verified, not claimed."},
-    {"slug": "compliance-officer", "title": "Compliance Officer", "issue": 37,
+    {"slug": "compliance-officer", "title": "Compliance Officer", "issue": 395,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Own compliance posture as thesis-engine moves toward real "
              "external users &mdash; works closely with the CFO on financial-platform "
              "obligations, and with the rest of the team on IP protection, "
              "the thing this company actually treats as its capital."},
-    {"slug": "research-analyst", "title": "Research Analyst", "issue": 39,
+    {"slug": "research-analyst", "title": "Research Analyst", "issue": 396,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Cover thesis-engine's real 7-layer thesis end to end &mdash; DC "
              "infra, power, critical materials, and the rest (see "
@@ -751,13 +751,13 @@ JOBS = [
              "vs. the roadmap, a prod-mirror proposal, and a geo-redundant "
              "DNS/MX plan. Works alongside the Inventory Specialist role on "
              "what's real today before recommending what's next."},
-    {"slug": "mindset-coach", "title": "Mindset Coach", "issue": 40,
+    {"slug": "mindset-coach", "title": "Mindset Coach", "issue": 397,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Discipline is the whole point of a thesis-driven approach &mdash; "
              "this role exists to keep the team (human and AI both) honest "
              "about bias, drift, and the gap between what a thesis says and "
              "what a decision-maker wants to be true."},
-    {"slug": "hr", "title": "HR", "issue": 41,
+    {"slug": "hr", "title": "HR", "issue": 398,
      "meta": "Full-time", "reports_to": {"mono": "SB", "name": "Spencer Butler"},
      "desc": "Own people operations for a genuinely hybrid roster &mdash; real "
              "onboarding (see how hiring works below), real contracts, real "
@@ -787,9 +787,21 @@ def fetch_issue_states(issue_numbers):
     signal that takes a listing off the page, so this must reflect
     the real GitHub issue, never a hand-set flag."""
     states = {}
+    dead = []
     for n in sorted(set(issue_numbers)):
         data = gh(f"repos/{ORG}/fleet-ops/issues/{n}")
-        states[n] = (data or {}).get("state", "open")
+        if not data or "state" not in data:
+            dead.append(n)
+            continue
+        states[n] = data["state"]
+    if dead:
+        # A role whose tracking issue is gone is a content decision for a
+        # human, not a default. Six roles shipped as "open" for weeks on a
+        # 404 (tcos-www#62, 2026-09-06); the fix was six new issues
+        # (fleet-ops#393-#398), the same repair as fleet-ops#286.
+        print(f"❌ CRITICAL careers: no fleet-ops issue behind role(s) {', '.join(map(str, dead))} "
+              "-- re-point JOBS at a real issue or drop the listing; not guessing 'open'", file=sys.stderr)
+        sys.exit(2)
     return states
 
 
