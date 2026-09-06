@@ -8,7 +8,7 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   // production only: *.lab.tcos.us, localhost and file:// load this but never report
-  if (/\.tcos\.us$/.test(location.hostname) && !/\.lab\.tcos\.us$/.test(location.hostname)) {
+  if (/(^|\.)tcos\.us$/.test(location.hostname) && !/(^|\.)lab\.tcos\.us$/.test(location.hostname)) {
     gtag('config', 'G-BQK0DFRRZ7');
   }
 </script>
@@ -40,7 +40,7 @@
   })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/site.css?v=3e27d59">
+<link rel="stylesheet" href="css/site.css?v=90750ca">
 <style>
   .activity-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
   .activity-item:last-child { border-bottom: none; }
@@ -69,6 +69,27 @@
   </section>
 
   <section style="padding-top: 0;">
+    <div class="activity-item">
+      <div class="activity-repo">resume</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/4c84643be6f8306cd4e8ba42c425b196ac049e72">feat(media): text size scales the root; layout tokens from the em-width -- same mechanism as tcos-www and Gold (#59)</a></div>
+        <div class="activity-meta">2026-09-06T05:22:06Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">tcos-www</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/90750ca633b7dfd01e3f727cffc19a3ba83db994">feat(layout): one responsive mechanism -- text size scales the root, the layout measures what fits (#60)</a></div>
+        <div class="activity-meta">2026-09-06T05:21:40Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">.github</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/f59f319a338128738bde6bd0c6dc246fd4ecb6c7">feat(gold): text size scales the root; layout tokens from the em-width -- same mechanism as tcos-www (#92)</a></div>
+        <div class="activity-meta">2026-09-06T05:21:31Z</div>
+      </div>
+    </div>
     <div class="activity-item">
       <div class="activity-repo">.github</div>
       <div class="activity-body">
@@ -223,36 +244,15 @@
         <div class="activity-meta">2026-09-06T03:45:48Z</div>
       </div>
     </div>
-    <div class="activity-item">
-      <div class="activity-repo">.github</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/2ddcb1e68cd562a641659b2563b7295b25fde524">feat(ci): content-audit -- tcos-audit&#x27;s scan on every repo, on push via workflow_call and every 6 h org-wide (#86)</a></div>
-        <div class="activity-meta">2026-09-06T03:17:31Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">.github</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/c78899672eb129741c5f6301f4310c90fd5dad8c">feat: org-wide LICENSE (GPL-3.0) (#82)</a></div>
-        <div class="activity-meta">2026-09-06T03:17:28Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">resume</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/a1d50df661787179e8d4474248598cac492eb262">feat(media): media-item builder -- tux-tattoo&#x27;s design from a kind: Card manifest (#49)</a></div>
-        <div class="activity-meta">2026-09-06T02:27:30Z</div>
-      </div>
-    </div>
   </section>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/3e27d591f7f4bd8287d0d700cacca017c8bd5ce6">3e27d59</a></span>
-    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-06T05:18:24Z">2026-09-06T05:18:24Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
+    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/90750ca633b7dfd01e3f727cffc19a3ba83db994">90750ca</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-06T05:27:55Z">2026-09-06T05:27:55Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
-<script src="js/site.js?v=3e27d59"></script>
+<script src="js/site.js?v=90750ca"></script>
 <script>
   var TH_KEY = "tcos-theme";
   (function () {
