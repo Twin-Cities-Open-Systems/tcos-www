@@ -91,11 +91,9 @@ for f in "${PAGES[@]}"; do
 done
 [ "$bad" = 0 ] || { echo "❌ CRITICAL promote: prod verification failed -- fix forward or redeploy the previous commit" >&2; exit 2; }
 TAG="prod/tcos-www/$STAMP"
-git tag -s "$TAG" -m "prod promotion: tcos.us
+hee git tag "$TAG" -m "prod promotion: tcos.us
 worker: tcos-www
 source: $SRC_SHA
 session: $SIG
-verified: 8 pages 200, no conflict markers, Google tag present" "$SRC_SHA" \
-  && git push -q origin "refs/tags/$TAG" \
-  && echo "🟢 OK promoted: tag $TAG (session $SIG)" \
-  || { echo "⚠️ WARNING promote: deployed and verified, but the prod tag could not be created/pushed -- record it by hand" >&2; }
+verified: 8 pages 200, no conflict markers, Google tag present" "$SRC_SHA" --yes --push \
+  || { echo "⚠️ WARNING promote: deployed and verified, but the prod tag could not be created/pushed -- hee git tag $TAG -m ... $SRC_SHA --yes --push" >&2; }
