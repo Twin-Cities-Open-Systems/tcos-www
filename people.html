@@ -8,7 +8,7 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   // production only: *.lab.tcos.us, localhost and file:// load this but never report
-  if (/\.tcos\.us$/.test(location.hostname) && !/\.lab\.tcos\.us$/.test(location.hostname)) {
+  if (/(^|\.)tcos\.us$/.test(location.hostname) && !/(^|\.)lab\.tcos\.us$/.test(location.hostname)) {
     gtag('config', 'G-BQK0DFRRZ7');
   }
 </script>
@@ -40,7 +40,7 @@
   })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/site.css?v=3e27d59">
+<link rel="stylesheet" href="css/site.css?v=90750ca">
 </head>
 <body>
 <div class="wrap wrap-nav"><nav class="site-nav">
@@ -193,12 +193,12 @@
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/3e27d591f7f4bd8287d0d700cacca017c8bd5ce6">3e27d59</a></span>
-    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-06T05:18:24Z">2026-09-06T05:18:24Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
+    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/90750ca633b7dfd01e3f727cffc19a3ba83db994">90750ca</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-06T05:27:55Z">2026-09-06T05:27:55Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 
 </div>
-<script src="js/site.js?v=3e27d59"></script>
+<script src="js/site.js?v=90750ca"></script>
 <script>
   var TH_KEY = "tcos-theme";
   (function () {
