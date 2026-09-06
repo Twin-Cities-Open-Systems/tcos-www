@@ -47,7 +47,15 @@ fi
 for f in "${PAGES[@]}"; do
   grep -q 'gtag/js?id=G-' "$f" || { echo "❌ CRITICAL deploy: $f has no Google tag -- stopping" >&2; exit 2; }
 done
-echo "  hee check all: OK; no conflict markers; tag on all ${#PAGES[@]} pages"
+# Every image we serve carries the org branding in its metadata (hee exif
+# brand): Publisher/Credit/Copyright/PEN. The logo and favicons had none
+# until 2026-09-06 (operator: "all of these og images have our standard
+# exif, right?").
+for img in assets/*.png assets/*.jpg; do
+  [ -f "$img" ] || continue
+  [ -n "$(exiftool -s3 -XMP-dc:Publisher "$img" 2>/dev/null)" ] || { echo "❌ CRITICAL deploy: $img has no org branding metadata -- hee exif brand $img" >&2; exit 2; }
+done
+echo "  hee check all: OK; no conflict markers; tag on all ${#PAGES[@]} pages; branding on every asset image"
 
 if [ "$cmd" = lab ]; then
   make -C "$HOME/git/.github" lab-tcos-www >/dev/null
