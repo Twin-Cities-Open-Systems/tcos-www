@@ -1,7 +1,17 @@
 <!doctype html>
 <html lang="en">
 <head>
-
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BQK0DFRRZ7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  // production only: *.lab.tcos.us, localhost and file:// load this but never report
+  if (/\.tcos\.us$/.test(location.hostname) && !/\.lab\.tcos\.us$/.test(location.hostname)) {
+    gtag('config', 'G-BQK0DFRRZ7');
+  }
+</script>
 <meta charset="UTF-8">
 <title>Activity — Twin Cities Open Systems</title>
 <meta property="og:site_name" content="Twin Cities Open Systems">
@@ -30,7 +40,7 @@
   })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/site.css?v=2e14378">
+<link rel="stylesheet" href="css/site.css?v=0326f97">
 <style>
   .activity-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
   .activity-item:last-child { border-bottom: none; }
@@ -59,6 +69,69 @@
   </section>
 
   <section style="padding-top: 0;">
+    <div class="activity-item">
+      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/a2e1d7ddfcc888aa1cff4121d6cae5b1229cfda7">feat(print): the image format that works is the default; --image-format to try another (#569)</a></div>
+        <div class="activity-meta">2026-09-06T03:17:42Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/b0d92138169c9faaac625d92c55239858152e408">feat(view): --sites --via HOST -- site checks from the DigitalOcean droplet, not the operator&#x27;s IP (#568)</a></div>
+        <div class="activity-meta">2026-09-06T03:17:39Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/16fb493650a96d8111ef264b3dfb29c973501d35">feat(fields): audit -- which open issues are missing Roadmap fields, or are not on the Roadmap (#566)</a></div>
+        <div class="activity-meta">2026-09-06T03:17:35Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">.github</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/2ddcb1e68cd562a641659b2563b7295b25fde524">feat(ci): content-audit -- tcos-audit&#x27;s scan on every repo, on push via workflow_call and every 6 h org-wide (#86)</a></div>
+        <div class="activity-meta">2026-09-06T03:17:31Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">.github</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/c78899672eb129741c5f6301f4310c90fd5dad8c">feat: org-wide LICENSE (GPL-3.0) (#82)</a></div>
+        <div class="activity-meta">2026-09-06T03:17:28Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">resume</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/a1d50df661787179e8d4474248598cac492eb262">feat(media): media-item builder -- tux-tattoo&#x27;s design from a kind: Card manifest (#49)</a></div>
+        <div class="activity-meta">2026-09-06T02:27:30Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">tcos-www</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/0326f97e077967afa8fd8ebe66b434f5e1c7ec0b">feat(mobile): collapsible nav under 700px, fluid cards, nothing wider than the viewport (#54)</a></div>
+        <div class="activity-meta">2026-09-06T02:26:47Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/413619237f6c5a110062f5e22ade8109dba550de">feat(repo-refresh): hygiene --json (ndjson per repo); health warns when parked off main (#565)</a></div>
+        <div class="activity-meta">2026-09-06T02:26:39Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">.github</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/1885f917bf30554470cc26ad95999010584ea086">feat(view): old-commits.html -- every non-main branch on origin, with a verdict each (#85)</a></div>
+        <div class="activity-meta">2026-09-06T02:26:35Z</div>
+      </div>
+    </div>
     <div class="activity-item">
       <div class="activity-repo">human-execution-engine</div>
       <div class="activity-body">
@@ -95,13 +168,6 @@
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/48761ac904cc147d76f5c79a2af54d949ca4d99b">feat(hee-site-publish): --post -- drop a .md, and one command publishes it (#554)</a></div>
-        <div class="activity-meta">2026-09-05T21:52:34Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
       <div class="activity-repo">resume</div>
       <div class="activity-body">
         <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/f07df0e3a318d9373ba17be0c96b0c057a959abd">feat(site): the org&#x27;s Google tag on every page this repo publishes (#48)</a></div>
@@ -120,27 +186,6 @@
       <div class="activity-body">
         <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/eb1f71e4e1f9f8d64d06f6116e66f33418fc4b08">feat(render-review): render_file_page(extra_head=) -- a slot right after &lt;head&gt; (#81)</a></div>
         <div class="activity-meta">2026-09-05T20:31:02Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/9221e314831af6b69dc5fc91f4e31a4d4f13992e">feat(hee-print): render images -- chafa still by default, --animate to play (#555)</a></div>
-        <div class="activity-meta">2026-09-05T20:30:58Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/31f4872278aa93314e563891da7091b310acc129">feat(hee-exif): brand -- org default branding from one card; provenance paths relative (#556)</a></div>
-        <div class="activity-meta">2026-09-05T20:30:53Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/f79c49ea100f960eabf58f257af2451705eab726">feat(hee-exif): provenance -- how a generated image was made, signed with the rc_tag (#553)</a></div>
-        <div class="activity-meta">2026-09-05T17:59:05Z</div>
       </div>
     </div>
     <div class="activity-item">
@@ -179,13 +224,6 @@
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">.github</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/6207dc7ba05df962bb157f9d9eae8b5a77adeb23">glossary: name where Graduation Signal evidence comes from</a></div>
-        <div class="activity-meta">2026-09-02T23:55:50Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
       <div class="activity-repo">MT-logo-render</div>
       <div class="activity-body">
         <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/MT-logo-render/commit/1bbfc12dfb4444d25b1900b263685ef8eb327436">chore: retire the vendored HEE tree and all Cursor state (#21)</a></div>
@@ -206,43 +244,15 @@
         <div class="activity-meta">2026-09-01T06:43:39Z</div>
       </div>
     </div>
-    <div class="activity-item">
-      <div class="activity-repo">tick-task</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/70b9a9855119b370bbba4e8c3c54ad337b84b362">feat(docker): real LAN-mode image, and restore the docker_build job (#46)</a></div>
-        <div class="activity-meta">2026-09-01T06:36:07Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">tick-task</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/875d0e508d617c848cd412709d230c5210bb8028">fix(ci): unbreak main -- mypy continue-on-error per rule 16, plus two config defects (#45)</a></div>
-        <div class="activity-meta">2026-09-01T06:23:13Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">tick-task</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/e313a5b7e18a7a29a8c5448ea1164ffe79af800f">feat(auth): make lan_mode/lan_token real, before anything binds 0.0.0.0 (#43)</a></div>
-        <div class="activity-meta">2026-09-01T05:54:40Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">tick-task</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/78d4a61f6022bea103bbd57142eca4a4cc85ee3b">fix(ci): unbreak quality-check and security-scan (#42)</a></div>
-        <div class="activity-meta">2026-09-01T05:54:23Z</div>
-      </div>
-    </div>
   </section>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/2e143789690ae8c5322666a6267d1cebd8ca2646">2e14378</a></span>
-    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-06T01:44:34Z">2026-09-06T01:44:34Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
+    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/0326f97e077967afa8fd8ebe66b434f5e1c7ec0b">0326f97</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-06T03:37:48Z">2026-09-06T03:37:48Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
-<script src="js/site.js?v=2e14378"></script>
+<script src="js/site.js?v=0326f97"></script>
 <script>
   var TH_KEY = "tcos-theme";
   (function () {
