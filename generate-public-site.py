@@ -96,12 +96,15 @@ NAV_LINKS = [
 ]
 
 TOGGLES_HTML = (
-    '<div class="fontsize-toggle"><span>Aa</span>'
-    '<button class="fontsize-btn" data-size="s">S</button>'
-    '<button class="fontsize-btn" data-size="m">M</button>'
-    '<button class="fontsize-btn" data-size="l">L</button>'
-    '<button class="fontsize-btn" data-size="xl">XL</button>'
-    '<button class="fontsize-btn" data-size="xxl">XXL</button></div>'
+    # Gold's collapsible form (render-review.py): the sizes sit behind "Aa"
+    # and expand on hover/focus; a click force-collapses. Operator,
+    # 2026-09-06: "lab.tcos.us needs collapsible size toggle".
+    '<div class="fontsize-toggle"><span class="fs-label" tabindex="0">Aa</span><div class="fs-options">'
+    '<button class="fontsize-btn" data-size="s" type="button">S</button>'
+    '<button class="fontsize-btn" data-size="m" type="button">M</button>'
+    '<button class="fontsize-btn" data-size="l" type="button">L</button>'
+    '<button class="fontsize-btn" data-size="xl" type="button">XL</button>'
+    '<button class="fontsize-btn" data-size="xxl" type="button">XXL</button></div></div>'
     '<div class="theme-toggle">'
     '<button class="theme-btn" data-theme-choice="light">Light</button>'
     '<button class="theme-btn" data-theme-choice="dark">Dark</button>'
@@ -235,7 +238,11 @@ def render_nav(active_path):
     return (
         '<div class="wrap"><nav class="site-nav">\n'
         '  <a class="brand" href="/">Twin Cities Open Systems</a>\n'
-        f'  <div class="links">{links_html}</div>\n'
+        # Under 700px the links collapse behind this button (site.js toggles
+        # .open on the nav). Operator, 2026-09-06: "let's try using a
+        # collapsible menu and make sure the cards are dynamic to size."
+        '  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Menu">&#9776;</button>\n'
+        f'  <div class="links" id="site-links">{links_html}</div>\n'
         f'</nav>{TOGGLES_HTML}</div>'
     )
 
@@ -263,7 +270,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 <link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
 {{THEME_HEAD}}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/site.css?v={{COMMIT_SHORT}}">
 </head>
 <body>
 {{NAV}}
@@ -303,7 +310,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
   </footer>
 
 </div>
-<script src="js/site.js"></script>
+<script src="js/site.js?v={{COMMIT_SHORT}}"></script>
 {{THEME_LU}}
 </body>
 </html>
@@ -436,7 +443,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 <link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
 {{THEME_HEAD}}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/site.css?v={{COMMIT_SHORT}}">
 <style>
   .activity-item {{ display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }}
   .activity-item:last-child {{ border-bottom: none; }}
@@ -470,7 +477,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
     <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="{{COMMIT_DATE}}">{{COMMIT_DATE}}</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
-<script src="js/site.js"></script>
+<script src="js/site.js?v={{COMMIT_SHORT}}"></script>
 {{THEME_LU}}
 </body>
 </html>
@@ -544,7 +551,7 @@ IR_PAGE_TMPL = """<!doctype html>
 <link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
 {{THEME_HEAD}}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/site.css?v={{COMMIT_SHORT}}">
 <style>
   .ir-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 28px 0; }}
   .ir-stat {{ background: var(--surface); padding: 18px 20px; }}
@@ -637,7 +644,7 @@ IR_PAGE_TMPL = """<!doctype html>
     <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="{{COMMIT_DATE}}">{{COMMIT_DATE}}</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
-<script src="js/site.js"></script>
+<script src="js/site.js?v={{COMMIT_SHORT}}"></script>
 {{THEME_LU}}
 </body>
 </html>

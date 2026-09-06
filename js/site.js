@@ -19,6 +19,18 @@
         var size = btn.dataset.size;
         localStorage.setItem(KEY, size);
         apply(size);
+      btn.blur();
+      // Gold's fix (2026-08-30): :hover alone keeps .fs-options open after a
+      // click, the cursor is still on the widget -- force-collapse, then let
+      // hover/focus-within resume once the cursor leaves.
+      var toggle = btn.closest(".fontsize-toggle");
+      if (toggle) {
+        toggle.classList.add("fs-force-collapsed");
+        toggle.addEventListener("mouseleave", function onLeave() {
+          toggle.classList.remove("fs-force-collapsed");
+          toggle.removeEventListener("mouseleave", onLeave);
+        });
+      }
       });
     });
   });
@@ -40,6 +52,18 @@
       if (/\.lab\.tcos\.us$/.test(url.hostname)) return; // already lab
       url.hostname = url.hostname.replace(/\.tcos\.us$/, ".lab.tcos.us");
       a.href = url.href;
+    });
+  });
+})();
+
+// Collapsible nav under 700px: the button toggles .open on .site-nav;
+// the CSS decides when the button is visible at all.
+(function () {
+  document.querySelectorAll(".site-nav .nav-toggle").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var nav = btn.closest(".site-nav");
+      var open = nav.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
     });
   });
 })();
