@@ -235,7 +235,11 @@ def render_nav(active_path):
     return (
         '<div class="wrap"><nav class="site-nav">\n'
         '  <a class="brand" href="/">Twin Cities Open Systems</a>\n'
-        f'  <div class="links">{links_html}</div>\n'
+        # Under 700px the links collapse behind this button (site.js toggles
+        # .open on the nav). Operator, 2026-09-06: "let's try using a
+        # collapsible menu and make sure the cards are dynamic to size."
+        '  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Menu">&#9776;</button>\n'
+        f'  <div class="links" id="site-links">{links_html}</div>\n'
         f'</nav>{TOGGLES_HTML}</div>'
     )
 

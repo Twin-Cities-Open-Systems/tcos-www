@@ -43,3 +43,15 @@
     });
   });
 })();
+
+// Collapsible nav under 700px: the button toggles .open on .site-nav;
+// the CSS decides when the button is visible at all.
+(function () {
+  document.querySelectorAll(".site-nav .nav-toggle").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var nav = btn.closest(".site-nav");
+      var open = nav.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  });
+})();
