@@ -377,6 +377,10 @@ def build_detail_rows(p):
 STATUS_LABEL = {
     "verified": "Verified", "ratified": "Ratified",
     "proposed": "Onboarding", "peer": "Ratified",
+    # A departure is shown, not erased: the card stays, the credit stays,
+    # the links that assert presence do not. blueprints/offboarding-v1.yaml
+    # step 6 -- a departure is not a deletion.
+    "departed": "Former",
 }
 
 
@@ -393,10 +397,15 @@ def render_people(roster, commit_info):
         for p in tier["people"]:
             status = p["status"]
             label = STATUS_LABEL.get(status, status)
-            pending_class = " pending" if status == "proposed" else ""
+            departed = status == "departed"
+            pending_class = " pending" if status == "proposed" else (" former" if departed else "")
             gh_account = p.get("github_account") or {}
             suspended = gh_account.get("state") in ("suspended", "suspected_suspended")
-            if p.get("github") and not suspended:
+            if p.get("github") and departed:
+                # No link: a departed party's account is frequently deleted,
+                # so linking it ships a 404 from our own people page.
+                github_link = f'<span class="badge-gh mono badge-gh-pending">@{html.escape(p["github"])}</span>'
+            elif p.get("github") and not suspended:
                 gh_login = html.escape(p["github"])
                 github_link = f'<a class="badge-gh mono" href="https://github.com/{gh_login}">@{gh_login}</a>'
             elif p.get("github"):
@@ -406,7 +415,7 @@ def render_people(roster, commit_info):
                 github_link = '<span class="badge-gh mono badge-gh-pending">no GitHub yet</span>'
             # No Blog link: the blog hosts are redirects to the media hosts
             # since 2026-09-06 (operator: "remove blog link").
-            media_host = MEDIA_HOSTS.get(p.get("github"))
+            media_host = None if departed else MEDIA_HOSTS.get(p.get("github"))
             media_link = (
                 f'<a class="badge-gh mono" href="https://{media_host}">Media &#8594;</a>'
                 if media_host else ""
