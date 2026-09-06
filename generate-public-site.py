@@ -43,17 +43,29 @@ MONOGRAM_COLORS_NOTE = "reuses the same badge component as index.html's teaser"
 # the same value (e.g. "spencerbutler" vs "spencer") and there's no shared
 # key between the two files yet -- hand-maintained until resume becomes the
 # real source of truth for this (see fleet-ops org-revamp discussion).
-BLOG_SLUGS = {
-    "spencerbutler": "spencer",
-    "touchy-claude": "touchy-claude",
-}
+# <oper>.media.tcos.us per GitHub login, from the published people.json
+# (resume's build, served by the media hub) -- the SSoT for who has a media
+# host. A hard-coded map here listed only spencer for eleven days after four
+# more hosts went live (2026-09-06). Falls back to a local resume checkout
+# so lab builds work before the next Pages promote.
+def load_media_hosts():
+    import urllib.request
+    data = None
+    try:
+        with urllib.request.urlopen(urllib.request.Request("https://media.tcos.us/people.json", headers={"User-Agent": "tcos-www build"}), timeout=8) as r:
+            data = json.loads(r.read().decode())
+    except Exception as e:  # noqa: BLE001
+        print(f"  WARN: media.tcos.us/people.json unreachable ({e}); trying the local resume checkout", file=sys.stderr)
+    if not data or not any(p.get("github") for p in data):
+        local = os.path.expanduser("~/git/resume/dist/people.json")
+        try:
+            data = json.load(open(local))
+        except Exception as e:  # noqa: BLE001
+            print(f"  WARN: {local} unreadable ({e}); no Media links this build", file=sys.stderr)
+            return {}
+    return {p["github"]: p["media_dns"] for p in data if p.get("github") and p.get("media_dns")}
 
-# Real <oper>.media.tcos.us instances -- linked to directly (not via the
-# /people/<slug> ingress-proxy redirect, which is blog-specific today).
-# Only spencer has one as of 2026-08-26 (the Tux Tattoo gallery).
-MEDIA_HOSTS = {
-    "spencerbutler": "spencer.media.tcos.us",
-}
+MEDIA_HOSTS = load_media_hosts()
 
 # Real founding year (Spencer, direct, 2026-08-26: "important 2001 est
 # tcos spencer butler"). The 2001 Inc. is the real, original entity;
@@ -325,7 +337,6 @@ CARD_TMPL = """      <div class="badge">
         <div class="badge-foot">
           {tag}
           {github_link}
-          {blog_link}
           {media_link}
         </div>
       </div>"""
@@ -383,18 +394,13 @@ def render_people(roster, commit_info):
             if p.get("github") and not suspended:
                 gh_login = html.escape(p["github"])
                 github_link = f'<a class="badge-gh mono" href="https://github.com/{gh_login}">@{gh_login}</a>'
-                blog_slug = BLOG_SLUGS.get(p["github"])
             elif p.get("github"):
                 gh_login = html.escape(p["github"])
                 github_link = f'<span class="badge-gh mono badge-gh-pending" title="{html.escape(gh_account.get("note", ""))}">@{gh_login} (suspended)</span>'
-                blog_slug = None
             else:
                 github_link = '<span class="badge-gh mono badge-gh-pending">no GitHub yet</span>'
-                blog_slug = None
-            blog_link = (
-                f'<a class="badge-gh mono" href="https://tcos.us/people/{blog_slug}">Blog &#8594;</a>'
-                if blog_slug else ""
-            )
+            # No Blog link: the blog hosts are redirects to the media hosts
+            # since 2026-09-06 (operator: "remove blog link").
             media_host = MEDIA_HOSTS.get(p.get("github"))
             media_link = (
                 f'<a class="badge-gh mono" href="https://{media_host}">Media &#8594;</a>'
@@ -414,7 +420,6 @@ def render_people(roster, commit_info):
                 what=html.escape(p["what"]),
                 tag=tag,
                 github_link=github_link,
-                blog_link=blog_link,
                 media_link=media_link,
             ))
     return fill_placeholders(PEOPLE_PAGE_TMPL, base_placeholders("/people", commit_info, then_format=True)).format(cards="\n".join(cards))
