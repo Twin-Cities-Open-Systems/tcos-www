@@ -6,9 +6,13 @@
 #
 #   ./deploy.sh lab       regenerate from templates (branding card required),
 #                         gate, push to lab.tcos.us via .github's Makefile
-#   ./deploy.sh promote   regenerate, gate, deploy the tcos-www Worker with the
-#                         session signature on the version, verify every page,
-#                         record a GPG-signed prod/tcos-www/<stamp> tag
+#   ./deploy.sh promote   gate the COMMITTED pages (no rebuild: the pages embed
+#                         the commit hash as their cache-bust, so a rebuild on
+#                         the merge commit can never match what that commit
+#                         holds -- measured 2026-09-06, three refusals in a
+#                         row), deploy the tcos-www Worker with the session
+#                         signature on the version, verify every page, record
+#                         a GPG-signed prod/tcos-www/<stamp> tag
 #
 # Requires: hee on PATH, ~/git/.github (lab), the sealed cloudflare-tcos-www
 # token via `hee cred -pass cloudflare-tcos-www -dir .hee/secrets -exec` (promote).
@@ -20,8 +24,21 @@ PAGES=(activity.html careers.html contact.html contracts.html index.html ir.html
 ASSET_DIRS=(css js shell assets)
 
 cd "$HERE"
-echo "=== build (templates -> pages; hee_gtag refuses a page without the tag) ==="
-python3 generate-public-site.py >/dev/null
+if [ "$cmd" = promote ]; then
+  # Prod deploys a commit that is on main. Checked before anything else so
+  # a refusal leaves the tree exactly as it was.
+  if [ -n "$(git status --porcelain -- "${PAGES[@]}" ./*.template.html generate-public-site.py "${ASSET_DIRS[@]}")" ]; then
+    echo "❌ CRITICAL promote: uncommitted changes in what would ship -- run ./deploy.sh lab, commit, merge; prod deploys a commit" >&2; exit 2
+  fi
+  git fetch -q origin main
+  if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+    echo "❌ CRITICAL promote: HEAD $(git rev-parse --short HEAD) is not origin/main $(git rev-parse --short origin/main) -- git switch main && git pull" >&2; exit 2
+  fi
+  echo "=== promote: committed pages at $(git rev-parse --short HEAD) (origin/main), no rebuild ==="
+else
+  echo "=== build (templates -> pages; hee_gtag refuses a page without the tag) ==="
+  python3 generate-public-site.py >/dev/null
+fi
 echo "=== gates ==="
 hee check all "$HERE" >/dev/null 2>&1 || { echo "❌ CRITICAL deploy: hee check all fails -- stopping" >&2; exit 2; }
 if grep -l -E '^(<<<<<<< |=======$|>>>>>>> )' "${PAGES[@]}" 2>/dev/null | grep -q .; then
@@ -43,9 +60,6 @@ fi
 
 SIG="$(hee ver session --tag 2>/dev/null || hee ver session 2>/dev/null | awk '/sig_tag|rc_tag/{print $2; exit}')"
 [ -n "$SIG" ] || { echo "❌ CRITICAL promote: no session signature from hee ver session" >&2; exit 2; }
-if [ -n "$(git status --porcelain -- "${PAGES[@]}" ./*.template.html generate-public-site.py "${ASSET_DIRS[@]}")" ]; then
-  echo "❌ CRITICAL promote: uncommitted changes in what would ship -- commit (and merge) first, prod deploys a commit" >&2; exit 2
-fi
 SRC_SHA="$(git rev-parse --short HEAD)"; STAMP="$(date -u +%Y%m%dT%H%MZ)"
 STAGE="$(mktemp -d)"; trap 'rm -rf "$STAGE"' EXIT
 cp "${PAGES[@]}" "$STAGE/" && cp -r "${ASSET_DIRS[@]}" "$STAGE/"
