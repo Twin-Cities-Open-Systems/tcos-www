@@ -12,6 +12,7 @@ commits directly -- accurate regardless of merge state.
 Usage: ./generate-public-site.py
 """
 import html
+from datetime import datetime, timezone
 import json
 import os
 import subprocess
@@ -240,6 +241,7 @@ def base_placeholders(active_path, commit_info, then_format=False):
     return {
         **commit_info,
         "RELEASE": rel, "RELEASE_TAG": rel.split("-")[0] if rel.startswith("v") else "",
+        "GENERATED": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "NAV": render_nav(active_path),
         "THEME_HEAD": theme_head,
         "GTAG": gtag,
@@ -477,9 +479,10 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
     claimed" looks like applied to our own activity.</p>
   </section>
 
-  <section style="padding-top: 0;">
+  <section style="padding-top: 0;" id="activity-live">
 {items}
   </section>
+  <p class="activity-meta" id="activity-live-note" data-built="{{GENERATED}}" style="margin: 0 0 24px;">as built {{GENERATED}}; refreshing from GitHub's public events&hellip;</p>
 
   <footer>
     <span>Twin Cities Open Systems</span>
@@ -488,6 +491,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
   </footer>
 </div>
 <script src="js/site.js?v={{COMMIT_SHORT}}"></script>
+<script src="js/activity.js?v={{COMMIT_SHORT}}"></script>
 {{THEME_LU}}
 </body>
 </html>
