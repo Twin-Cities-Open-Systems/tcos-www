@@ -13,4 +13,8 @@ spec:
   # from RELEASE_VERSION, which the tool sets from the release commit.
   credential: { account: cloudflare-tcos-www, dir: .hee/secrets }
   surfaces:
-    - { name: tcos-www, lab: "./deploy.sh lab", promote: "./deploy.sh promote" }
+    - name: tcos-www
+      build: "python3 generate-public-site.py"   # cut runs this; the eight pages go into the release commit
+      outputs: ["*.html", "!*.template.html"]     # git pathspecs
+      lab: "./deploy.sh lab"
+      promote: "./deploy.sh promote"
