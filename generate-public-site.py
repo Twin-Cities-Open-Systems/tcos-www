@@ -325,7 +325,6 @@ CARD_TMPL = """      <div class="badge">
         <div class="badge-foot">
           {tag}
           {github_link}
-          {blog_link}
           {media_link}
         </div>
       </div>"""
@@ -383,18 +382,13 @@ def render_people(roster, commit_info):
             if p.get("github") and not suspended:
                 gh_login = html.escape(p["github"])
                 github_link = f'<a class="badge-gh mono" href="https://github.com/{gh_login}">@{gh_login}</a>'
-                blog_slug = BLOG_SLUGS.get(p["github"])
             elif p.get("github"):
                 gh_login = html.escape(p["github"])
                 github_link = f'<span class="badge-gh mono badge-gh-pending" title="{html.escape(gh_account.get("note", ""))}">@{gh_login} (suspended)</span>'
-                blog_slug = None
             else:
                 github_link = '<span class="badge-gh mono badge-gh-pending">no GitHub yet</span>'
-                blog_slug = None
-            blog_link = (
-                f'<a class="badge-gh mono" href="https://tcos.us/people/{blog_slug}">Blog &#8594;</a>'
-                if blog_slug else ""
-            )
+            # No Blog link: the blog hosts are redirects to the media hosts
+            # since 2026-09-06 (operator: "remove blog link").
             media_host = MEDIA_HOSTS.get(p.get("github"))
             media_link = (
                 f'<a class="badge-gh mono" href="https://{media_host}">Media &#8594;</a>'
@@ -414,7 +408,6 @@ def render_people(roster, commit_info):
                 what=html.escape(p["what"]),
                 tag=tag,
                 github_link=github_link,
-                blog_link=blog_link,
                 media_link=media_link,
             ))
     return fill_placeholders(PEOPLE_PAGE_TMPL, base_placeholders("/people", commit_info, then_format=True)).format(cards="\n".join(cards))
