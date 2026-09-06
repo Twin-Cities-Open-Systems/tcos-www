@@ -236,7 +236,7 @@ def render_nav(active_path):
         for href, label in NAV_LINKS
     )
     return (
-        '<div class="wrap"><nav class="site-nav">\n'
+        '<div class="wrap wrap-nav"><nav class="site-nav">\n'
         '  <a class="brand" href="/">Twin Cities Open Systems</a>\n'
         # Under 700px the links collapse behind this button (site.js toggles
         # .open on the nav). Operator, 2026-09-06: "let's try using a
