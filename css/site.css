@@ -353,7 +353,13 @@ body[data-fontsize="m"] { zoom: 1; }
 body[data-fontsize="l"] { zoom: 1.125; }
 body[data-fontsize="xl"] { zoom: 1.25; }
 body[data-fontsize="xxl"] { zoom: 1.375; }
-.fontsize-toggle { display: flex; align-items: center; gap: 4px; margin-left: 12px; }
+.fontsize-toggle { display: flex; align-items: center; gap: 6px; margin-left: 12px; }
+/* SYNCED-FROM .github/bin/render-review.py (Gold): collapsed behind "Aa",
+   expands on hover / keyboard focus, force-collapses after a click. */
+.fontsize-toggle .fs-label { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; color: var(--ink-faint); cursor: default; user-select: none; }
+.fontsize-toggle .fs-options { display: flex; align-items: center; gap: 4px; max-width: 0; overflow: hidden; opacity: 0; transition: max-width .18s ease, opacity .18s ease; }
+.fontsize-toggle:hover .fs-options, .fontsize-toggle:focus-within .fs-options { max-width: 240px; opacity: 1; }
+.fontsize-toggle.fs-force-collapsed .fs-options { max-width: 0 !important; opacity: 0 !important; }
 .fontsize-toggle span { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; color: var(--ink-faint); margin-right: 2px; }
 .fontsize-btn {
   background: var(--surface-2); border: 1px solid var(--line); color: var(--ink-faint);

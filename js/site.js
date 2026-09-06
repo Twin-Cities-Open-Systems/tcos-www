@@ -19,6 +19,18 @@
         var size = btn.dataset.size;
         localStorage.setItem(KEY, size);
         apply(size);
+      btn.blur();
+      // Gold's fix (2026-08-30): :hover alone keeps .fs-options open after a
+      // click, the cursor is still on the widget -- force-collapse, then let
+      // hover/focus-within resume once the cursor leaves.
+      var toggle = btn.closest(".fontsize-toggle");
+      if (toggle) {
+        toggle.classList.add("fs-force-collapsed");
+        toggle.addEventListener("mouseleave", function onLeave() {
+          toggle.classList.remove("fs-force-collapsed");
+          toggle.removeEventListener("mouseleave", onLeave);
+        });
+      }
       });
     });
   });
