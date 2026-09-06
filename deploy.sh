@@ -41,7 +41,7 @@ if [ "$cmd" = lab ]; then
   exit 0
 fi
 
-SIG="$(hee ver session --signature 2>/dev/null || hee ver session 2>/dev/null | awk '/rc_tag/{print $2}')"
+SIG="$(hee ver session --signature 2>/dev/null || hee ver session 2>/dev/null | awk '/sig_tag|rc_tag/{print $2; exit}')"
 [ -n "$SIG" ] || { echo "❌ CRITICAL promote: no session signature from hee ver session" >&2; exit 2; }
 if [ -n "$(git status --porcelain -- "${PAGES[@]}" ./*.template.html generate-public-site.py "${ASSET_DIRS[@]}")" ]; then
   echo "❌ CRITICAL promote: uncommitted changes in what would ship -- commit (and merge) first, prod deploys a commit" >&2; exit 2
