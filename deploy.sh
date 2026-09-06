@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+# deploy.sh -- tcos.us: build, gate, lab, promote. Two explicit steps, never
+# one (HEE_POLICY 17). Incident tcos-www#59 (2026-09-06): prod was an ad hoc
+# `wrangler deploy` from whatever checkout someone was on, and served git
+# conflict markers for 16 minutes. This is the only sanctioned path now.
+#
+#   ./deploy.sh lab       regenerate from templates (branding card required),
+#                         gate, push to lab.tcos.us via .github's Makefile
+#   ./deploy.sh promote   regenerate, gate, deploy the tcos-www Worker with the
+#                         session signature on the version, verify every page,
+#                         record a GPG-signed prod/tcos-www/<stamp> tag
+#
+# Requires: hee on PATH, ~/git/.github (lab), the sealed cloudflare-tcos-www
+# token via `hee cred -pass cloudflare-tcos-www -dir .hee/secrets -exec` (promote).
+set -euo pipefail
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cmd="${1:-}"
+[ "$cmd" = lab ] || [ "$cmd" = promote ] || { echo "usage: $0 lab|promote" >&2; exit 1; }
+PAGES=(activity.html careers.html contact.html contracts.html index.html ir.html people.html story.html)
+ASSET_DIRS=(css js shell assets)
+
+cd "$HERE"
+echo "=== build (templates -> pages; hee_gtag refuses a page without the tag) ==="
+python3 generate-public-site.py >/dev/null
+echo "=== gates ==="
+hee check all "$HERE" >/dev/null 2>&1 || { echo "❌ CRITICAL deploy: hee check all fails -- stopping" >&2; exit 2; }
+if grep -l -E '^(<<<<<<< |=======$|>>>>>>> )' "${PAGES[@]}" 2>/dev/null | grep -q .; then
+  echo "❌ CRITICAL deploy: git conflict markers in generated pages -- stopping" >&2; exit 2
+fi
+for f in "${PAGES[@]}"; do
+  grep -q 'gtag/js?id=G-' "$f" || { echo "❌ CRITICAL deploy: $f has no Google tag -- stopping" >&2; exit 2; }
+done
+echo "  hee check all: OK; no conflict markers; tag on all ${#PAGES[@]} pages"
+
+if [ "$cmd" = lab ]; then
+  make -C "$HOME/git/.github" lab-tcos-www >/dev/null
+  for p in / /people /story; do
+    printf '  lab.tcos.us%-8s %s\n' "$p" "$(curl -s -o /dev/null -w '%{http_code}' "https://lab.tcos.us$p")"
+  done
+  echo "=== lab updated -- review https://lab.tcos.us, then ./deploy.sh promote ==="
+  exit 0
+fi
+
+SIG="$(hee ver session --signature 2>/dev/null || hee ver session 2>/dev/null | awk '/rc_tag/{print $2}')"
+[ -n "$SIG" ] || { echo "❌ CRITICAL promote: no session signature from hee ver session" >&2; exit 2; }
+if [ -n "$(git status --porcelain -- "${PAGES[@]}" ./*.template.html generate-public-site.py "${ASSET_DIRS[@]}")" ]; then
+  echo "❌ CRITICAL promote: uncommitted changes in what would ship -- commit (and merge) first, prod deploys a commit" >&2; exit 2
+fi
+SRC_SHA="$(git rev-parse --short HEAD)"; STAMP="$(date -u +%Y%m%dT%H%MZ)"
+STAGE="$(mktemp -d)"; trap 'rm -rf "$STAGE"' EXIT
+cp "${PAGES[@]}" "$STAGE/" && cp -r "${ASSET_DIRS[@]}" "$STAGE/"
+: "${CLOUDFLARE_API_TOKEN:?Set CLOUDFLARE_API_TOKEN (run via hee cred -pass cloudflare-tcos-www -dir .hee/secrets -exec)}"
+CLOUDFLARE_ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID:-$(curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" https://api.cloudflare.com/client/v4/accounts | python3 -c 'import sys,json; print(json.load(sys.stdin)["result"][0]["id"])')}"
+export CLOUDFLARE_ACCOUNT_ID
+echo "=== promote: tcos-www worker, src=$SRC_SHA session=$SIG ==="
+( cd "$STAGE" && npx --yes wrangler@4.86.0 deploy --name tcos-www --assets . --compatibility-date=2026-08-15 \
+    --message "hee:$SIG tcos-www src=$SRC_SHA" --tag "${SIG%%_*}" 2>&1 | grep -E 'Success|rror' )
+echo "=== verify prod ==="
+bad=0
+for f in "${PAGES[@]}"; do
+  p="/${f%.html}"; [ "$p" = /index ] && p=/
+  body="$(curl -s "https://tcos.us$p")"
+  code="$(curl -s -o /dev/null -w '%{http_code}' "https://tcos.us$p")"
+  markers="$(printf '%s\n' "$body" | grep -c -E '^(<<<<<<< |=======$|>>>>>>> )' || true)"
+  tag="$(printf '%s\n' "$body" | grep -c 'gtag/js?id=G-' || true)"
+  printf '  %-12s %s markers=%s tag=%s\n' "$p" "$code" "$markers" "$tag"
+  [ "$code" = 200 ] && [ "$markers" = 0 ] && [ "$tag" = 1 ] || bad=1
+done
+[ "$bad" = 0 ] || { echo "❌ CRITICAL promote: prod verification failed -- fix forward or redeploy the previous commit" >&2; exit 2; }
+TAG="prod/tcos-www/$STAMP"
+git tag -s "$TAG" -m "prod promotion: tcos.us
+worker: tcos-www
+source: $SRC_SHA
+session: $SIG
+verified: 8 pages 200, no conflict markers, Google tag present" "$SRC_SHA" \
+  && git push -q origin "refs/tags/$TAG" \
+  && echo "🟢 OK promoted: tag $TAG (session $SIG)" \
+  || { echo "⚠️ WARNING promote: deployed and verified, but the prod tag could not be created/pushed -- record it by hand" >&2; }
