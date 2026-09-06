@@ -322,6 +322,10 @@ pre, table { max-width: 100%; overflow-x: auto; display: block; }
   html, body { overflow-x: hidden; }
   .wrap > *, .wrap > * > * { min-width: 0; max-width: 100%; }
   .fontsize-btn, .theme-btn { white-space: nowrap; }
+  /* The terminal block is a grid child deeper than .wrap's first level;
+     bound its box to the viewport directly so the pre scrolls inside it. */
+  .terminal { max-width: calc(100vw - 32px); }
+  .terminal pre { max-width: calc(100vw - 34px); }
 }
 @media (max-width: 420px) {
   .stat-row, .link-grid { grid-template-columns: 1fr; }
