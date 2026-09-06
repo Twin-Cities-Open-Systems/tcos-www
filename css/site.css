@@ -313,6 +313,16 @@ pre, table { max-width: 100%; overflow-x: auto; display: block; }
   .stat-row, .link-grid { grid-template-columns: 1fr 1fr; }
   .fontsize-toggle, .theme-toggle { flex-wrap: wrap; }
 }
+@media (max-width: 700px) {
+  /* Backstop and cause: a grid/flex child defaults to min-width:auto and
+     grows to its widest line (the terminal block on the index), pushing the
+     page past the viewport. min-width:0 lets the box shrink and scroll
+     inside; overflow-x:hidden on html/body means nothing can slide the
+     page even if a new component forgets. */
+  html, body { overflow-x: hidden; }
+  .wrap > *, .wrap > * > * { min-width: 0; max-width: 100%; }
+  .fontsize-btn, .theme-btn { white-space: nowrap; }
+}
 @media (max-width: 420px) {
   .stat-row, .link-grid { grid-template-columns: 1fr; }
 }
