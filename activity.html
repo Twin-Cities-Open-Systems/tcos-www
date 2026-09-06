@@ -40,7 +40,7 @@
   })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/site.css?v=9b73b93">
+<link rel="stylesheet" href="css/site.css?v=3e27d59">
 <style>
   .activity-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
   .activity-item:last-child { border-bottom: none; }
@@ -53,7 +53,7 @@
 </style>
 </head>
 <body>
-<div class="wrap"><nav class="site-nav">
+<div class="wrap wrap-nav"><nav class="site-nav">
   <a class="brand" href="/">Twin Cities Open Systems</a>
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Menu">&#9776;</button>
   <div class="links" id="site-links"><a href="/">Home</a><a href="/people">People</a><a href="/activity" class="active">Activity</a><a href="/story">Our Story</a><a href="/ir">Investor Relations</a><a href="/contracts">Contracts</a><a href="/careers">Careers</a><a href="/contact">Contact / Sales</a></div>
@@ -69,6 +69,48 @@
   </section>
 
   <section style="padding-top: 0;">
+    <div class="activity-item">
+      <div class="activity-repo">.github</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/2f9a5c5732cccebeae79f57753a4ec0ad94b3826">sitemap: the five tcos.us pages and the gopher gateway root -- found unlisted by the crawl (#90)</a></div>
+        <div class="activity-meta">2026-09-06T05:18:02Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">resume</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/cf2f5bbf2290ccaa59cfb2e58145f670b2fb9ff1">fix(resume): pandoc links bare URLs in the resume (+autolink_bare_uris) (#58)</a></div>
+        <div class="activity-meta">2026-09-06T05:17:57Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">resume</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/37f2fec4ef6bcbd2edc8535399b6c5629ef3c71b">fix(media): the root&#x27;s lu is owned by the builder (#57)</a></div>
+        <div class="activity-meta">2026-09-06T05:17:50Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/89cf8cb3eec88c8a372901b9e615458be72bce6f">feat(view): crawl summary per network -- public and lab on their own lines (#578)</a></div>
+        <div class="activity-meta">2026-09-06T05:17:43Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">.github</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/f7a15ccc43a793478837d00d24e9b9d21691943e">feat(gold): bare URLs become links; relative links to repo files point at their rendered page (#91)</a></div>
+        <div class="activity-meta">2026-09-06T05:17:33Z</div>
+      </div>
+    </div>
+    <div class="activity-item">
+      <div class="activity-repo">tcos-www</div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/3e27d591f7f4bd8287d0d700cacca017c8bd5ce6">fix(pages): regenerate -- #55 committed git conflict markers into all eight pages and prod shipped them (#58)</a></div>
+        <div class="activity-meta">2026-09-06T04:40:38Z</div>
+      </div>
+    </div>
     <div class="activity-item">
       <div class="activity-repo">tcos-www</div>
       <div class="activity-body">
@@ -182,13 +224,6 @@
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/d903dba0b796dbb52f43e40aef0881c3879cb4b6">fix(gtag): a page without the Google tag is CRITICAL, not a warning; default branding card path (#572)</a></div>
-        <div class="activity-meta">2026-09-06T03:45:45Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
       <div class="activity-repo">.github</div>
       <div class="activity-body">
         <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/2ddcb1e68cd562a641659b2563b7295b25fde524">feat(ci): content-audit -- tcos-audit&#x27;s scan on every repo, on push via workflow_call and every 6 h org-wide (#86)</a></div>
@@ -209,50 +244,15 @@
         <div class="activity-meta">2026-09-06T02:27:30Z</div>
       </div>
     </div>
-    <div class="activity-item">
-      <div class="activity-repo">tcos-www</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/0326f97e077967afa8fd8ebe66b434f5e1c7ec0b">feat(mobile): collapsible nav under 700px, fluid cards, nothing wider than the viewport (#54)</a></div>
-        <div class="activity-meta">2026-09-06T02:26:47Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">.github</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/1885f917bf30554470cc26ad95999010584ea086">feat(view): old-commits.html -- every non-main branch on origin, with a verdict each (#85)</a></div>
-        <div class="activity-meta">2026-09-06T02:26:35Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">hee-epoch</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/hee-epoch/commit/7342405df2e650f09f2b4c1d2fb17aab3d51fe3f">docs: the first keys exist -- first real (fake) root (#5)</a></div>
-        <div class="activity-meta">2026-09-05T22:13:14Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">resume</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/f07df0e3a318d9373ba17be0c96b0c057a959abd">feat(site): the org&#x27;s Google tag on every page this repo publishes (#48)</a></div>
-        <div class="activity-meta">2026-09-05T20:31:08Z</div>
-      </div>
-    </div>
-    <div class="activity-item">
-      <div class="activity-repo">tcos-www</div>
-      <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/9287fae9f5f7ff1c9a4e4ca0ff33a84f2f364fd0">feat(site): Google tag (GA4) on every page, production-only reporting (#53)</a></div>
-        <div class="activity-meta">2026-09-05T20:31:05Z</div>
-      </div>
-    </div>
   </section>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/9b73b93f6b16898e926ef4917e4b77b8ff5c312b">9b73b93</a></span>
-    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-06T04:39:25Z">2026-09-06T04:39:25Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
+    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/3e27d591f7f4bd8287d0d700cacca017c8bd5ce6">3e27d59</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-06T05:18:24Z">2026-09-06T05:18:24Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
-<script src="js/site.js?v=9b73b93"></script>
+<script src="js/site.js?v=3e27d59"></script>
 <script>
   var TH_KEY = "tcos-theme";
   (function () {

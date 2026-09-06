@@ -61,7 +61,7 @@
     -webkit-font-smoothing: antialiased;
   }
   .mono { font-family: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", "Consolas", monospace; }
-  .lu-row { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11.5px; color: var(--ink-faint); margin: 10px 0 0; }
+  .lu-row { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.7188rem; color: var(--ink-faint); margin: 10px 0 0; }
   .lu-row b { color: var(--ink-dim); font-weight: 600; }
 
   /* ---- Gold cards: stat-row/stat, link-grid/link-card -- SYNCED-FROM
@@ -73,15 +73,15 @@
      shared baseline every page can reach for). */
   .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 32px 0; }
   .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
-  .stat .n { font-family: "JetBrains Mono", monospace; font-size: 30px; font-weight: 700; line-height: 1; }
-  .stat .l { font-size: 12.5px; color: var(--ink-faint); margin-top: 6px; }
+  .stat .n { font-family: "JetBrains Mono", monospace; font-size: 1.875rem; font-weight: 700; line-height: 1; }
+  .stat .l { font-size: 0.7812rem; color: var(--ink-faint); margin-top: 6px; }
   .stat.accent .n { color: var(--accent-ink); }
 
   .link-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 16px 0; }
   .link-card { display: block; text-decoration: none; color: inherit; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; transition: border-color 0.15s; }
   .link-card:hover { border-color: var(--accent); }
-  .link-card .t { font-weight: 600; font-size: 14px; margin-bottom: 4px; color: var(--ink); }
-  .link-card .d { font-size: 12.5px; color: var(--ink-faint); }
+  .link-card .t { font-weight: 600; font-size: 0.875rem; margin-bottom: 4px; color: var(--ink); }
+  .link-card .d { font-size: 0.7812rem; color: var(--ink-faint); }
 
   a { color: var(--accent-ink); }
 
@@ -91,7 +91,7 @@
 
   .eyebrow {
     font-family: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", monospace;
-    font-size: 12px;
+    font-size: 0.75rem;
     letter-spacing: .16em;
     text-transform: uppercase;
     color: var(--accent-ink);
@@ -111,7 +111,7 @@
     text-wrap: balance;
   }
   .hero .sub {
-    font-size: 19px;
+    font-size: 1.188rem;
     color: var(--ink-dim);
     max-width: 56ch;
     margin: 0 0 40px;
@@ -139,7 +139,7 @@
     margin: 0;
     padding: 20px 22px 24px;
     font-family: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", monospace;
-    font-size: 13.5px;
+    font-size: 0.8438rem;
     line-height: 1.75;
     overflow-x: auto;
     white-space: pre;
@@ -155,7 +155,7 @@
     gap: 10px 28px;
     margin-top: 36px;
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--ink-dim);
   }
   .receipts b { color: var(--ink); font-variant-numeric: tabular-nums; }
@@ -169,7 +169,7 @@
     text-wrap: balance;
   }
   section p {
-    font-size: 17px;
+    font-size: 1.062rem;
     color: var(--ink-dim);
     max-width: 60ch;
   }
@@ -197,17 +197,17 @@
     width: 40px; height: 40px; border-radius: 6px;
     display: flex; align-items: center; justify-content: center;
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-weight: 700; font-size: 14px;
+    font-weight: 700; font-size: 0.875rem;
     background: var(--accent-soft); color: var(--accent-ink);
     flex: none;
   }
-  .badge .who .name { font-weight: 700; font-size: 15px; line-height: 1.3; }
-  .badge .who .role { font-size: 12.5px; color: var(--ink-faint); }
-  .badge .what { font-size: 13.5px; color: var(--ink-dim); }
+  .badge .who .name { font-weight: 700; font-size: 0.9375rem; line-height: 1.3; }
+  .badge .who .role { font-size: 0.7812rem; color: var(--ink-faint); }
+  .badge .what { font-size: 0.8438rem; color: var(--ink-dim); }
   .badge .tag {
     align-self: flex-start;
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 10.5px;
+    font-size: 0.6562rem;
     letter-spacing: .04em;
     text-transform: uppercase;
     padding: 3px 8px;
@@ -219,10 +219,10 @@
   .badge .tag.pending { background: var(--accent-soft); color: var(--accent-ink); }
   .tag-expand summary.tag { cursor: pointer; list-style: none; }
   .tag-expand summary.tag::-webkit-details-marker { display: none; }
-  .expand-caret { display: inline-block; font-size: 9px; margin-left: 2px; transition: transform 0.15s; }
+  .expand-caret { display: inline-block; font-size: 0.5625rem; margin-left: 2px; transition: transform 0.15s; }
   .tag-expand[open] .expand-caret { transform: rotate(180deg); }
   .expand-detail { margin-top: 8px; padding: 8px 10px; background: var(--surface-2); border-radius: 6px; }
-  .detail-row { display: flex; justify-content: space-between; gap: 10px; font-size: 11.5px; padding: 3px 0; }
+  .detail-row { display: flex; justify-content: space-between; gap: 10px; font-size: 0.7188rem; padding: 3px 0; }
   .detail-k { color: var(--ink-faint); flex: none; }
   .detail-v { color: var(--ink-dim); text-align: right; word-break: break-all; text-decoration: none; }
   a.detail-v:hover { color: var(--accent-ink); }
@@ -230,7 +230,7 @@
   .badge-foot { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
   .badge-foot .tag-expand { flex: 1 1 100%; order: 1; }
   .badge-foot .tag-expand ~ .badge-gh { order: 2; }
-  .badge-gh { font-size: 12px; color: var(--ink-faint); text-decoration: none; }
+  .badge-gh { font-size: 0.75rem; color: var(--ink-faint); text-decoration: none; }
   .badge-gh:not(.badge-gh-pending):hover { color: var(--accent-ink); }
   .badge-gh-pending { font-style: italic; }
 
@@ -251,7 +251,7 @@
     background: var(--surface);
     color: var(--ink);
     text-decoration: none;
-    font-size: 14.5px;
+    font-size: 0.9062rem;
     font-weight: 600;
     transition: border-color .15s ease, transform .15s ease;
   }
@@ -260,7 +260,7 @@
 
   footer {
     padding: 40px 0 64px;
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--ink-faint);
     display: flex;
     justify-content: space-between;
@@ -284,20 +284,23 @@
   margin-right: 24px;
   font-family: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", monospace;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 0.875rem;
   letter-spacing: -.01em;
   color: var(--ink);
   text-decoration: none;
 }
 .site-nav .links { display: flex; gap: 22px; }
 .site-nav .links a {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--ink-dim);
   text-decoration: none;
 }
 .site-nav .links a:hover, .site-nav .links a.active { color: var(--accent-ink); }
-.site-nav .nav-toggle { display: none; background: var(--surface-2); border: 1px solid var(--line); border-radius: 6px; color: var(--ink); font-size: 18px; line-height: 1; padding: 6px 10px; cursor: pointer; }
+/* The header gets a wider band than the reading column, like any site
+   with a top nav; the column stays 780px for prose. */
+.wrap-nav { max-width: 1100px; }
+.site-nav .nav-toggle { display: none; background: var(--surface-2); border: 1px solid var(--line); border-radius: 6px; color: var(--ink); font-size: 1.125rem; line-height: 1; padding: 6px 10px; cursor: pointer; }
 
 /* ---- phones: collapsible nav, fluid cards, nothing wider than the viewport ----
    Operator, 2026-09-06: "mobile not good. the view port slides all over the
@@ -308,32 +311,25 @@ pre, table { max-width: 100%; overflow-x: auto; display: block; }
 /* ...but never inside the nav: at 1100px the link labels were breaking
    mid-word ("Ho me", "Peop le") under that rule. */
 .site-nav, .site-nav a, .fontsize-toggle, .theme-toggle { overflow-wrap: normal; white-space: nowrap; }
-@media (max-width: 700px) {
-  .wrap { padding: 0 16px; }
-  .site-nav { flex-wrap: wrap; padding: 14px 0; }
-  .site-nav .nav-toggle { display: inline-block; }
-  .site-nav .links { display: none; width: 100%; flex-direction: column; gap: 10px; padding: 12px 0 4px; border-top: 1px solid var(--line); margin-top: 12px; }
-  .site-nav.open .links { display: flex; }
-  .stat-row, .link-grid { grid-template-columns: 1fr 1fr; }
-  .fontsize-toggle, .theme-toggle { flex-wrap: wrap; }
-}
-@media (max-width: 700px) {
-  /* Backstop and cause: a grid/flex child defaults to min-width:auto and
-     grows to its widest line (the terminal block on the index), pushing the
-     page past the viewport. min-width:0 lets the box shrink and scroll
-     inside; overflow-x:hidden on html/body means nothing can slide the
-     page even if a new component forgets. */
-  html, body { overflow-x: hidden; }
-  .wrap > *, .wrap > * > * { min-width: 0; max-width: 100%; }
-  .fontsize-btn, .theme-btn { white-space: nowrap; }
-  /* The terminal block is a grid child deeper than .wrap's first level;
-     bound its box to the viewport directly so the pre scrolls inside it. */
-  .terminal { max-width: calc(100vw - 32px); }
-  .terminal pre { max-width: calc(100vw - 34px); }
-}
-@media (max-width: 420px) {
-  .stat-row, .link-grid { grid-template-columns: 1fr; }
-}
+/* layout: compact -- set by site.js from the viewport width in em; was @media (max-width: 700px) */
+html[data-layout~="compact"] .wrap { padding: 0 16px; }
+html[data-layout~="compact"] .site-nav { flex-wrap: wrap; padding: 14px 0; }
+html[data-layout~="compact"] .site-nav .nav-toggle { display: inline-block; }
+html[data-layout~="compact"] .site-nav .links { display: none; width: 100%; flex-direction: column; gap: 10px; padding: 12px 0 4px; border-top: 1px solid var(--line); margin-top: 12px; }
+html[data-layout~="compact"] .site-nav.open .links { display: flex; }
+html[data-layout~="compact"] .stat-row, html[data-layout~="compact"] .link-grid { grid-template-columns: 1fr 1fr; }
+html[data-layout~="compact"] .fontsize-toggle, html[data-layout~="compact"] .theme-toggle { flex-wrap: wrap; }
+
+/* layout: compact -- set by site.js from the viewport width in em; was @media (max-width: 700px) */
+html[data-layout~="compact"], html[data-layout~="compact"] body { overflow-x: hidden; }
+html[data-layout~="compact"] .wrap > *, html[data-layout~="compact"] .wrap > * > * { min-width: 0; max-width: 100%; }
+html[data-layout~="compact"] .fontsize-btn, html[data-layout~="compact"] .theme-btn { white-space: nowrap; }
+html[data-layout~="compact"] .terminal { max-width: calc(100vw - 32px); }
+html[data-layout~="compact"] .terminal pre { max-width: calc(100vw - 34px); }
+
+/* layout: narrow -- set by site.js from the viewport width in em; was @media (max-width: 420px) */
+html[data-layout~="narrow"] .stat-row, html[data-layout~="narrow"] .link-grid { grid-template-columns: 1fr; }
+
 
 /* ---- sales/contact CTA block ---- */
 .cta-block {
@@ -343,7 +339,7 @@ pre, table { max-width: 100%; overflow-x: auto; display: block; }
   padding: 28px;
   margin-top: 28px;
 }
-.cta-block h3 { margin: 0 0 8px; font-size: 19px; }
+.cta-block h3 { margin: 0 0 8px; font-size: 1.188rem; }
 .cta-block p { margin: 0 0 18px; }
 
 /* ---- font-size toggle, S/M/L/XL, same pattern as thesis-engine's own dashboard ----
@@ -352,22 +348,27 @@ pre, table { max-width: 100%; overflow-x: auto; display: block; }
    from it. `zoom` genuinely rescales the whole rendered page (layout
    included), supported in Chrome/Edge/Safari; Firefox lacks support, a
    known real gap, not silently ignored. */
-body[data-fontsize="s"] { zoom: 0.875; }
-body[data-fontsize="m"] { zoom: 1; }
-body[data-fontsize="l"] { zoom: 1.125; }
-body[data-fontsize="xl"] { zoom: 1.25; }
-body[data-fontsize="xxl"] { zoom: 1.375; }
+/* The toggle scales the ROOT font size; text is in rem, so it follows, and
+   site.js measures the viewport in em, so a bigger text size collapses the
+   layout exactly like a narrower screen or a browser zoom. Operator,
+   2026-09-06: "graceful when we zoom in and invoke the hamburger; same code
+   on phone and desktop; auto-adapt on user change." */
+html[data-fontsize="s"] { font-size: 87.5%; }
+html[data-fontsize="m"] { font-size: 100%; }
+html[data-fontsize="l"] { font-size: 112.5%; }
+html[data-fontsize="xl"] { font-size: 125%; }
+html[data-fontsize="xxl"] { font-size: 137.5%; }
 .fontsize-toggle { display: flex; align-items: center; gap: 6px; margin-left: 12px; }
 /* SYNCED-FROM .github/bin/render-review.py (Gold): collapsed behind "Aa",
    expands on hover / keyboard focus, force-collapses after a click. */
-.fontsize-toggle .fs-label { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; color: var(--ink-faint); cursor: default; user-select: none; }
+.fontsize-toggle .fs-label { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.625rem; color: var(--ink-faint); cursor: default; user-select: none; }
 .fontsize-toggle .fs-options { display: flex; align-items: center; gap: 4px; max-width: 0; overflow: hidden; opacity: 0; transition: max-width .18s ease, opacity .18s ease; }
 .fontsize-toggle:hover .fs-options, .fontsize-toggle:focus-within .fs-options { max-width: 240px; opacity: 1; }
 .fontsize-toggle.fs-force-collapsed .fs-options { max-width: 0 !important; opacity: 0 !important; }
-.fontsize-toggle span { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; color: var(--ink-faint); margin-right: 2px; }
+.fontsize-toggle span { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.625rem; color: var(--ink-faint); margin-right: 2px; }
 .fontsize-btn {
   background: var(--surface-2); border: 1px solid var(--line); color: var(--ink-faint);
-  font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10.5px; font-weight: 700;
+  font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.6562rem; font-weight: 700;
   width: 22px; height: 22px; border-radius: 5px; cursor: pointer; line-height: 1;
 }
 .fontsize-btn.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }
@@ -378,7 +379,10 @@ body[data-fontsize="xxl"] { zoom: 1.375; }
 .theme-toggle { display: flex; align-items: center; gap: 4px; margin-left: 12px; }
 .theme-btn {
   background: var(--surface-2); border: 1px solid var(--line); color: var(--ink-faint);
-  font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10.5px; font-weight: 600;
+  font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.6562rem; font-weight: 600;
   padding: 0 8px; height: 22px; border-radius: 5px; cursor: pointer; line-height: 1;
 }
 .theme-btn.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }
+
+/* No-JS fallback: without site.js there is no data-layout; let the nav wrap. */
+html:not([data-layout]) .site-nav { flex-wrap: wrap; }
