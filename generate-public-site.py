@@ -305,7 +305,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
     <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="{{COMMIT_DATE}}">{{COMMIT_DATE}}</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 
@@ -473,7 +473,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
     <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="{{COMMIT_DATE}}">{{COMMIT_DATE}}</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
@@ -640,7 +640,7 @@ IR_PAGE_TMPL = """<!doctype html>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
+    <span class="mono">est. {{EST_YEAR}} · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/{{COMMIT}}">{{COMMIT_SHORT}}</a></span>
     <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="{{COMMIT_DATE}}">{{COMMIT_DATE}}</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
