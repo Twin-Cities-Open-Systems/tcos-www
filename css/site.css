@@ -281,6 +281,7 @@
   padding: 22px 0;
 }
 .site-nav .brand {
+  margin-right: 24px;
   font-family: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", monospace;
   font-weight: 700;
   font-size: 14px;
