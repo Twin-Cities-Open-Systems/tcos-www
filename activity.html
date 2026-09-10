@@ -40,8 +40,12 @@
   })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/site.css?v=9639972">
+<link rel="stylesheet" href="css/site.css?v=b572163">
 <style>
+  .activity-group { margin: 0 0 28px; }
+  .activity-group-head { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding: 0 0 6px; border-bottom: 2px solid var(--accent); }
+  .activity-group-head .activity-repo { font-size: 1rem; }
+  .activity-since:empty { display: none; }
   .activity-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
   .activity-item:last-child { border-bottom: none; }
   .activity-repo { font-family: ui-monospace, monospace; font-size: 11px; color: var(--accent-ink); font-weight: 700; white-space: nowrap; padding-top: 2px; min-width: 130px; }
@@ -63,196 +67,278 @@
   <section class="hero" style="padding-bottom: 20px;">
     <p class="eyebrow">What we're shipping</p>
     <h1 style="font-size: clamp(30px, 5vw, 44px);">Real commits, not a highlight reel.</h1>
-    <p class="sub">Every line below is a real commit from our public
-    repos, newest first. No curation — this is what "verified, not
-    claimed" looks like applied to our own activity.</p>
+    <p class="sub">A sample, not an archive: the busiest public repos of
+    the last two weeks, each with its latest release and its last few
+    commits, as built. What moved since is fetched from GitHub when you
+    open the page. No curation — this is what "verified, not claimed"
+    looks like applied to our own activity.</p>
   </section>
 
-  <section style="padding-top: 0;">
+  <section style="padding-top: 0;" id="activity-live">
+<div class="activity-group activity-general"><div class="activity-group-head"><span class="activity-repo">all public repos · last 14 days</span><span class="activity-meta">254 commit(s) across 8 repo(s) · 2 release(s): <a href="https://github.com/Twin-Cities-Open-Systems/resume/releases/tag/v1.0.0">resume v1.0.0</a>, <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/releases/tag/v1.0.0">tcos-www v1.0.0</a> · busiest: human-execution-engine</span></div></div>
+    <div class="activity-group" data-repo="human-execution-engine">
+      <div class="activity-group-head">
+        <a class="activity-repo" href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine">human-execution-engine</a>
+        <span class="activity-meta">release <a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/releases/tag/grave-gnu-recursfun-r2">grave-gnu-recursfun-r2</a> · 2026-02-07 · 100 commit(s) in 14 days</span>
+        <span class="activity-meta activity-since" data-since=""></span>
+      </div>
     <div class="activity-item">
-      <div class="activity-repo">tcos-www</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/96399728ece933800463e8ea279979b45bd64ab8">fix(careers): six roles re-pointed at real fleet-ops issues; a dead issue fails the build instead of defaulting to open (#63)</a></div>
-        <div class="activity-meta">2026-09-06T07:34:54Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/5f4e568a8d794bfdb06927009767962ab3f31be8">fix(release): a card&#x27;s &#x27;!&#x27; output exclusion becomes git&#x27;s :(exclude) pathspec (#695)</a></div>
+        <div class="activity-meta">2026-09-10T22:36:03Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">resume</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/5bf76554f1225a5b3fc9fb2bd94036e50a1ee3a3">feat(media): the MN2600 item -- both people approved, consent recorded (#62)</a></div>
-        <div class="activity-meta">2026-09-06T07:26:42Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/12a2f51d782c9ab5ddb79c9667422a9b23191268">fix(release): -lab builds before it pushes, as its help always said (#694)</a></div>
+        <div class="activity-meta">2026-09-10T18:18:37Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/cf066276ea74c175e462b45fe787a74c6e12c61a">feat(gen-manpages): the changelog rides with the gopher tree -- CHANGELOG.txt at the root, linked from the root menu (#587)</a></div>
-        <div class="activity-meta">2026-09-06T07:26:37Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/28f8c46318a4d270112df3821b8f42ebe849839b">docs(init): the outgoing handoff is step 0, before the ceremony (#680)</a></div>
+        <div class="activity-meta">2026-09-10T17:58:12Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/ad18d1cb4961142485b968b0afd9960731635f94">fix(view): a template container is reported as such, not as stopped (#586)</a></div>
-        <div class="activity-meta">2026-09-06T07:26:31Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/b69da0896f3ef7e60f652706d59ee166697bc74d">fix(ticket): runs from any directory -- workspace view outside a repo, --repo for writes (#693)</a></div>
+        <div class="activity-meta">2026-09-10T17:58:01Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">.github</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/cc518abfe8324eeba39e5b5fcf132f9f505596fe">feat(view.lab): index pages for /files/ and /diffs/ -- built from what the view container holds (#93)</a></div>
-        <div class="activity-meta">2026-09-06T07:26:26Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/cd5b880573f402ff142c85ffcfbb65f7a3d0424a">feat(library/js): freshness.js writes the date in the reader&#x27;s locale (#692)</a></div>
+        <div class="activity-meta">2026-09-10T17:57:08Z</div>
+      </div>
+    </div>
+    </div>
+    <div class="activity-group" data-repo=".github">
+      <div class="activity-group-head">
+        <a class="activity-repo" href="https://github.com/Twin-Cities-Open-Systems/.github">.github</a>
+        <span class="activity-meta">no release yet · 53 commit(s) in 14 days</span>
+        <span class="activity-meta activity-since" data-since=""></span>
+      </div>
+    <div class="activity-item">
+      <div class="activity-repo"></div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/5bc20d045438953c55b29e3e6909d5ee85343ed6">docs(glossary): roster is roster.json; agent roster is the agent-roster registry (#107)</a></div>
+        <div class="activity-meta">2026-09-10T08:04:28Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/204d94e6703a475573aeb2d08681e85e5aa8f0af">feat(view): crawl coverage, gopher, sitemap lint, absolute DNS (re-open of #579) (#585)</a></div>
-        <div class="activity-meta">2026-09-06T07:12:11Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/dcb3f0de387034c3955df4188056f60bc71e575e">docs(glossary): name the tool that renders Gold -- hee render view (#104)</a></div>
+        <div class="activity-meta">2026-09-08T22:36:54Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/abba08d5ca59bc49697c7a9612e8c600ebff7b2f">feat(gen-manpages): --gopher --write --publish [HOST] -- push the tree to the served root, no root, verified over port 70 (#583)</a></div>
-        <div class="activity-meta">2026-09-06T06:21:19Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/46905ed0c43a05bd9081721ffd364a23226b150e">docs: org-wide CONTRIBUTING, a door rather than a gate (#103)</a></div>
+        <div class="activity-meta">2026-09-07T07:18:12Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/a7aefb8a5423342eaf6401187ac8756b3de25bd7">docs(hee.1): the page describes the machine that exists; gen-manpages warns on FILES claims that do not (#582)</a></div>
-        <div class="activity-meta">2026-09-06T06:21:14Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/519c22a115ba70007e2b3899e002c6b57f2d73b3">docs(glossary): record all three PENs, not one (#101)</a></div>
+        <div class="activity-meta">2026-09-07T07:18:09Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">tcos-www</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/76a9bbf2da34f8b4a21d2ad82c1a7c49912e8346">fix(pages): regenerate with the corrected Google-tag guard -- the apex never reported (#61)</a></div>
-        <div class="activity-meta">2026-09-06T05:41:24Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/a400ea3985acfb9b539eaa73bf18d6084d2c6a54">feat(gitignore): the org&#x27;s base gitignore, one source for every repo (#100)</a></div>
+        <div class="activity-meta">2026-09-06T23:58:28Z</div>
+      </div>
+    </div>
+    </div>
+    <div class="activity-group" data-repo="resume">
+      <div class="activity-group-head">
+        <a class="activity-repo" href="https://github.com/Twin-Cities-Open-Systems/resume">resume</a>
+        <span class="activity-meta">release <a href="https://github.com/Twin-Cities-Open-Systems/resume/releases/tag/v1.0.0">v1.0.0</a> · 2026-09-06 · 46 commit(s) in 14 days</span>
+        <span class="activity-meta activity-since" data-since=""></span>
+      </div>
+    <div class="activity-item">
+      <div class="activity-repo"></div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/d3f7eebc660284a2b266490b20d1be438faecb44">feat(blog): the two standalone pages are posts now; standalone-pages/ removed; publishing guide (#83)</a></div>
+        <div class="activity-meta">2026-09-10T17:57:15Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">resume</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/c4e752cfe1df7f5703d3db7742dbb3e831842805">fix(media): the Google-tag guard accepts the apex form (synced from hee_gtag) (#60)</a></div>
-        <div class="activity-meta">2026-09-06T05:41:18Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/0b21f29eceae9f0d198537ef64f743f0956066f0">ci(hee-check): pin the hee checkout to `stable` (#82)</a></div>
+        <div class="activity-meta">2026-09-08T05:09:15Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/c3fef3f0ad89067ed180f7e49c212d55b3854609">fix(gtag): the production guard accepts the apex and excludes lab.tcos.us itself (#581)</a></div>
-        <div class="activity-meta">2026-09-06T05:41:14Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/abb305e9923eceb36c6e43e41bcecfd3a205fef5">easter egg HWOps For Life! (#81)</a></div>
+        <div class="activity-meta">2026-09-07T18:35:45Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/1ad9fd232d849688b541e56201bda7ad9de3e203">fix(repo-refresh): name the colliding files and whether each is identical; explain a diverged history with the safe command (#580)</a></div>
-        <div class="activity-meta">2026-09-06T05:41:09Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/3623f352de9cb5718256f31def472720d0c75fe5">feat(release): cut builds the whole repo into the release commit (hee#594) (#80)</a></div>
+        <div class="activity-meta">2026-09-06T22:16:49Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">resume</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/4c84643be6f8306cd4e8ba42c425b196ac049e72">feat(media): text size scales the root; layout tokens from the em-width -- same mechanism as tcos-www and Gold (#59)</a></div>
-        <div class="activity-meta">2026-09-06T05:22:06Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/ca4b6ff326cdcd8d624ebdc69a934a31b3a357f3">feat(media): release beside commit in every root and item footer -- the tag on prod, describe-with-distance on lab (#79)</a></div>
+        <div class="activity-meta">2026-09-06T19:30:04Z</div>
+      </div>
+    </div>
+    </div>
+    <div class="activity-group" data-repo="tcos-www">
+      <div class="activity-group-head">
+        <a class="activity-repo" href="https://github.com/Twin-Cities-Open-Systems/tcos-www">tcos-www</a>
+        <span class="activity-meta">release <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/releases/tag/v1.0.0">v1.0.0</a> · 2026-09-06 · 33 commit(s) in 14 days</span>
+        <span class="activity-meta activity-since" data-since=""></span>
+      </div>
+    <div class="activity-item">
+      <div class="activity-repo"></div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/b572163d076b9337efc85cc7b2fe44c0cff2552f">ci(hee-check): pin the hee checkout to `stable` (#78)</a></div>
+        <div class="activity-meta">2026-09-08T05:09:31Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">tcos-www</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/90750ca633b7dfd01e3f727cffc19a3ba83db994">feat(layout): one responsive mechanism -- text size scales the root, the layout measures what fits (#60)</a></div>
-        <div class="activity-meta">2026-09-06T05:21:40Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/74714ddf10d4741740082b4c49dd1221db557c3c">feat(people): render a departed party as former, without live links (#77)</a></div>
+        <div class="activity-meta">2026-09-06T22:22:07Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">.github</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/f59f319a338128738bde6bd0c6dc246fd4ecb6c7">feat(gold): text size scales the root; layout tokens from the em-width -- same mechanism as tcos-www (#92)</a></div>
-        <div class="activity-meta">2026-09-06T05:21:31Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/921c60c83c6a2f248215d5a6837ff333a778cc10">feat(activity): the page refreshes from GitHub&#x27;s public org events on every view -- built list stays as the baseline (#76)</a></div>
+        <div class="activity-meta">2026-09-06T22:16:56Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">.github</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/2f9a5c5732cccebeae79f57753a4ec0ad94b3826">sitemap: the five tcos.us pages and the gopher gateway root -- found unlisted by the crawl (#90)</a></div>
-        <div class="activity-meta">2026-09-06T05:18:02Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/2aa996076ddf679b385b4ec192bbe8bde44f492d">feat(release): cut builds the eight pages into the release commit (hee#594) (#75)</a></div>
+        <div class="activity-meta">2026-09-06T22:16:53Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">resume</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/cf2f5bbf2290ccaa59cfb2e58145f670b2fb9ff1">fix(resume): pandoc links bare URLs in the resume (+autolink_bare_uris) (#58)</a></div>
-        <div class="activity-meta">2026-09-06T05:17:57Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/41beea84721f44ae5ed649707475db3a8210efae">feat(pages): release beside commit in the footer -- describe at build, exactly the tag on prod under hee release promote (#74)</a></div>
+        <div class="activity-meta">2026-09-06T19:30:08Z</div>
+      </div>
+    </div>
+    </div>
+    <div class="activity-group" data-repo="tick-task">
+      <div class="activity-group-head">
+        <a class="activity-repo" href="https://github.com/Twin-Cities-Open-Systems/tick-task">tick-task</a>
+        <span class="activity-meta">release <a href="https://github.com/Twin-Cities-Open-Systems/tick-task/releases/tag/v1.0.5">v1.0.5</a> · 2026-01-22 · 11 commit(s) in 14 days</span>
+        <span class="activity-meta activity-since" data-since=""></span>
+      </div>
+    <div class="activity-item">
+      <div class="activity-repo"></div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/bca344248993e3433b122254b14a1c0900e12000">chore(deps-dev): bump browserslist from 4.28.1 to 4.28.9 in /frontend (#50)</a></div>
+        <div class="activity-meta">2026-09-06T09:58:51Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">resume</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/37f2fec4ef6bcbd2edc8535399b6c5629ef3c71b">fix(media): the root&#x27;s lu is owned by the builder (#57)</a></div>
-        <div class="activity-meta">2026-09-06T05:17:50Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/dd2eac2e06e618a5e230434cb8075915dc498593">chore(deps-dev): bump postcss-selector-parser in /frontend (#48)</a></div>
+        <div class="activity-meta">2026-09-06T08:47:17Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">human-execution-engine</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/human-execution-engine/commit/89cf8cb3eec88c8a372901b9e615458be72bce6f">feat(view): crawl summary per network -- public and lab on their own lines (#578)</a></div>
-        <div class="activity-meta">2026-09-06T05:17:43Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/286bbbb9c9472092e3819ee78e7ab9e92a8ecd50">chore: retire the vendored HEE tree -- governance already arrives another way (#47)</a></div>
+        <div class="activity-meta">2026-09-01T18:48:39Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">.github</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/.github/commit/f7a15ccc43a793478837d00d24e9b9d21691943e">feat(gold): bare URLs become links; relative links to repo files point at their rendered page (#91)</a></div>
-        <div class="activity-meta">2026-09-06T05:17:33Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/13002c26b90c80336f3f240b1cb341a51a132be8">chore(deps-dev): bump minimatch from 3.1.2 to 3.1.5 in /frontend (#37)</a></div>
+        <div class="activity-meta">2026-09-01T06:43:39Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">tcos-www</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/3e27d591f7f4bd8287d0d700cacca017c8bd5ce6">fix(pages): regenerate -- #55 committed git conflict markers into all eight pages and prod shipped them (#58)</a></div>
-        <div class="activity-meta">2026-09-06T04:40:38Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tick-task/commit/70b9a9855119b370bbba4e8c3c54ad337b84b362">feat(docker): real LAN-mode image, and restore the docker_build job (#46)</a></div>
+        <div class="activity-meta">2026-09-01T06:36:07Z</div>
+      </div>
+    </div>
+    </div>
+    <div class="activity-group" data-repo="MT-logo-render">
+      <div class="activity-group-head">
+        <a class="activity-repo" href="https://github.com/Twin-Cities-Open-Systems/MT-logo-render">MT-logo-render</a>
+        <span class="activity-meta">no release yet · 6 commit(s) in 14 days</span>
+        <span class="activity-meta activity-since" data-since=""></span>
+      </div>
+    <div class="activity-item">
+      <div class="activity-repo"></div>
+      <div class="activity-body">
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/MT-logo-render/commit/54dad19a238a7206d00e98ae3e6bd2bae9ea034a">ci(hee-check): pin the hee checkout to `stable` (#26)</a></div>
+        <div class="activity-meta">2026-09-08T05:08:40Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">tcos-www</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/1a9d9cacc73a8c6c03477caa3438d55ab072dc3b">feat(site): links that leave the host open in a new tab (synced from Gold) (#57)</a></div>
-        <div class="activity-meta">2026-09-06T04:38:26Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/MT-logo-render/commit/1bbfc12dfb4444d25b1900b263685ef8eb327436">chore: retire the vendored HEE tree and all Cursor state (#21)</a></div>
+        <div class="activity-meta">2026-09-01T18:48:43Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">resume</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/8835450fd8d35af423662d42e631e853ab68015a">feat(media): promote is gated, signed by the session, and tagged prod/&lt;site&gt;/&lt;stamp&gt; (#56)</a></div>
-        <div class="activity-meta">2026-09-06T04:38:20Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/MT-logo-render/commit/68a1c7001c7776629c6de8c1c87251c831bac51b">fix(ci): drop unused image codecs and format the one file mdformat rejects (#20)</a></div>
+        <div class="activity-meta">2026-09-01T02:50:35Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">resume</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/9350d0d2d25f6323ab5c399a0f8f27b246af19b3">feat(media): links that leave the host open in a new tab (synced from Gold) (#55)</a></div>
-        <div class="activity-meta">2026-09-06T04:38:10Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/MT-logo-render/commit/93c6bca8442c59d175c844c689ece3aba8305c31">ci: honest job names, and one job that actually runs org tooling (#19)</a></div>
+        <div class="activity-meta">2026-09-01T02:50:29Z</div>
       </div>
     </div>
     <div class="activity-item">
-      <div class="activity-repo">resume</div>
+      <div class="activity-repo"></div>
       <div class="activity-body">
-        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/resume/commit/ecfc81c5e1f57808a5684dd8c8daf44ed2ad9c50">fix(post): drop the slop section; state the cycle as the Glossary does; Diff tab = changes since first published (#54)</a></div>
-        <div class="activity-meta">2026-09-06T04:38:04Z</div>
+        <div class="activity-msg"><a href="https://github.com/Twin-Cities-Open-Systems/MT-logo-render/commit/38e434db6a9c2eaa5781198507b9f6a2449867b0">docs(governance): import org PROMPTING_RULES via CLAUDE.md (#17)</a></div>
+        <div class="activity-meta">2026-09-01T02:50:21Z</div>
       </div>
+    </div>
     </div>
   </section>
+  <p class="activity-meta" id="activity-live-note" data-built="2026-09-10T22:36:16Z" style="margin: 0 0 24px;">as built 2026-09-10T22:36:16Z; refreshing from GitHub's public events&hellip;</p>
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/96399728ece933800463e8ea279979b45bd64ab8">9639972</a></span>
-    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-06T07:41:38Z">2026-09-06T07:41:38Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
+    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/b572163d076b9337efc85cc7b2fe44c0cff2552f">b572163</a> · release <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/releases/tag/v1.0.0">v1.0.0-5-gb572163</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-10T22:36:06Z">2026-09-10T22:36:06Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 </div>
-<script src="js/site.js?v=9639972"></script>
+<script src="js/site.js?v=b572163"></script>
+<script src="js/activity.js?v=b572163"></script>
 <script>
   var TH_KEY = "tcos-theme";
   (function () {

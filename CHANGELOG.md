@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing since the last release._
 
+## [1.1.0] - 2026-09-10
+
+### Added
+
+- 2026-09-06 **people**: render a departed party as former, without live links ([#77](https://github.com/Twin-Cities-Open-Systems/tcos-www/pull/77))
+- 2026-09-06 **activity**: the page refreshes from GitHub's public org events on every view -- built list stays as the baseline ([#76](https://github.com/Twin-Cities-Open-Systems/tcos-www/pull/76))
+- 2026-09-06 **release**: cut builds the eight pages into the release commit (hee#594) ([#75](https://github.com/Twin-Cities-Open-Systems/tcos-www/pull/75))
+- 2026-09-06 **pages**: release beside commit in the footer -- describe at build, exactly the tag on prod under hee release promote ([#74](https://github.com/Twin-Cities-Open-Systems/tcos-www/pull/74))
+
+### Changed
+
+- 2026-09-08 **hee-check**: pin the hee checkout to `stable` ([#78](https://github.com/Twin-Cities-Open-Systems/tcos-www/pull/78))
+
 ## [1.0.0] - 2026-09-06
 
 ### Added
