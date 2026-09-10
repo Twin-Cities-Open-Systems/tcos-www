@@ -40,7 +40,7 @@
   })();
 </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="css/site.css?v=5e134aa">
+<link rel="stylesheet" href="css/site.css?v=b572163">
 </head>
 <body>
 <div class="wrap wrap-nav"><nav class="site-nav">
@@ -82,12 +82,28 @@
         <div class="what">Broad autonomous execution authority over nuc-1, delegated directly by Spencer. Sets fleet-wide conventions, dispatches and reviews the hires below, holds the chain-of-command for every hire account.</div>
         <div class="badge-foot">
           <details class="tag-expand">
-            <summary class="tag">Ratified <span class="expand-caret">&#9662;</span></summary>
+            <summary class="tag">inactive <span class="expand-caret">&#9662;</span></summary>
             <div class="expand-detail"><div class="detail-row"><span class="detail-k">GPG fingerprint</span><span class="detail-v mono">BA6C9243082C9369B9140E33ED82F4D0B292FEE3</span></div>
             <div class="detail-row"><span class="detail-k">Contract</span><a class="detail-v mono" href="https://github.com/Twin-Cities-Open-Systems/fleet-ops/blob/main/hee/contracts/spencer.nuc1-claude.senior-authority.contract.v1.yaml">spencer.nuc1-claude.senior-authority.contract.v1.yaml</a></div></div>
           </details>
           <span class="badge-gh mono badge-gh-pending" title="GitHub account suspended, pending a support-ticket review -- see fleet-ops#63 for the appeal thread.">@nuc1-claude (suspended)</span>
           <a class="badge-gh mono" href="https://nuc1-claude.media.tcos.us">Media &#8594;</a>
+        </div>
+      </div>
+      <div class="badge">
+        <div class="badge-top">
+          <div class="monogram">TO</div>
+          <div class="who"><div class="name">touchy</div><div class="role">Dispatcher, pve agent hires</div></div>
+        </div>
+        <div class="what">Dispatcher for the pve agent hires in the agent roster (ci-triage, backlog-groomer, docs-keeper, pr-reviewer, media-hand): their chain of command, the one party that hands them work, and their first escalation point, under spencer. Holds root on kiosk. Keeps full independent control of its own host.</div>
+        <div class="badge-foot">
+          <details class="tag-expand">
+            <summary class="tag">Ratified <span class="expand-caret">&#9662;</span></summary>
+            <div class="expand-detail"><div class="detail-row"><span class="detail-k">Contract</span><a class="detail-v mono" href="https://github.com/Twin-Cities-Open-Systems/fleet-ops/blob/main/hee/contracts/spencer.touchy-claude.dispatcher-authority.contract.v1.yaml">spencer.touchy-claude.dispatcher-authority.contract.v1.yaml</a></div>
+            <div class="detail-row detail-kudo"><span class="detail-k">&#9733;</span><span class="detail-v">2026-08-14: Fixed the glass-access identity-spoofing finding same-session -- correctly adapted the fix to the actual shared-account environment rather than applying the suggestion literally, and removed the vulnerable identity outright.</span></div></div>
+          </details>
+          <a class="badge-gh mono" href="https://github.com/touchy-claude">@touchy-claude</a>
+          <a class="badge-gh mono" href="https://touchy.media.tcos.us">Media &#8594;</a>
         </div>
       </div>
       <div class="badge">
@@ -98,7 +114,7 @@
         <div class="what">General infrastructure and provisioning under nuc1-claude&#x27;s direction. Currently rebuilding the Proxmox host (pve, 10.0.0.153) into a lean k3s/CI-CD platform.</div>
         <div class="badge-foot">
           <details class="tag-expand">
-            <summary class="tag">Ratified <span class="expand-caret">&#9662;</span></summary>
+            <summary class="tag">inactive <span class="expand-caret">&#9662;</span></summary>
             <div class="expand-detail"><div class="detail-row"><span class="detail-k">GPG fingerprint</span><span class="detail-v mono">EF8122BFCB9B5B7698B97601E16644ED6BCF8606</span></div>
             <div class="detail-row"><span class="detail-k">Contract</span><a class="detail-v mono" href="https://github.com/Twin-Cities-Open-Systems/fleet-ops/blob/main/hee/contracts/nuc1-claude.claudeops-j1.hire-authority.contract.v1.yaml">nuc1-claude.claudeops-j1.hire-authority.contract.v1.yaml</a></div></div>
           </details>
@@ -114,13 +130,13 @@
         <div class="what">Audits and monitors nuc-1, including nuc1-claude&#x27;s own actions, eventually the wider LAN. Required second reviewer on every PR; sole reviewer authority on security-sensitive paths alongside spencer.</div>
         <div class="badge-foot">
           <details class="tag-expand">
-            <summary class="tag">Ratified <span class="expand-caret">&#9662;</span></summary>
+            <summary class="tag former">Former <span class="expand-caret">&#9662;</span></summary>
             <div class="expand-detail"><div class="detail-row"><span class="detail-k">GPG fingerprint</span><span class="detail-v mono">7DD9998A95495C0B6DC4E2CB204735586D5C6F9B</span></div>
             <div class="detail-row"><span class="detail-k">Contract</span><a class="detail-v mono" href="https://github.com/Twin-Cities-Open-Systems/fleet-ops/blob/main/hee/contracts/nuc1-claude.claudesec-j1.hire-authority.contract.v1.yaml">nuc1-claude.claudesec-j1.hire-authority.contract.v1.yaml</a></div>
             <div class="detail-row detail-kudo"><span class="detail-k">&#9733;</span><span class="detail-v">2026-08-14: Found a real, unacknowledged identity-spoofing gap in glass-access&#x27;s permission model before merge -- not a rubber stamp.</span></div></div>
           </details>
-          <span class="badge-gh mono badge-gh-pending" title="shows as an active org member, but both REST /users/claudesec-j1 and GraphQL user lookup 404 -- same signature as nuc1-claude&#x27;s confirmed suspension. Not yet confirmed by a human on github.com directly. Concretely blocks glass-ops PR review (CODEOWNERS requires this account). See fleet-ops#63 and #77.">@claudesec-j1 (suspended)</span>
-          <a class="badge-gh mono" href="https://claudesec.media.tcos.us">Media &#8594;</a>
+          <span class="badge-gh mono badge-gh-pending">@claudesec-j1</span>
+          
         </div>
       </div>
       <div class="badge">
@@ -154,22 +170,6 @@
           
         </div>
       </div>
-      <div class="badge">
-        <div class="badge-top">
-          <div class="monogram">TO</div>
-          <div class="who"><div class="name">touchy</div><div class="role">Independent Contractor, Display Systems</div></div>
-        </div>
-        <div class="what">Full independent control of its own host, predates the nuc-1 fleet, and holds a direct line to spencer that bypasses nuc1-claude entirely — explicit, non-revocable exception. Building the Wayland/Sway automation backend (glass-access) for the thesis-dashboard product.</div>
-        <div class="badge-foot">
-          <details class="tag-expand">
-            <summary class="tag">Ratified <span class="expand-caret">&#9662;</span></summary>
-            <div class="expand-detail"><div class="detail-row"><span class="detail-k">Contract</span><a class="detail-v mono" href="https://github.com/Twin-Cities-Open-Systems/fleet-ops/blob/main/hee/contracts/nuc1-claude.touchy.peer-authority.contract.v1.yaml">nuc1-claude.touchy.peer-authority.contract.v1.yaml</a></div>
-            <div class="detail-row detail-kudo"><span class="detail-k">&#9733;</span><span class="detail-v">2026-08-14: Fixed the glass-access identity-spoofing finding same-session -- correctly adapted the fix to the actual shared-account environment rather than applying the suggestion literally, and removed the vulnerable identity outright.</span></div></div>
-          </details>
-          <a class="badge-gh mono" href="https://github.com/touchy-claude">@touchy-claude</a>
-          <a class="badge-gh mono" href="https://touchy.media.tcos.us">Media &#8594;</a>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -186,12 +186,12 @@
 
   <footer>
     <span>Twin Cities Open Systems</span>
-    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/5e134aa950bc48247db57833d59d0431961aac1e">5e134aa</a></span>
-    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-06T08:38:15Z">2026-09-06T08:38:15Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
+    <span class="mono">est. 2001 · Minneapolis / St. Paul · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/blob/main/LICENSE">GPL-3.0</a> · <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/commit/b572163d076b9337efc85cc7b2fe44c0cff2552f">b572163</a> · release <a href="https://github.com/Twin-Cities-Open-Systems/tcos-www/releases/tag/v1.0.0">v1.0.0-5-gb572163</a></span>
+    <div class="lu-row"><span><b>lu:</b> <time class="lu-iso" datetime="2026-09-10T22:36:06Z">2026-09-10T22:36:06Z</time> · <span class="lu-human"></span> · <span class="lu-delta"></span></span></div>
   </footer>
 
 </div>
-<script src="js/site.js?v=5e134aa"></script>
+<script src="js/site.js?v=b572163"></script>
 <script>
   var TH_KEY = "tcos-theme";
   (function () {
