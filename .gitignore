@@ -22,6 +22,8 @@ __pycache__/
 # hee-cred -seal writes real GPG-encrypted credentials to .hee/secrets/
 # (this repo just got a real one, cloudflare-tcos-www.gpg), and this
 # repo had zero gitignore coverage for it -- a bare `git add -A` would
-# have staged it. Same bare `secrets/` pattern human-execution-engine's
-# own .gitignore already uses.
+# have staged it. The org base block at the top of this file now covers
+# secrets/ and .hee/secrets/.
+
+# Wrangler's local state.
 .wrangler/
