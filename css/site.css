@@ -1,55 +1,24 @@
 
-  /* SYNCED-FROM: view.lab.tcos.us's Gold token palette (profile/GLOSSARY.md
-     -- "Gold" entry). Real decision, 2026-08-28: tcos-www adopts Gold,
-     replacing the original amber palette -- Phase 1 of the Web Presence
-     Plan (view.lab.tcos.us/plan.html), done directly rather than deferred. */
+  /* Colors come from tcos-app's shared shell (css/shell.css, loaded before this
+     file and synced by sync-shell.sh). Operator, 2026-10-01: tcos-app is the
+     home of every web page. This site's palette was already a copy of the org's
+     ("SYNCED-FROM view.lab's Gold", 2026-08-28); it is now the org's palette by
+     reference, so the theme selector's named themes (paper, high contrast,
+     midnight, graphite) repaint this site too, and every pair is measured to
+     WCAG in tcos-app's tests/test_contrast.py. The names below are this file's
+     own vocabulary, kept so no rule further down changes. */
   :root {
-    --bg: #fbfbfa;
-    --surface: #ffffff;
-    --surface-2: #f1f2f0;
-    --ink: #12181a;
-    --ink-dim: #4c5658;
-    --ink-faint: #7c8688;
-    --line: #e2e4e0;
-    --accent: #0d7d78;
-    --accent-ink: #085e5a;
-    --accent-soft: #e3f3f1;
-    --ok: #0ca30c;
-    --ok-soft: #e4f5e0;
+    --surface-2: var(--sunk);
+    --ink-dim: var(--muted);
+    --ink-faint: var(--muted);
+    --line: var(--rule);
+    --accent-ink: var(--accent);
+    --ok: var(--good-ink);
+    --ok-soft: var(--good-bg);
     color-scheme: light;
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #0b0f0f;
-      --surface: #12181a;
-      --surface-2: #18201f;
-      --ink: #eef2f1;
-      --ink-dim: #a9b6b6;
-      --ink-faint: #6f7d7d;
-      --line: #263030;
-      --accent: #3fd4c8;
-      --accent-ink: #7fe6dc;
-      --accent-soft: #12302e;
-      --ok: #4ade4a;
-      --ok-soft: #163019;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #0b0f0f;
-    --surface: #12181a;
-    --surface-2: #18201f;
-    --ink: #eef2f1;
-    --ink-dim: #a9b6b6;
-    --ink-faint: #6f7d7d;
-    --line: #263030;
-    --accent: #3fd4c8;
-    --accent-ink: #7fe6dc;
-    --accent-soft: #12302e;
-    --ok: #4ade4a;
-    --ok-soft: #163019;
-    color-scheme: dark;
-  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; } }
+  :root[data-theme="dark"] { color-scheme: dark; }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
@@ -72,7 +41,7 @@
      stay too, content-specific, but these two generic ones are the
      shared baseline every page can reach for). */
   .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 32px 0; }
-  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
+  .stat { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
   .stat .n { font-family: "JetBrains Mono", monospace; font-size: 1.875rem; font-weight: 700; line-height: 1; }
   .stat .l { font-size: 0.7812rem; color: var(--ink-faint); margin-top: 6px; }
   .stat.accent .n { color: var(--accent-ink); }
@@ -85,7 +54,9 @@
 
   a { color: var(--accent-ink); }
 
-  .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+  /* display/gap: the shell's .wrap is a flex column with a 2rem gap; this
+     site's layout is block flow, so it says so rather than inherit that. */
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px; display: block; gap: 0; }
   section { padding: 88px 0; border-bottom: 1px solid var(--line); }
   section:last-of-type { border-bottom: none; }
 
@@ -159,6 +130,13 @@
     color: var(--ink-dim);
   }
   .receipts b { color: var(--ink); font-variant-numeric: tabular-nums; }
+  /* The receipts as flip cards (the shell's .tc-flip): the claim on the front,
+     where to check it on the back. Same mono strip, now one card per claim. */
+  .receipts-flip { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 10px; list-style: none; padding: 0; }
+  .receipts-flip .tc-face { --fam: var(--accent); background: var(--surface); }
+  .receipts-flip .tc-flipbtn { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.8125rem; color: var(--ink-dim); line-height: 1.5; }
+  .receipts-flip .tc-flipbtn b { display: block; font-size: 1.5rem; line-height: 1.1; margin-bottom: 4px; }
+  .receipts-flip .tc-back p { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--ink); }
 
   /* ---- prose sections ---- */
   h2 {

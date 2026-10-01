@@ -118,10 +118,19 @@ TOGGLES_HTML = (
     '<button class="fontsize-btn" data-size="l" type="button">L</button>'
     '<button class="fontsize-btn" data-size="xl" type="button">XL</button>'
     '<button class="fontsize-btn" data-size="xxl" type="button">XXL</button></div></div>'
-    '<div class="theme-toggle">'
-    '<button class="theme-btn" data-theme-choice="light">Light</button>'
-    '<button class="theme-btn" data-theme-choice="dark">Dark</button>'
-    '<button class="theme-btn" data-theme-choice="auto">Auto</button></div>'
+    # The theme selector is tcos-app's shared shell (js/shell.js wires it): auto,
+    # light, dark and four named themes, every color pair measured to WCAG in
+    # tcos-app. Operator, 2026-10-01: tcos-app is the home of every web page.
+    '<div class="theme-toggle"><label class="fs-label" for="theme-select">Theme</label>'
+    '<select class="theme-select" id="theme-select">'
+    '<option value="auto">Auto (system)</option>'
+    '<option value="light">Light</option>'
+    '<option value="dark">Dark</option>'
+    '<option value="paper">Paper (warm, low glare)</option>'
+    '<option value="contrast">High contrast</option>'
+    '<option value="midnight">Midnight</option>'
+    '<option value="graphite">Graphite</option>'
+    '</select></div>'
 )
 
 # Real, single source of truth for the theme/lu scripts, same {{PLACEHOLDER}}
@@ -151,44 +160,46 @@ except ImportError:
     print("⚠️  WARNING hee_gtag not importable -- check out human-execution-engine under ~/git or set HEE_REPO_DIR; pages ship without the Google tag", file=_sys.stderr)
     GTAG_HTML = ""
 
+# Theme before paint, in the shell's terms (tc-theme; a named theme is a light or
+# dark base plus a skin -- KIND in tcos-app js/shell.js). This site defaulted to
+# dark under its own key, tcos-theme; a visitor's old choice carries over once,
+# and a first visit still opens dark.
 THEME_HEAD_HTML = (
     "<script>\n"
     "  (function () {\n"
-    '    try {\n'
-    '      var t = localStorage.getItem("tcos-theme") || "dark";\n'
-    '      if (t !== "auto") document.documentElement.setAttribute("data-theme", t);\n'
+    "    var d = document.documentElement;\n"
+    "    try {\n"
+    '      var t = localStorage.getItem("tc-theme");\n'
+    '      if (!t) { t = localStorage.getItem("tcos-theme") || "dark"; localStorage.setItem("tc-theme", t); }\n'
+    '      if (t !== "auto") {\n'
+    '        d.setAttribute("data-theme", {paper: "light", contrast: "light", midnight: "dark", graphite: "dark"}[t] || t);\n'
+    '        d.setAttribute("data-skin", t);\n'
+    "      }\n"
     "    } catch (e) {\n"
-    '      document.documentElement.setAttribute("data-theme", "dark");\n'
+    '      d.setAttribute("data-theme", "dark");\n'
     "    }\n"
     "  })();\n"
     "</script>"
 )
 
 THEME_LU_BODY_HTML = (
+    # The way back (tcos-app shell, TC.wayback): a pill that follows the reader
+    # down a long page and names the page title, plus a jump to the top. The
+    # theme selector itself is wired by js/shell.js, loaded just before this.
+    '<nav class="tc-jump" aria-label="Back to" data-show="false">'
+    '<button type="button" data-tc-to="group" hidden><span class="tc-jump-l"></span></button>'
+    '<button type="button" data-tc-to="panel" hidden><span class="tc-jump-l"></span></button>'
+    '<button type="button" data-tc-to="top" aria-label="Top of the page">'
+    '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">'
+    '<path d="M3 10l5-5 5 5M3 4h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+    '</svg></button></nav>\n'
     "<script>\n"
-    '  var TH_KEY = "tcos-theme";\n'
-    "  (function () {\n"
-    "    function markActive(choice) {\n"
-    '      document.querySelectorAll(".theme-btn").forEach(function (b) {\n'
-    '        b.classList.toggle("active", b.dataset.themeChoice === choice);\n'
-    "      });\n"
-    "    }\n"
-    '    var saved = "dark";\n'
-    "    try { saved = localStorage.getItem(TH_KEY) || \"dark\"; } catch (e) {}\n"
-    "    markActive(saved);\n"
-    '    document.querySelectorAll(".theme-btn").forEach(function (b) {\n'
-    '      b.addEventListener("click", function () {\n'
-    "        var choice = b.dataset.themeChoice;\n"
-    "        try { localStorage.setItem(TH_KEY, choice); } catch (e) {}\n"
-    '        if (choice === "auto") {\n'
-    '          document.documentElement.removeAttribute("data-theme");\n'
-    "        } else {\n"
-    '          document.documentElement.setAttribute("data-theme", choice);\n'
-    "        }\n"
-    "        markActive(choice);\n"
-    "      });\n"
+    "  if (window.TC && window.TC.wayback) {\n"
+    "    window.TC.wayback.init(document.querySelector(\"nav.tc-jump\"), {\n"
+    "      scope: function () { return document.querySelector(\".wrap:not(.wrap-nav)\") || document.body; },\n"
+    "      heading: \"h1\"\n"
     "    });\n"
-    "  })();\n"
+    "  }\n"
     "  (function () {\n"
     '    document.addEventListener("DOMContentLoaded", function () {\n'
     '      var isoEl = document.querySelector(".lu-iso");\n'
@@ -289,6 +300,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 <link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
 {{THEME_HEAD}}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/shell.css?v={{COMMIT_SHORT}}">
 <link rel="stylesheet" href="css/site.css?v={{COMMIT_SHORT}}">
 </head>
 <body>
@@ -330,6 +342,7 @@ PEOPLE_PAGE_TMPL = """<!doctype html>
 
 </div>
 <script src="js/site.js?v={{COMMIT_SHORT}}"></script>
+<script src="js/shell.js?v={{COMMIT_SHORT}}"></script>
 {{THEME_LU}}
 </body>
 </html>
@@ -464,6 +477,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
 <link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
 {{THEME_HEAD}}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/shell.css?v={{COMMIT_SHORT}}">
 <link rel="stylesheet" href="css/site.css?v={{COMMIT_SHORT}}">
 <style>
   .activity-group {{ margin: 0 0 28px; }}
@@ -506,6 +520,7 @@ ACTIVITY_PAGE_TMPL = """<!doctype html>
   </footer>
 </div>
 <script src="js/site.js?v={{COMMIT_SHORT}}"></script>
+<script src="js/shell.js?v={{COMMIT_SHORT}}"></script>
 <script src="js/activity.js?v={{COMMIT_SHORT}}"></script>
 {{THEME_LU}}
 </body>
@@ -602,6 +617,7 @@ IR_PAGE_TMPL = """<!doctype html>
 <link rel="apple-touch-icon" sizes="180x180" href="https://view.lab.tcos.us/assets/favicon-180.png">
 {{THEME_HEAD}}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/shell.css?v={{COMMIT_SHORT}}">
 <link rel="stylesheet" href="css/site.css?v={{COMMIT_SHORT}}">
 <style>
   .ir-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 28px 0; }}
@@ -696,6 +712,7 @@ IR_PAGE_TMPL = """<!doctype html>
   </footer>
 </div>
 <script src="js/site.js?v={{COMMIT_SHORT}}"></script>
+<script src="js/shell.js?v={{COMMIT_SHORT}}"></script>
 {{THEME_LU}}
 </body>
 </html>
