@@ -40,6 +40,77 @@ jobs:
       # and derived state committed to git.
       - name: hee-check all
         run: human-execution-engine/tooling/bin/hee-check all tcos-www
+      # tcos-app owns the shared shell (css/shell.css, js/shell.js and the
+      # components in shell.manifest); the copies here must match its main.
+      - name: Checkout tcos-app (owns the shared shell)
+        uses: actions/checkout@v4
+        with:
+          repository: Twin-Cities-Open-Systems/tcos-app
+          ref: main
+          path: tcos-app
+      - name: Shared shell has not drifted from tcos-app
+        run: sh tcos-www/sync-shell.sh --check tcos-app
+
+  # The lab mirror's payload. lab-pull on pve installs the newest lab-* release
+  # into /www/tcos-www, served as lab.tcos.us -- the same path as tcos.app and
+  # ham.tcos.app; nothing pushes into the lab by hand. The pages are the
+  # COMMITTED ones (the generator reads live sources CI does not have), run
+  # through .github's lab_link_transform.py so lab links stay in the lab.
+  publish:
+    name: publish payload (for lab-pull)
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: [hee-check]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # only to attach the payload to this build's release
+    env:
+      KEEP_RELEASES: '5'
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: tcos-www }
+      - uses: actions/checkout@v4
+        with: { repository: Twin-Cities-Open-Systems/.github, path: dotgithub }
+      - name: Build the payload
+        run: |
+          set -eu
+          python3 dotgithub/bin/lab_link_transform.py tcos-www "$RUNNER_TEMP/site"
+          cd "$RUNNER_TEMP/site"
+          tar -czf "$GITHUB_WORKSPACE/tcos-www-www.tar.gz" \
+            activity.html careers.html contact.html contracts.html index.html ir.html people.html story.html \
+            css js shell assets
+          cd "$GITHUB_WORKSPACE"
+          for f in index.html people.html story.html css/site.css css/shell.css js/site.js js/shell.js; do
+            tar -tzf tcos-www-www.tar.gz | grep -qx "$f" \
+              || { echo "payload is missing $f -- refusing to publish"; exit 1; }
+          done
+          ls -l tcos-www-www.tar.gz
+      - name: Publish this build's payload
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -eu
+          printf '%s\n' "$SHA" > COMMIT
+          tag="lab-$(printf '%s' "$SHA" | cut -c1-12)"
+          gh release create "$tag" --repo "$GITHUB_REPOSITORY" --draft \
+            --title "tcos-www lab payload $tag" \
+            --notes "Built by ci from $SHA. The static site for the lab mirror (lab.tcos.us), pulled by lab-pull. Derived state, not a version." \
+            tcos-www-www.tar.gz COMMIT
+          gh release edit "$tag" --repo "$GITHUB_REPOSITORY" --draft=false --prerelease
+          echo "published $tag ($SHA)"
+      - name: Keep the last few, delete the rest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          gh release list --repo "$GITHUB_REPOSITORY" --limit 100 --json tagName,createdAt \
+            --jq "[.[] | select(.tagName | startswith(\"lab-\"))]
+                  | sort_by(.createdAt) | reverse | .[${KEEP_RELEASES}:] | .[].tagName" \
+          | while read -r old; do
+              [ -n "$old" ] || continue
+              gh release delete "$old" --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag
+              echo "deleted $old"
+            done
 
   ruff:
     name: ruff (1 file(s))

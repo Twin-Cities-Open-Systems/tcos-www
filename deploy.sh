@@ -4,8 +4,14 @@
 # `wrangler deploy` from whatever checkout someone was on, and served git
 # conflict markers for 16 minutes. This is the only sanctioned path now.
 #
-#   ./deploy.sh lab       regenerate from templates (branding card required),
-#                         gate, push to lab.tcos.us via .github's Makefile
+#   ./deploy.sh lab       gate the COMMITTED pages, then wait until lab.tcos.us
+#                         serves them. Pushes nothing: CI publishes a payload
+#                         for every main build (lab_link_transform applied)
+#                         and lab-pull on pve installs it, the same path as
+#                         tcos.app and ham.tcos.app. So the lab shows only
+#                         what is merged: regenerate (python3
+#                         generate-public-site.py) and commit the pages in
+#                         the PR that changes a template.
 #   ./deploy.sh promote   gate the COMMITTED pages (no rebuild: the pages embed
 #                         the commit hash as their cache-bust, so a rebuild on
 #                         the merge commit can never match what that commit
@@ -14,7 +20,7 @@
 #                         signature on the version, verify every page, record
 #                         a GPG-signed prod/tcos-www/<stamp> tag
 #
-# Requires: hee on PATH, ~/git/.github (lab), the sealed cloudflare-tcos-www
+# Requires: hee on PATH, ~/git/.github (lab: its lab_link_transform.py), the sealed cloudflare-tcos-www
 # token via `hee cred -pass cloudflare-tcos-www -dir .hee/secrets -exec` (promote).
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -36,8 +42,7 @@ if [ "$cmd" = promote ]; then
   fi
   echo "=== promote: committed pages at $(git rev-parse --short HEAD) (origin/main), no rebuild ==="
 else
-  echo "=== build (templates -> pages; hee_gtag refuses a page without the tag) ==="
-  python3 generate-public-site.py >/dev/null
+  echo "=== lab: the committed pages at $(git rev-parse --short HEAD) ==="
 fi
 echo "=== gates ==="
 hee check all "$HERE" >/dev/null 2>&1 || { echo "❌ CRITICAL deploy: hee check all fails -- stopping" >&2; exit 2; }
@@ -58,11 +63,34 @@ done
 echo "  hee check all: OK; no conflict markers; tag on all ${#PAGES[@]} pages; branding on every asset image"
 
 if [ "$cmd" = lab ]; then
-  make -C "$HOME/git/.github" lab-tcos-www >/dev/null
-  for p in / /people /story; do
-    printf '  lab.tcos.us%-8s %s\n' "$p" "$(curl -s -o /dev/null -w '%{http_code}' "https://lab.tcos.us$p")"
+  # Nothing is pushed from here (the old scp + pct push into ct107 is gone:
+  # /www is pve's share now, which container root cannot write). CI publishes
+  # tcos-www-www.tar.gz on a lab-<sha> release for every main build and
+  # lab-pull installs it. This waits until the lab serves exactly that.
+  git fetch -q origin main
+  if ! git diff --quiet origin/main -- "${PAGES[@]}" "${ASSET_DIRS[@]}"; then
+    echo "❌ CRITICAL lab: the shipped files differ from origin/main -- the lab serves main via lab-pull; merge first, then run this to confirm" >&2; exit 2
+  fi
+  XFORM="$HOME/git/.github/bin/lab_link_transform.py"
+  [ -f "$XFORM" ] || { echo "❌ CRITICAL lab: $XFORM not found -- the lab copy is the transformed one, so there is nothing to compare against" >&2; exit 2; }
+  LABX="$(mktemp -d)"; trap 'rm -rf "$LABX"' EXIT
+  mkdir -p "$LABX/src"; cp index.html "$LABX/src/"
+  python3 "$XFORM" "$LABX/src" "$LABX/out" >/dev/null
+  want="$(sha256sum "$LABX/out/index.html" | cut -d' ' -f1)"
+  tries="${LAB_WAIT_TRIES:-14}"; got=""
+  echo "=== lab: waiting for lab-pull to serve index.html $want (up to $((tries * 30))s) ==="
+  for i in $(seq 1 "$tries"); do
+    got="$(curl -s https://lab.tcos.us/ | sha256sum | cut -d' ' -f1)"
+    [ "$got" = "$want" ] && break
+    [ "$i" = "$tries" ] || sleep 30
   done
-  echo "=== lab updated -- review https://lab.tcos.us, then ./deploy.sh promote ==="
+  if [ "$got" != "$want" ]; then
+    echo "❌ CRITICAL lab: lab.tcos.us still serves $got -- check the publish job on main and /lab-pull.json on view.lab" >&2; exit 2
+  fi
+  for p in / /people /story /contracts; do
+    printf '  lab.tcos.us%-11s %s\n' "$p" "$(curl -s -o /dev/null -w '%{http_code}' "https://lab.tcos.us$p")"
+  done
+  echo "=== lab serves main -- review https://lab.tcos.us, then hee release -cut, then promote ==="
   exit 0
 fi
 

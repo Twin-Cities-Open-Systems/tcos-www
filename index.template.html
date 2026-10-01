@@ -21,6 +21,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png">
 {{THEME_HEAD}}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/shell.css?v={{COMMIT_SHORT}}">
 <link rel="stylesheet" href="css/site.css?v={{COMMIT_SHORT}}">
 </head>
 <body>
@@ -46,11 +47,22 @@
 <span class="comment"># every hire, every scope of authority — signed, not asserted</span></pre>
     </div>
 
-    <div class="receipts">
-      <span><b>{{RATIFIED}}</b> contracts cryptographically ratified</span>
-      <span><b>{{TEAM_SIZE}}</b> real, verifiable operator identities</span>
-      <span><b>1</b> flagship product already in daily use</span>
-    </div>
+    <!-- Receipts as flip cards (tcos-app shell, "flip card"): the claim on the
+         front, where to check it on the back. Verified, not claimed. -->
+    <ul class="receipts receipts-flip">
+      <li class="tc-flip tc-fit" data-flipped="false"><div class="tc-flip-in">
+        <div class="tc-face tc-front"><button type="button" class="tc-flipbtn" data-tc-flip><b>{{RATIFIED}}</b> contracts cryptographically ratified</button><span class="tc-flip-cue">Show the receipt &#8635;</span></div>
+        <div class="tc-face tc-back"><p>Every contract is published with the signatures that ratified it. <a href="/contracts">Check the contracts</a></p><button type="button" class="tc-backq" data-tc-flip><span class="tc-flip-cue">&#8635; back</span></button></div>
+      </div></li>
+      <li class="tc-flip tc-fit" data-flipped="false"><div class="tc-flip-in">
+        <div class="tc-face tc-front"><button type="button" class="tc-flipbtn" data-tc-flip><b>{{TEAM_SIZE}}</b> real, verifiable operator identities</button><span class="tc-flip-cue">Show the receipt &#8635;</span></div>
+        <div class="tc-face tc-back"><p>Each one is a real system account, a real GPG key and a real GitHub identity. <a href="/people">Meet them</a></p><button type="button" class="tc-backq" data-tc-flip><span class="tc-flip-cue">&#8635; back</span></button></div>
+      </div></li>
+      <li class="tc-flip tc-fit" data-flipped="false"><div class="tc-flip-in">
+        <div class="tc-face tc-front"><button type="button" class="tc-flipbtn" data-tc-flip><b>1</b> flagship product already in daily use</button><span class="tc-flip-cue">Show the receipt &#8635;</span></div>
+        <div class="tc-face tc-back"><p>thesis-engine holds and pressure-tests investment theses, and it grew out of a real account. <a href="/story">Read the story</a></p><button type="button" class="tc-backq" data-tc-flip><span class="tc-flip-cue">&#8635; back</span></button></div>
+      </div></li>
+    </ul>
   </section>
 
   <section>
@@ -109,6 +121,7 @@
 
 </div>
 <script src="js/site.js?v={{COMMIT_SHORT}}"></script>
+<script src="js/shell.js?v={{COMMIT_SHORT}}"></script>
 {{THEME_LU}}
 </body>
 </html>
